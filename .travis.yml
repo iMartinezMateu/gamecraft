@@ -35,13 +35,8 @@ before_install:
 install:
   - pwd
   - ls -la
-  - yarn install
+  - mvn clean install
 script:
-  - pwd
-  - ls -la
-  - chmod +x mvnw
-  - ./mvnw clean test
-  - yarn test
 #  - ./mvnw com.heroku.sdk:heroku-maven-plugin:1.1.1:deploy -DskipTests -Pprod -Dheroku.appName=gamecraft
 notifications:
   webhooks:
