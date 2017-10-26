@@ -1,0 +1,15 @@
+# ===================================================================
+# Gamecraft Spring Cloud Config.
+# ===================================================================
+
+# Property used on app startup to check the config server status
+configserver:
+    name: Gamecraft config server
+    status: Connected to the Gamecraft config server, using GIT repository!
+
+# Default JWT secret token (to be changed in production!)
+jhipster:
+    security:
+        authentication:
+            jwt:
+                secret: 2e0950f5f59fc3842303adb41d5d75a7f15b0509
