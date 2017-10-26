@@ -1,7 +1,5 @@
 os:
   - linux
-services:
-  - docker
 language: node_js
 node_js:
   - "6.11.4"
@@ -20,6 +18,7 @@ env:
     - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
     - SPRING_JPA_SHOW_SQL=false
 before_install:
+  - wget -qO- https://get.docker.com/ | sh
   - jdk_switcher use oraclejdk8
   - java -version
   - sudo /etc/init.d/mysql stop
