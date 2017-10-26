@@ -7,7 +7,7 @@ jhipster:
     security:
         authentication:
             jwt:
-                secret: my-secret-token-to-change-in-production
+                secret: 2e0950f5f59fc3842303adb41d5d75a7f15b0509
 
 eureka:
     client:

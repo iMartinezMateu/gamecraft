@@ -10,6 +10,7 @@ RUN \
     rm -Rf /code/ /root/.m2 /root/.cache /tmp/*
 
 FROM openjdk:8-jre-alpine
+ADD central-config /central-config
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     SPRING_PROFILES_ACTIVE=prod,native \
     GIT_URI=https://github.com/jhipster/jhipster-registry/ \
