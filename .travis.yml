@@ -21,6 +21,7 @@ env:
     - SPRING_JPA_SHOW_SQL=false
 before_install:
   - pwd
+  - ls -la
   - wget -qO- https://get.docker.com/ | sh
   - jdk_switcher use oraclejdk8
   - java -version
@@ -33,9 +34,11 @@ before_install:
   - docker run --name gamecraft-registry -p 8761:8761 -d -t gamecraft/gamecraft-registry:travis
 install:
   - pwd
+  - ls -la
   - yarn install
 script:
   - pwd
+  - ls -la
   - chmod +x mvnw
   - ./mvnw clean test
   - yarn test
