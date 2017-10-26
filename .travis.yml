@@ -22,7 +22,7 @@ before_install:
   - java -version
   - sudo /etc/init.d/mysql stop
   - sudo /etc/init.d/postgresql stop
-install:
+install: mvn clean install
 script:
 notifications:
   webhooks:
