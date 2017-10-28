@@ -1,19 +1,20 @@
 {
     "home": {
-        "title": "Welcome, Java Hipster!",
-        "subtitle": "This is your homepage",
+        "title": "Welcome to Gamecraft!",
+        "subtitle": "Gateway dashboard",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },
-        "question": "If you have any question on JHipster:",
+        "question": "If you have any question on Gamecraft:",
         "link": {
-            "homepage": "JHipster homepage",
-            "stackoverflow": "JHipster on Stack Overflow",
-            "bugtracker": "JHipster bug tracker",
-            "chat": "JHipster public chat room",
-            "follow": "follow @java_hipster on Twitter"
+            "homepage": "Gamecraft homepage",
+            "stackoverflow": "Gamecraft on Stack Overflow",
+            "bugtracker": "Gamecraft bug tracker",
+            "wiki": "Gamecraft wiki",
+            "chat": "Gamecraft public chat room",
+            "follow": "follow @gamecraft on Twitter"
         },
-        "like": "If you like JHipster, don't forget to give us a star on",
+        "like": "If you like Gamecraft, don't forget to give us a star on",
         "github": "GitHub"
     }
 }
