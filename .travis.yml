@@ -44,7 +44,7 @@ install:
   - mvn clean install -Dmaven.test.skip=true
 script:
   - mvn test
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dmaven.test.skip=true
 #  - ./mvnw com.heroku.sdk:heroku-maven-plugin:1.1.1:deploy -DskipTests -Pprod -Dheroku.appName=gamecraft
 notifications:
   webhooks:
