@@ -3,6 +3,14 @@ os:
 services:
   - docker
 language: node_js
+addons:
+  sonarcloud:
+    organization: "imartinezmateu-github"
+    token:
+      secure: "U7XrYBFVEMuZ8uolyav5bDMxCDH5meH8ULMAfba1iZ6bjCEeXJDrNxVAt12FuspgDA3C2lCe9AvtuV4ftGIWNlngAbu6Cca8b6XSBgkmJFZ+Lsaa5roqcbOISRJQjLJi4M+LmTCwvZYPG5bnTzW364cYsf9XavIgdr2STuZXCMyHgdXfNl/H21f/VL6vzKpEuYB8Y0HtaBooBBCsZGAVU/gpLevt9cNP8FjUz5ARA4AmvHmrhkjDhcI3GBTagHJUNnuIusF15icGAqAEiNGA6zvCLLHSgh8kxy1q8tEbEAtYn3/zRz7tn5G51xRVM6aVgSJzPOLiGUMiI6gOWx8XSOAm1wGU9mnnyUxSxxlhQvX0x+IVZc4U+tyrqhWFtqctaRRBSsnvL72wk+RuBqVxkww+YVNBbihZMu0Fe9ps9SRwlKuorGa5C3MAxqU4HE4M/Lde7dg0m1GNjhIck5x8O9Y24hx9K6igin7CsKpsU7l1z8FgA5vF2bhRSSa3zDS1MAlxcZA99xWpQOV1myzd2suNcn9GXRJVSxNkvR7pUja0CGK0wVugEF5bXx0mkrWX4Ojz/zqgTr8QunNikNvq7Tilq6uSkICqlEzKWSIvUX4BvdMCOIn6PzdG5A5PxWJYD2qGVUQX43dnWKKCjaHi7mPIWRjxgDWPxVZHCwnkXYo="
+    branches:
+      - master
+      - develop
 node_js:
   - "6.11.4"
 jdk:
@@ -14,6 +22,8 @@ cache:
     - node_modules
     - $HOME/.mvn
     - $HOME/.yarn-cache
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
 env:
   global:
     - NODE_VERSION=6.11.4
@@ -34,6 +44,7 @@ install:
   - mvn clean install -Dmaven.test.skip=true
 script:
   - mvn test
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 #  - ./mvnw com.heroku.sdk:heroku-maven-plugin:1.1.1:deploy -DskipTests -Pprod -Dheroku.appName=gamecraft
 notifications:
   webhooks:
