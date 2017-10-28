@@ -1,0 +1,41 @@
+
+<div *ngIf="project">
+    <h2><span jhiTranslate="gamecraftgatewayApp.project.detail.title">Project</span> {{project.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.project.projectName">Project Name</span></dt>
+        <dd>
+            <span>{{project.projectName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.project.projectDescription">Project Description</span></dt>
+        <dd>
+            <span>{{project.projectDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.project.projectWebsite">Project Website</span></dt>
+        <dd>
+            <span>{{project.projectWebsite}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.project.projectLogo">Project Logo</span></dt>
+        <dd>
+            <span>{{project.projectLogo}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.project.projectArchived">Project Archived</span></dt>
+        <dd>
+            <span>{{project.projectArchived}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'project/'+ project.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

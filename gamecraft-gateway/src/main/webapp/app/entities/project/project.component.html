@@ -1,0 +1,86 @@
+<div>
+    <h2>
+        <span jhiTranslate="gamecraftgatewayApp.project.home.title">Projects</span>
+        <button class="btn btn-primary float-right jh-create-entity create-project" [routerLink]="['/', { outlets: { popup: ['project-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="gamecraftgatewayApp.project.home.createLabel">
+            Create new Project
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'gamecraftgatewayApp.project.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="projects">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="projectName"><span jhiTranslate="gamecraftgatewayApp.project.projectName">Project Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="projectDescription"><span jhiTranslate="gamecraftgatewayApp.project.projectDescription">Project Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="projectWebsite"><span jhiTranslate="gamecraftgatewayApp.project.projectWebsite">Project Website</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="projectLogo"><span jhiTranslate="gamecraftgatewayApp.project.projectLogo">Project Logo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="projectArchived"><span jhiTranslate="gamecraftgatewayApp.project.projectArchived">Project Archived</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let project of projects ;trackBy: trackId">
+                <td><a [routerLink]="['../project', project.id ]">{{project.id}}</a></td>
+                <td>{{project.projectName}}</td>
+                <td>{{project.projectDescription}}</td>
+                <td>{{project.projectWebsite}}</td>
+                <td>{{project.projectLogo}}</td>
+                <td>{{project.projectArchived}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../project', project.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'project/'+ project.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'project/'+ project.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="projects && projects.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [maxSize]="5" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

@@ -2,7 +2,8 @@
   "generator-jhipster": {
     "promptValues": {
       "packageName": "com.gamecraft",
-      "nativeLanguage": "en"
+      "nativeLanguage": "en",
+      "microservicePath": "../gamecraft-project"
     },
     "jhipsterVersion": "4.10.1",
     "baseName": "gamecraftgateway",

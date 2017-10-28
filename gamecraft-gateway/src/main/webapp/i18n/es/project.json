@@ -1,0 +1,30 @@
+{
+    "gamecraftgatewayApp": {
+        "project" : {
+            "home": {
+                "title": "Projects",
+                "createLabel": "Crear nuevo Project",
+                "createOrEditLabel": "Crear o editar Project",
+                "search": "Search for Project"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Project {{ id }}?"
+            },
+            "detail": {
+                "title": "Project"
+            },
+            "projectName": "Project Name",
+            "projectDescription": "Project Description",
+            "projectWebsite": "Project Website",
+            "projectLogo": "Project Logo",
+            "projectArchived": "Project Archived"
+        }
+    },
+    "gamecraftprojectApp": {
+        "project" : {
+            "created": "Un nuevo Project ha sido creado con el identificador {{ param }}",
+            "updated": "Un Project ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Project ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}
