@@ -15,6 +15,7 @@
         <module>gamecraft-registry</module>
         <module>gamecraft-gateway</module>
         <module>gamecraft-project</module>
+        <module>gamecraft-team</module>
     </modules>
 
 </project>
