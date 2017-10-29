@@ -1,0 +1,38 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "teamUser",
+            "otherEntityName": "teamUser",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "team"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "teamName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "teamDescription",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20171029114747",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "team",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecraftteam",
+    "searchEngine": "elasticsearch"
+}

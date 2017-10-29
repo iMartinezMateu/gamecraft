@@ -1,0 +1,35 @@
+
+<div *ngIf="team">
+    <h2><span jhiTranslate="gamecraftgatewayApp.team.detail.title">Team</span> {{team.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.team.teamName">Team Name</span></dt>
+        <dd>
+            <span>{{team.teamName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.team.teamDescription">Team Description</span></dt>
+        <dd>
+            <span>{{team.teamDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.team.teamUser">Team User</span></dt>
+        <dd>
+            <span *ngFor="let teamUser of team.teamUsers; let last = last">
+                <a [routerLink]="['/team-user', teamUser?.id ]">{{teamUser.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'team/'+ team.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

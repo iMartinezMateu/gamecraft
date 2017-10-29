@@ -1,0 +1,29 @@
+
+<div *ngIf="teamProject">
+    <h2><span jhiTranslate="gamecraftgatewayApp.teamProject.detail.title">Team Project</span> {{teamProject.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.teamProject.teamId">Team Id</span></dt>
+        <dd>
+            <span>{{teamProject.teamId}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.teamProject.projectId">Project Id</span></dt>
+        <dd>
+            <span>{{teamProject.projectId}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'team-project/'+ teamProject.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

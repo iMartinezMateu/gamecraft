@@ -8,6 +8,9 @@
             "entities": {
                 "main": "Entidades",
                 "project": "Project",
+                "team": "Team",
+                "teamUser": "Team User",
+                "teamProject": "Team Project",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

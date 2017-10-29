@@ -1,0 +1,27 @@
+{
+    "gamecraftgatewayApp": {
+        "teamProject" : {
+            "home": {
+                "title": "Team Projects",
+                "createLabel": "Crear nuevo Team Project",
+                "createOrEditLabel": "Crear o editar Team Project",
+                "search": "Search for Team Project"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Team Project {{ id }}?"
+            },
+            "detail": {
+                "title": "Team Project"
+            },
+            "teamId": "Team Id",
+            "projectId": "Project Id"
+        }
+    },
+    "gamecraftteamApp": {
+        "teamProject" : {
+            "created": "Un nuevo Team Project ha sido creado con el identificador {{ param }}",
+            "updated": "Un Team Project ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Team Project ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}

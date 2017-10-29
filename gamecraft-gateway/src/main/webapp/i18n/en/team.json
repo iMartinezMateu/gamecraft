@@ -1,0 +1,28 @@
+{
+    "gamecraftgatewayApp": {
+        "team" : {
+            "home": {
+                "title": "Teams",
+                "createLabel": "Create a new Team",
+                "createOrEditLabel": "Create or edit a Team",
+                "search": "Search for Team"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Team {{ id }}?"
+            },
+            "detail": {
+                "title": "Team"
+            },
+            "teamName": "Team Name",
+            "teamDescription": "Team Description",
+            "teamUser": "Team User"
+        }
+    },
+    "gamecraftteamApp": {
+        "team" : {
+            "created": "A new Team is created with identifier {{ param }}",
+            "updated": "A Team is updated with identifier {{ param }}",
+            "deleted": "A Team is deleted with identifier {{ param }}"
+        }
+    }
+}

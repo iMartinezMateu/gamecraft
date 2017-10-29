@@ -1,11 +1,17 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { GamecraftgatewayProjectModule } from './project/project.module';
+import { GamecraftgatewayTeamModule } from './team/team.module';
+import { GamecraftgatewayTeamUserModule } from './team-user/team-user.module';
+import { GamecraftgatewayTeamProjectModule } from './team-project/team-project.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
     imports: [
         GamecraftgatewayProjectModule,
+        GamecraftgatewayTeamModule,
+        GamecraftgatewayTeamUserModule,
+        GamecraftgatewayTeamProjectModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
