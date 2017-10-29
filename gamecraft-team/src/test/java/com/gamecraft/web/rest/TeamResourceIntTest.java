@@ -3,7 +3,6 @@ package com.gamecraft.web.rest;
 import com.gamecraft.GamecraftteamApp;
 
 import com.gamecraft.domain.Team;
-import com.gamecraft.domain.TeamUser;
 import com.gamecraft.repository.TeamRepository;
 import com.gamecraft.service.TeamService;
 import com.gamecraft.repository.search.TeamSearchRepository;
@@ -274,25 +273,6 @@ public class TeamResourceIntTest {
         // Get all the teamList where teamDescription is null
         defaultTeamShouldNotBeFound("teamDescription.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllTeamsByTeamUserIsEqualToSomething() throws Exception {
-        // Initialize the database
-        TeamUser teamUser = TeamUserResourceIntTest.createEntity(em);
-        em.persist(teamUser);
-        em.flush();
-        team.addTeamUser(teamUser);
-        teamRepository.saveAndFlush(team);
-        Long teamUserId = teamUser.getId();
-
-        // Get all the teamList where teamUser equals to teamUserId
-        defaultTeamShouldBeFound("teamUserId.equals=" + teamUserId);
-
-        // Get all the teamList where teamUser equals to teamUserId + 1
-        defaultTeamShouldNotBeFound("teamUserId.equals=" + (teamUserId + 1));
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned
      */

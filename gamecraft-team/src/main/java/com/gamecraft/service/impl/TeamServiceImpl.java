@@ -69,7 +69,7 @@ public class TeamServiceImpl implements TeamService{
     @Transactional(readOnly = true)
     public Team findOne(Long id) {
         log.debug("Request to get Team : {}", id);
-        return teamRepository.findOneWithEagerRelationships(id);
+        return teamRepository.findOne(id);
     }
 
     /**

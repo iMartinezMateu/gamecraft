@@ -17,16 +17,16 @@
     <!--
         Added the entity TeamUser.
     -->
-    <changeSet id="20171029115012-1" author="jhipster">
+    <changeSet id="20171029123242-1" author="jhipster">
         <createTable tableName="team_user">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
+            <column name="team_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 
-            <column name="team_id" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false" />
             </column>
 

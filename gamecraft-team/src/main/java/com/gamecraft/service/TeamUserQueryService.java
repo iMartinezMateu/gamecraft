@@ -76,10 +76,12 @@ public class TeamUserQueryService extends QueryService<TeamUser> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), TeamUser_.id));
             }
+            if (criteria.getTeamId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTeamId(), TeamUser_.teamId));
+            }
             if (criteria.getUserId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUserId(), TeamUser_.userId));
             }
-
         }
         return specification;
     }

@@ -15,24 +15,24 @@ import io.github.jhipster.service.filter.StringFilter;
 
 
 /**
- * Criteria class for the Team entity. This class is used in TeamResource to
+ * Criteria class for the TeamProject entity. This class is used in TeamProjectResource to
  * receive all the possible filtering options from the Http GET request parameters.
  * For example the following could be a valid requests:
- * <code> /teams?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false</code>
+ * <code> /team-projects?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false</code>
  * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
  * fix type specific filters.
  */
-public class TeamCriteria implements Serializable {
+public class TeamProjectCriteria implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
     private LongFilter id;
 
-    private StringFilter teamName;
+    private LongFilter teamId;
 
-    private StringFilter teamDescription;
+    private LongFilter projectId;
 
-    public TeamCriteria() {
+    public TeamProjectCriteria() {
     }
 
     public LongFilter getId() {
@@ -43,28 +43,28 @@ public class TeamCriteria implements Serializable {
         this.id = id;
     }
 
-    public StringFilter getTeamName() {
-        return teamName;
+    public LongFilter getTeamId() {
+        return teamId;
     }
 
-    public void setTeamName(StringFilter teamName) {
-        this.teamName = teamName;
+    public void setTeamId(LongFilter teamId) {
+        this.teamId = teamId;
     }
 
-    public StringFilter getTeamDescription() {
-        return teamDescription;
+    public LongFilter getProjectId() {
+        return projectId;
     }
 
-    public void setTeamDescription(StringFilter teamDescription) {
-        this.teamDescription = teamDescription;
+    public void setProjectId(LongFilter projectId) {
+        this.projectId = projectId;
     }
 
     @Override
     public String toString() {
-        return "TeamCriteria{" +
+        return "TeamProjectCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (teamName != null ? "teamName=" + teamName + ", " : "") +
-                (teamDescription != null ? "teamDescription=" + teamDescription + ", " : "") +
+                (teamId != null ? "teamId=" + teamId + ", " : "") +
+                (projectId != null ? "projectId=" + projectId + ", " : "") +
             "}";
     }
 

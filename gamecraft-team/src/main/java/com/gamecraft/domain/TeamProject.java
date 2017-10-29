@@ -10,13 +10,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A Team.
+ * A TeamProject.
  */
 @Entity
-@Table(name = "team")
+@Table(name = "team_project")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "team")
-public class Team implements Serializable {
+@Document(indexName = "teamproject")
+public class TeamProject implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,12 +25,12 @@ public class Team implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 3, max = 100)
-    @Column(name = "team_name", length = 100, nullable = false)
-    private String teamName;
+    @Column(name = "team_id", nullable = false)
+    private Long teamId;
 
-    @Column(name = "team_description")
-    private String teamDescription;
+    @NotNull
+    @Column(name = "project_id", nullable = false)
+    private Long projectId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -41,30 +41,30 @@ public class Team implements Serializable {
         this.id = id;
     }
 
-    public String getTeamName() {
-        return teamName;
+    public Long getTeamId() {
+        return teamId;
     }
 
-    public Team teamName(String teamName) {
-        this.teamName = teamName;
+    public TeamProject teamId(Long teamId) {
+        this.teamId = teamId;
         return this;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
-    public String getTeamDescription() {
-        return teamDescription;
+    public Long getProjectId() {
+        return projectId;
     }
 
-    public Team teamDescription(String teamDescription) {
-        this.teamDescription = teamDescription;
+    public TeamProject projectId(Long projectId) {
+        this.projectId = projectId;
         return this;
     }
 
-    public void setTeamDescription(String teamDescription) {
-        this.teamDescription = teamDescription;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -76,11 +76,11 @@ public class Team implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Team team = (Team) o;
-        if (team.getId() == null || getId() == null) {
+        TeamProject teamProject = (TeamProject) o;
+        if (teamProject.getId() == null || getId() == null) {
             return false;
         }
-        return Objects.equals(getId(), team.getId());
+        return Objects.equals(getId(), teamProject.getId());
     }
 
     @Override
@@ -90,10 +90,10 @@ public class Team implements Serializable {
 
     @Override
     public String toString() {
-        return "Team{" +
+        return "TeamProject{" +
             "id=" + getId() +
-            ", teamName='" + getTeamName() + "'" +
-            ", teamDescription='" + getTeamDescription() + "'" +
+            ", teamId='" + getTeamId() + "'" +
+            ", projectId='" + getProjectId() + "'" +
             "}";
     }
 }

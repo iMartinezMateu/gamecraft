@@ -3,7 +3,6 @@ package com.gamecraft.web.rest;
 import com.gamecraft.GamecraftteamApp;
 
 import com.gamecraft.domain.TeamUser;
-import com.gamecraft.domain.Team;
 import com.gamecraft.repository.TeamUserRepository;
 import com.gamecraft.service.TeamUserService;
 import com.gamecraft.repository.search.TeamUserSearchRepository;
@@ -43,11 +42,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GamecraftteamApp.class)
 public class TeamUserResourceIntTest {
 
-    private static final Long DEFAULT_USER_ID = 1L;
-    private static final Long UPDATED_USER_ID = 2L;
-
     private static final Long DEFAULT_TEAM_ID = 1L;
     private static final Long UPDATED_TEAM_ID = 2L;
+
+    private static final Long DEFAULT_USER_ID = 1L;
+    private static final Long UPDATED_USER_ID = 2L;
 
     @Autowired
     private TeamUserRepository teamUserRepository;
@@ -96,8 +95,8 @@ public class TeamUserResourceIntTest {
      */
     public static TeamUser createEntity(EntityManager em) {
         TeamUser teamUser = new TeamUser()
-            .userId(DEFAULT_USER_ID)
-            .teamId(DEFAULT_TEAM_ID);
+            .teamId(DEFAULT_TEAM_ID)
+            .userId(DEFAULT_USER_ID);
         return teamUser;
     }
 
@@ -122,8 +121,8 @@ public class TeamUserResourceIntTest {
         List<TeamUser> teamUserList = teamUserRepository.findAll();
         assertThat(teamUserList).hasSize(databaseSizeBeforeCreate + 1);
         TeamUser testTeamUser = teamUserList.get(teamUserList.size() - 1);
-        assertThat(testTeamUser.getUserId()).isEqualTo(DEFAULT_USER_ID);
         assertThat(testTeamUser.getTeamId()).isEqualTo(DEFAULT_TEAM_ID);
+        assertThat(testTeamUser.getUserId()).isEqualTo(DEFAULT_USER_ID);
 
         // Validate the TeamUser in Elasticsearch
         TeamUser teamUserEs = teamUserSearchRepository.findOne(testTeamUser.getId());
@@ -151,10 +150,10 @@ public class TeamUserResourceIntTest {
 
     @Test
     @Transactional
-    public void checkUserIdIsRequired() throws Exception {
+    public void checkTeamIdIsRequired() throws Exception {
         int databaseSizeBeforeTest = teamUserRepository.findAll().size();
         // set the field null
-        teamUser.setUserId(null);
+        teamUser.setTeamId(null);
 
         // Create the TeamUser, which fails.
 
@@ -169,10 +168,10 @@ public class TeamUserResourceIntTest {
 
     @Test
     @Transactional
-    public void checkTeamIdIsRequired() throws Exception {
+    public void checkUserIdIsRequired() throws Exception {
         int databaseSizeBeforeTest = teamUserRepository.findAll().size();
         // set the field null
-        teamUser.setTeamId(null);
+        teamUser.setUserId(null);
 
         // Create the TeamUser, which fails.
 
@@ -196,8 +195,8 @@ public class TeamUserResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(teamUser.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].teamId").value(hasItem(DEFAULT_TEAM_ID.intValue())));
+            .andExpect(jsonPath("$.[*].teamId").value(hasItem(DEFAULT_TEAM_ID.intValue())))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
     }
 
     @Test
@@ -211,75 +210,9 @@ public class TeamUserResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(teamUser.getId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
-            .andExpect(jsonPath("$.teamId").value(DEFAULT_TEAM_ID.intValue()));
+            .andExpect(jsonPath("$.teamId").value(DEFAULT_TEAM_ID.intValue()))
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()));
     }
-
-    @Test
-    @Transactional
-    public void getAllTeamUsersByUserIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        teamUserRepository.saveAndFlush(teamUser);
-
-        // Get all the teamUserList where userId equals to DEFAULT_USER_ID
-        defaultTeamUserShouldBeFound("userId.equals=" + DEFAULT_USER_ID);
-
-        // Get all the teamUserList where userId equals to UPDATED_USER_ID
-        defaultTeamUserShouldNotBeFound("userId.equals=" + UPDATED_USER_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTeamUsersByUserIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        teamUserRepository.saveAndFlush(teamUser);
-
-        // Get all the teamUserList where userId in DEFAULT_USER_ID or UPDATED_USER_ID
-        defaultTeamUserShouldBeFound("userId.in=" + DEFAULT_USER_ID + "," + UPDATED_USER_ID);
-
-        // Get all the teamUserList where userId equals to UPDATED_USER_ID
-        defaultTeamUserShouldNotBeFound("userId.in=" + UPDATED_USER_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTeamUsersByUserIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        teamUserRepository.saveAndFlush(teamUser);
-
-        // Get all the teamUserList where userId is not null
-        defaultTeamUserShouldBeFound("userId.specified=true");
-
-        // Get all the teamUserList where userId is null
-        defaultTeamUserShouldNotBeFound("userId.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllTeamUsersByUserIdIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        teamUserRepository.saveAndFlush(teamUser);
-
-        // Get all the teamUserList where userId greater than or equals to DEFAULT_USER_ID
-        defaultTeamUserShouldBeFound("userId.greaterOrEqualThan=" + DEFAULT_USER_ID);
-
-        // Get all the teamUserList where userId greater than or equals to UPDATED_USER_ID
-        defaultTeamUserShouldNotBeFound("userId.greaterOrEqualThan=" + UPDATED_USER_ID);
-    }
-
-    @Test
-    @Transactional
-    public void getAllTeamUsersByUserIdIsLessThanSomething() throws Exception {
-        // Initialize the database
-        teamUserRepository.saveAndFlush(teamUser);
-
-        // Get all the teamUserList where userId less than or equals to DEFAULT_USER_ID
-        defaultTeamUserShouldNotBeFound("userId.lessThan=" + DEFAULT_USER_ID);
-
-        // Get all the teamUserList where userId less than or equals to UPDATED_USER_ID
-        defaultTeamUserShouldBeFound("userId.lessThan=" + UPDATED_USER_ID);
-    }
-
 
     @Test
     @Transactional
@@ -349,20 +282,67 @@ public class TeamUserResourceIntTest {
 
     @Test
     @Transactional
-    public void getAllTeamUsersByTeamIsEqualToSomething() throws Exception {
+    public void getAllTeamUsersByUserIdIsEqualToSomething() throws Exception {
         // Initialize the database
-        Team team = TeamResourceIntTest.createEntity(em);
-        em.persist(team);
-        em.flush();
-        teamUser.addTeam(team);
         teamUserRepository.saveAndFlush(teamUser);
-        Long teamId = team.getId();
 
-        // Get all the teamUserList where team equals to teamId
-        defaultTeamUserShouldBeFound("teamId.equals=" + teamId);
+        // Get all the teamUserList where userId equals to DEFAULT_USER_ID
+        defaultTeamUserShouldBeFound("userId.equals=" + DEFAULT_USER_ID);
 
-        // Get all the teamUserList where team equals to teamId + 1
-        defaultTeamUserShouldNotBeFound("teamId.equals=" + (teamId + 1));
+        // Get all the teamUserList where userId equals to UPDATED_USER_ID
+        defaultTeamUserShouldNotBeFound("userId.equals=" + UPDATED_USER_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTeamUsersByUserIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        teamUserRepository.saveAndFlush(teamUser);
+
+        // Get all the teamUserList where userId in DEFAULT_USER_ID or UPDATED_USER_ID
+        defaultTeamUserShouldBeFound("userId.in=" + DEFAULT_USER_ID + "," + UPDATED_USER_ID);
+
+        // Get all the teamUserList where userId equals to UPDATED_USER_ID
+        defaultTeamUserShouldNotBeFound("userId.in=" + UPDATED_USER_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTeamUsersByUserIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        teamUserRepository.saveAndFlush(teamUser);
+
+        // Get all the teamUserList where userId is not null
+        defaultTeamUserShouldBeFound("userId.specified=true");
+
+        // Get all the teamUserList where userId is null
+        defaultTeamUserShouldNotBeFound("userId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTeamUsersByUserIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        teamUserRepository.saveAndFlush(teamUser);
+
+        // Get all the teamUserList where userId greater than or equals to DEFAULT_USER_ID
+        defaultTeamUserShouldBeFound("userId.greaterOrEqualThan=" + DEFAULT_USER_ID);
+
+        // Get all the teamUserList where userId greater than or equals to UPDATED_USER_ID
+        defaultTeamUserShouldNotBeFound("userId.greaterOrEqualThan=" + UPDATED_USER_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTeamUsersByUserIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        teamUserRepository.saveAndFlush(teamUser);
+
+        // Get all the teamUserList where userId less than or equals to DEFAULT_USER_ID
+        defaultTeamUserShouldNotBeFound("userId.lessThan=" + DEFAULT_USER_ID);
+
+        // Get all the teamUserList where userId less than or equals to UPDATED_USER_ID
+        defaultTeamUserShouldBeFound("userId.lessThan=" + UPDATED_USER_ID);
     }
 
     /**
@@ -373,8 +353,8 @@ public class TeamUserResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(teamUser.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].teamId").value(hasItem(DEFAULT_TEAM_ID.intValue())));
+            .andExpect(jsonPath("$.[*].teamId").value(hasItem(DEFAULT_TEAM_ID.intValue())))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
     }
 
     /**
@@ -408,8 +388,8 @@ public class TeamUserResourceIntTest {
         // Update the teamUser
         TeamUser updatedTeamUser = teamUserRepository.findOne(teamUser.getId());
         updatedTeamUser
-            .userId(UPDATED_USER_ID)
-            .teamId(UPDATED_TEAM_ID);
+            .teamId(UPDATED_TEAM_ID)
+            .userId(UPDATED_USER_ID);
 
         restTeamUserMockMvc.perform(put("/api/team-users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -420,8 +400,8 @@ public class TeamUserResourceIntTest {
         List<TeamUser> teamUserList = teamUserRepository.findAll();
         assertThat(teamUserList).hasSize(databaseSizeBeforeUpdate);
         TeamUser testTeamUser = teamUserList.get(teamUserList.size() - 1);
-        assertThat(testTeamUser.getUserId()).isEqualTo(UPDATED_USER_ID);
         assertThat(testTeamUser.getTeamId()).isEqualTo(UPDATED_TEAM_ID);
+        assertThat(testTeamUser.getUserId()).isEqualTo(UPDATED_USER_ID);
 
         // Validate the TeamUser in Elasticsearch
         TeamUser teamUserEs = teamUserSearchRepository.findOne(testTeamUser.getId());
@@ -479,8 +459,8 @@ public class TeamUserResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(teamUser.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].teamId").value(hasItem(DEFAULT_TEAM_ID.intValue())));
+            .andExpect(jsonPath("$.[*].teamId").value(hasItem(DEFAULT_TEAM_ID.intValue())))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
     }
 
     @Test

@@ -10,17 +10,17 @@
             ]
         },
         {
-            "fieldName": "userId",
+            "fieldName": "projectId",
             "fieldType": "Long",
             "fieldValidateRules": [
                 "required"
             ]
         }
     ],
-    "changelogDate": "20171029123242",
+    "changelogDate": "20171029123323",
     "dto": "no",
     "service": "serviceImpl",
-    "entityTableName": "team_user",
+    "entityTableName": "team_project",
     "jpaMetamodelFiltering": true,
     "pagination": "pager",
     "microserviceName": "gamecraftteam",

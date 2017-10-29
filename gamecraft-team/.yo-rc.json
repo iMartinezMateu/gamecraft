@@ -22,7 +22,7 @@
     "buildTool": "maven",
     "enableSocialSignIn": false,
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "48c814cfae557b4c739d41999a2bf45ffdf3beaf",
+    "jwtSecretKey": "bbd7bc7896c7df06eaf8771c0fe19af6c051d8ac",
     "enableTranslation": true,
     "applicationType": "microservice",
     "testFrameworks": [
