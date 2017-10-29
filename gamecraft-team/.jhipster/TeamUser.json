@@ -16,6 +16,13 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "teamId",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20171029115012",

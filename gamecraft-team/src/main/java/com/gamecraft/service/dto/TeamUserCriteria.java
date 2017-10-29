@@ -30,7 +30,6 @@ public class TeamUserCriteria implements Serializable {
 
     private LongFilter userId;
 
-    private LongFilter teamId;
 
     public TeamUserCriteria() {
     }
@@ -51,20 +50,12 @@ public class TeamUserCriteria implements Serializable {
         this.userId = userId;
     }
 
-    public LongFilter getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(LongFilter teamId) {
-        this.teamId = teamId;
-    }
 
     @Override
     public String toString() {
         return "TeamUserCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (userId != null ? "userId=" + userId + ", " : "") +
-                (teamId != null ? "teamId=" + teamId + ", " : "") +
             "}";
     }
 

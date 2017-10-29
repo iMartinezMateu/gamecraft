@@ -31,6 +31,10 @@ public class TeamUser implements Serializable {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    @NotNull
+    @Column(name = "team_id", nullable = false)
+    private Long teamId;
+
     @ManyToMany(mappedBy = "teamUsers")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -56,6 +60,19 @@ public class TeamUser implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public TeamUser teamId(Long teamId) {
+        this.teamId = teamId;
+        return this;
+    }
+
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
     }
 
     public Set<Team> getTeams() {
@@ -109,6 +126,7 @@ public class TeamUser implements Serializable {
         return "TeamUser{" +
             "id=" + getId() +
             ", userId='" + getUserId() + "'" +
+            ", teamId='" + getTeamId() + "'" +
             "}";
     }
 }

@@ -68,7 +68,7 @@ class TeamUserGatlingTest extends Simulation {
             .exec(http("Create new teamUser")
             .post("/gamecraftteam/api/team-users")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "userId":null}""")).asJSON
+            .body(StringBody("""{"id":null, "userId":null, "teamId":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_teamUser_url"))).exitHereIfFailed
             .pause(10)
