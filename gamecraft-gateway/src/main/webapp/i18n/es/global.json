@@ -11,6 +11,7 @@
                 "team": "Team",
                 "teamUser": "Team User",
                 "teamProject": "Team Project",
+                "engine": "Engine",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -1,0 +1,37 @@
+
+<div *ngIf="engine">
+    <h2><span jhiTranslate="gamecraftgatewayApp.engine.detail.title">Engine</span> {{engine.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.engine.engineName">Engine Name</span></dt>
+        <dd>
+            <span>{{engine.engineName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.engine.engineDescription">Engine Description</span></dt>
+        <dd>
+            <span>{{engine.engineDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.engine.engineCompilerPath">Engine Compiler Path</span></dt>
+        <dd>
+            <span>{{engine.engineCompilerPath}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.engine.engineCompilerArguments">Engine Compiler Arguments</span></dt>
+        <dd>
+            <span>{{engine.engineCompilerArguments}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'engine/'+ engine.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

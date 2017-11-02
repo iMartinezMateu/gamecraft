@@ -1,0 +1,29 @@
+{
+    "gamecraftgatewayApp": {
+        "engine" : {
+            "home": {
+                "title": "Engines",
+                "createLabel": "Crear nuevo Engine",
+                "createOrEditLabel": "Crear o editar Engine",
+                "search": "Search for Engine"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Engine {{ id }}?"
+            },
+            "detail": {
+                "title": "Engine"
+            },
+            "engineName": "Engine Name",
+            "engineDescription": "Engine Description",
+            "engineCompilerPath": "Engine Compiler Path",
+            "engineCompilerArguments": "Engine Compiler Arguments"
+        }
+    },
+    "gamecraftenginemanagerApp": {
+        "engine" : {
+            "created": "Un nuevo Engine ha sido creado con el identificador {{ param }}",
+            "updated": "Un Engine ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Engine ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}

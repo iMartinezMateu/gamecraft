@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "engineName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "engineDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "engineCompilerPath",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "engineCompilerArguments",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20171102184306",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "engine",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecraftenginemanager",
+    "searchEngine": "elasticsearch"
+}
