@@ -39,7 +39,6 @@ describe('Team e2e test', () => {
         expect(teamDialogPage.getTeamNameInput()).toMatch('teamName');
         teamDialogPage.setTeamDescriptionInput('teamDescription');
         expect(teamDialogPage.getTeamDescriptionInput()).toMatch('teamDescription');
-        // teamDialogPage.teamUserSelectLastOption();
         teamDialogPage.save();
         expect(teamDialogPage.getSaveButton().isPresent()).toBeFalsy();
     }); 
@@ -68,7 +67,6 @@ export class TeamDialogPage {
     closeButton = element(by.css('button.close'));
     teamNameInput = element(by.css('input#field_teamName'));
     teamDescriptionInput = element(by.css('input#field_teamDescription'));
-    teamUserSelect = element(by.css('select#field_teamUser'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
@@ -88,22 +86,6 @@ export class TeamDialogPage {
 
     getTeamDescriptionInput = function () {
         return this.teamDescriptionInput.getAttribute('value');
-    }
-
-    teamUserSelectLastOption = function () {
-        this.teamUserSelect.all(by.tagName('option')).last().click();
-    }
-
-    teamUserSelectOption = function (option) {
-        this.teamUserSelect.sendKeys(option);
-    }
-
-    getTeamUserSelect = function () {
-        return this.teamUserSelect;
-    }
-
-    getTeamUserSelectedOption = function () {
-        return this.teamUserSelect.element(by.css('option:checked')).getText();
     }
 
     save() {

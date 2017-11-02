@@ -37,12 +37,6 @@
                 [(ngModel)]="team.teamDescription"  />
         </div>
 
-        <div class="form-group">
-            <label jhiTranslate="gamecraftgatewayApp.team.teamUser" for="field_teamUser">Team User</label>
-            <select class="form-control" id="field_teamUser" multiple name="teamUser" [(ngModel)]="team.teamUsers">
-                <option [ngValue]="getSelected(team.teamUsers, teamUserOption)" *ngFor="let teamUserOption of teamusers; trackBy: trackTeamUserById">{{teamUserOption.id}}</option>
-            </select>
-        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

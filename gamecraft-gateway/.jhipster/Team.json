@@ -1,15 +1,6 @@
 {
     "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipName": "teamUser",
-            "otherEntityName": "teamUser",
-            "relationshipType": "many-to-many",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "team"
-        }
-    ],
+    "relationships": [],
     "fields": [
         {
             "fieldName": "teamName",
@@ -27,7 +18,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20171029114747",
+    "changelogDate": "20171029123152",
     "dto": "no",
     "service": "serviceImpl",
     "entityTableName": "team",

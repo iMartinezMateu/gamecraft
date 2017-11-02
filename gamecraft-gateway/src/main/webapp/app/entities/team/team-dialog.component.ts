@@ -9,8 +9,6 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Team } from './team.model';
 import { TeamPopupService } from './team-popup.service';
 import { TeamService } from './team.service';
-import { TeamUser, TeamUserService } from '../team-user';
-import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-team-dialog',
@@ -21,21 +19,16 @@ export class TeamDialogComponent implements OnInit {
     team: Team;
     isSaving: boolean;
 
-    teamusers: TeamUser[];
-
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
         private teamService: TeamService,
-        private teamUserService: TeamUserService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
-        this.teamUserService.query()
-            .subscribe((res: ResponseWrapper) => { this.teamusers = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -70,21 +63,6 @@ export class TeamDialogComponent implements OnInit {
 
     private onError(error: any) {
         this.jhiAlertService.error(error.message, null, null);
-    }
-
-    trackTeamUserById(index: number, item: TeamUser) {
-        return item.id;
-    }
-
-    getSelected(selectedVals: Array<any>, option: any) {
-        if (selectedVals) {
-            for (let i = 0; i < selectedVals.length; i++) {
-                if (option.id === selectedVals[i].id) {
-                    return selectedVals[i];
-                }
-            }
-        }
-        return option;
     }
 }
 

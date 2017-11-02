@@ -5,7 +5,6 @@ export class Team implements BaseEntity {
         public id?: number,
         public teamName?: string,
         public teamDescription?: string,
-        public teamUsers?: BaseEntity[],
     ) {
     }
 }

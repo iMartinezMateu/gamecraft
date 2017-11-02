@@ -12,12 +12,6 @@
         <dd>
             <span>{{team.teamDescription}}</span>
         </dd>
-        <dt><span jhiTranslate="gamecraftgatewayApp.team.teamUser">Team User</span></dt>
-        <dd>
-            <span *ngFor="let teamUser of team.teamUsers; let last = last">
-                <a [routerLink]="['/team-user', teamUser?.id ]">{{teamUser.id}}</a>{{last ? '' : ', '}}
-            </span>
-        </dd>
     </dl>
 
     <button type="submit"
