@@ -16,7 +16,7 @@
         <module>gamecraft-gateway</module>
         <module>gamecraft-project</module>
         <module>gamecraft-team</module>
-        <module>gamecrat-engine-manager</module>
+        <module>gamecraft-engine-manager</module>
     </modules>
 
 </project>
