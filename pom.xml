@@ -17,7 +17,7 @@
         <module>gamecraft-project</module>
         <module>gamecraft-team</module>
         <module>gamecraft-engine-manager</module>
-        <module>gamecraft-email-notification-mamager</module>
+        <module>gamecraft-email-notification-manager</module>
     </modules>
 
 </project>
