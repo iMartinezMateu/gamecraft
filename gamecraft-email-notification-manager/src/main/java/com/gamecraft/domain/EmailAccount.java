@@ -199,4 +199,5 @@ public class EmailAccount implements Serializable {
             ", emailAccountEnabled='" + isEmailAccountEnabled() + "'" +
             "}";
     }
+
 }

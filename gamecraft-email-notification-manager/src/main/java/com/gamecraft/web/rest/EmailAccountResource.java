@@ -3,6 +3,7 @@ package com.gamecraft.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.gamecraft.domain.EmailAccount;
 import com.gamecraft.service.EmailAccountService;
+import com.gamecraft.service.dto.Email;
 import com.gamecraft.web.rest.errors.BadRequestAlertException;
 import com.gamecraft.web.rest.util.HeaderUtil;
 import com.gamecraft.web.rest.util.PaginationUtil;
@@ -23,12 +24,16 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
-
 /**
  * REST controller for managing EmailAccount.
  */
@@ -151,5 +156,71 @@ public class EmailAccountResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/email-accounts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    /**
+     * POST  /email-accounts/:id/send : send an e-mail using the provided emailAccount.
+     *
+     * @param id the id of the emailAccount
+     * @return the ResponseEntity with status 200 (OK) or with status 404 (Not Found)
+     */
+    @PostMapping("/email-accounts/{id}/send")
+    @Timed
+    public ResponseEntity<EmailAccount> sendEmail(@PathVariable Long id, @RequestBody Email email) {
+        log.debug("REST request to send EmailAccount : {}", id);
+        EmailAccount emailAccount = emailAccountService.findOne(id);
+        if (emailAccount.isEmailAccountEnabled())
+        {
+            Properties props = System.getProperties();
+            Session session;
+            if (emailAccount.isEmailSmtpUseSSL()) {
+                props.put("mail.smtp.host", emailAccount.getEmailSmtpServer());
+                props.put("mail.smtp.socketFactory.port", emailAccount.getEmailSmtpPort());
+                props.put("mail.smtp.socketFactory.class",
+                    "javax.net.ssl.SSLSocketFactory");
+                if (emailAccount.getEmailSmtpUsername().isEmpty() && emailAccount.getEmailSmtpPassword().isEmpty())
+                    props.put("mail.smtp.auth", "false");
+                else
+                    props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", emailAccount.getEmailSmtpPort());
+            }
+            else {
+                if (emailAccount.getEmailSmtpUsername().isEmpty() && emailAccount.getEmailSmtpPassword().isEmpty())
+                    props.put("mail.smtp.auth", "false");
+                else
+                    props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.host", emailAccount.getEmailSmtpServer());
+                props.put("mail.smtp.port", emailAccount.getEmailSmtpPort());
+            }
+            if (emailAccount.getEmailSmtpUsername().isEmpty() && emailAccount.getEmailSmtpPassword().isEmpty())
+                 session = Session.getDefaultInstance(props,null);
+            else
+                session = Session.getDefaultInstance(props,
+                    new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication(emailAccount.getEmailSmtpUsername(),emailAccount.getEmailSmtpPassword());
+                        }
+                    });
+            try {
+                MimeMessage message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(emailAccount.getEmailAccountName()));
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email.getToEmailAddress()));
+                message.setSubject(email.getSubject());
+                message.setContent(email.getBody(), "text/html");
+                Transport.send(message);
+                log.info("Sent message successfully...");
+                return ResponseEntity.ok().build();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            log.error("Email account is disabled!");
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
 
 }
