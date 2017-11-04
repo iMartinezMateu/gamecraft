@@ -1,0 +1,56 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "emailAccountName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "emailSmtpServer",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "emailSmtpUsername",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "emailSmtpPassword",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "emailSmtpUseSSL",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "emailSmtpPort",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "emailAccountDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "emailAccountEnabled",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20171104191638",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "email_account",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecraftemailnotificationmanager",
+    "searchEngine": "elasticsearch"
+}
