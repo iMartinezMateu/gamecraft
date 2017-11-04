@@ -3,7 +3,7 @@
     "promptValues": {
       "packageName": "com.gamecraft",
       "nativeLanguage": "en",
-      "microservicePath": "../gamecraft-engine-manager"
+      "microservicePath": "../gamecraft-email-notification-manager"
     },
     "jhipsterVersion": "4.10.1",
     "baseName": "gamecraftgateway",

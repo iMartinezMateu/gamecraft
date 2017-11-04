@@ -1,0 +1,33 @@
+{
+    "gamecraftgatewayApp": {
+        "emailAccount" : {
+            "home": {
+                "title": "Email Accounts",
+                "createLabel": "Create a new Email Account",
+                "createOrEditLabel": "Create or edit a Email Account",
+                "search": "Search for Email Account"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Email Account {{ id }}?"
+            },
+            "detail": {
+                "title": "Email Account"
+            },
+            "emailAccountName": "Email Account Name",
+            "emailSmtpServer": "SMTP Server",
+            "emailSmtpUsername": "SMTP Username",
+            "emailSmtpPassword": "SMTP Password",
+            "emailSmtpUseSSL": "Use SSL",
+            "emailSmtpPort": "SMTP Port",
+            "emailAccountDescription": "Email Account Description",
+            "emailAccountEnabled": "Email Account Enabled"
+        }
+    },
+    "gamecraftemailnotificationmanagerApp": {
+        "emailAccount" : {
+            "created": "A new Email Account is created with identifier {{ param }}",
+            "updated": "A Email Account is updated with identifier {{ param }}",
+            "deleted": "A Email Account is deleted with identifier {{ param }}"
+        }
+    }
+}

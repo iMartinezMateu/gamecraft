@@ -1,0 +1,85 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myEmailAccountLabel" jhiTranslate="gamecraftgatewayApp.emailAccount.home.createOrEditLabel">Create or edit a Email Account</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!emailAccount.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="emailAccount.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailAccountName" for="field_emailAccountName">Email Account Name</label>
+            <input type="text" class="form-control" name="emailAccountName" id="field_emailAccountName"
+                [(ngModel)]="emailAccount.emailAccountName" required minlength="3" maxlength="100" />
+            <div [hidden]="!(editForm.controls.emailAccountName?.dirty && editForm.controls.emailAccountName?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.emailAccountName?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.emailAccountName?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                   This field is required to be at least 3 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.emailAccountName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 100 }">
+                   This field cannot be longer than 100 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailAccountDescription" for="field_emailAccountDescription">Email Account Description</label>
+            <input type="text" class="form-control" name="emailAccountDescription" id="field_emailAccountDescription"
+                   [(ngModel)]="emailAccount.emailAccountDescription"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpServer" for="field_emailSmtpServer">Email Smtp Server</label>
+            <input type="text" class="form-control" name="emailSmtpServer" id="field_emailSmtpServer"
+                [(ngModel)]="emailAccount.emailSmtpServer" required />
+            <div [hidden]="!(editForm.controls.emailSmtpServer?.dirty && editForm.controls.emailSmtpServer?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.emailSmtpServer?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpUsername" for="field_emailSmtpUsername">Email Smtp Username</label>
+            <input type="text" class="form-control" name="emailSmtpUsername" id="field_emailSmtpUsername"
+                [(ngModel)]="emailAccount.emailSmtpUsername"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpPassword" for="field_emailSmtpPassword">Email Smtp Password</label>
+            <input type="text" class="form-control" name="emailSmtpPassword" id="field_emailSmtpPassword"
+                [(ngModel)]="emailAccount.emailSmtpPassword"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpUseSSL" for="field_emailSmtpUseSSL">Email Smtp Use SSL</label>
+            <input type="checkbox" class="form-control" name="emailSmtpUseSSL" id="field_emailSmtpUseSSL"
+                [(ngModel)]="emailAccount.emailSmtpUseSSL"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpPort" for="field_emailSmtpPort">Email Smtp Port</label>
+            <input type="number" class="form-control" name="emailSmtpPort" id="field_emailSmtpPort"
+                [(ngModel)]="emailAccount.emailSmtpPort"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.emailAccount.emailAccountEnabled" for="field_emailAccountEnabled">Email Account Enabled</label>
+            <input type="checkbox" class="form-control" name="emailAccountEnabled" id="field_emailAccountEnabled"
+                [(ngModel)]="emailAccount.emailAccountEnabled"  />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

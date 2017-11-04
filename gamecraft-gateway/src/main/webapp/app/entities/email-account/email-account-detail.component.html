@@ -1,0 +1,53 @@
+
+<div *ngIf="emailAccount">
+    <h2><span jhiTranslate="gamecraftgatewayApp.emailAccount.detail.title">Email Account</span> {{emailAccount.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailAccountName">Email Account Name</span></dt>
+        <dd>
+            <span>{{emailAccount.emailAccountName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpServer">Email Smtp Server</span></dt>
+        <dd>
+            <span>{{emailAccount.emailSmtpServer}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpUsername">Email Smtp Username</span></dt>
+        <dd>
+            <span>{{emailAccount.emailSmtpUsername}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpPassword">Email Smtp Password</span></dt>
+        <dd>
+            <span>{{emailAccount.emailSmtpPassword}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpUseSSL">Email Smtp Use SSL</span></dt>
+        <dd>
+            <span>{{emailAccount.emailSmtpUseSSL}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailSmtpPort">Email Smtp Port</span></dt>
+        <dd>
+            <span>{{emailAccount.emailSmtpPort}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailAccountDescription">Email Account Description</span></dt>
+        <dd>
+            <span>{{emailAccount.emailAccountDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.emailAccount.emailAccountEnabled">Email Account Enabled</span></dt>
+        <dd>
+            <span>{{emailAccount.emailAccountEnabled}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'email-account/'+ emailAccount.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
