@@ -13,6 +13,7 @@
                 "teamProject": "Team Project",
                 "engine": "Engine",
                 "emailAccount": "Email Account",
+                "slackAccount": "Slack Account",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

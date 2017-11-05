@@ -1,0 +1,37 @@
+
+<div *ngIf="slackAccount">
+    <h2><span jhiTranslate="gamecraftgatewayApp.slackAccount.detail.title">Slack Account</span> {{slackAccount.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.slackAccount.slackAccountName">Slack Account Name</span></dt>
+        <dd>
+            <span>{{slackAccount.slackAccountName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.slackAccount.slackAccountDescription">Slack Account Description</span></dt>
+        <dd>
+            <span>{{slackAccount.slackAccountDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.slackAccount.slackAccountToken">Slack Account Token</span></dt>
+        <dd>
+            <span>{{slackAccount.slackAccountToken}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.slackAccount.slackAccountEnabled">Slack Account Enabled</span></dt>
+        <dd>
+            <span>{{slackAccount.slackAccountEnabled}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'slack-account/'+ slackAccount.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

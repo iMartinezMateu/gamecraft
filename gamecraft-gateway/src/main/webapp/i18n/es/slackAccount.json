@@ -1,0 +1,29 @@
+{
+    "gamecraftgatewayApp": {
+        "slackAccount" : {
+            "home": {
+                "title": "Slack Accounts",
+                "createLabel": "Crear nuevo Slack Account",
+                "createOrEditLabel": "Crear o editar Slack Account",
+                "search": "Search for Slack Account"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Slack Account {{ id }}?"
+            },
+            "detail": {
+                "title": "Slack Account"
+            },
+            "slackAccountName": "Slack Account Name",
+            "slackAccountDescription": "Slack Account Description",
+            "slackAccountToken": "Slack Account Token",
+            "slackAccountEnabled": "Slack Account Enabled"
+        }
+    },
+    "gamecraftslacknotificationmanagerApp": {
+        "slackAccount" : {
+            "created": "Un nuevo Slack Account ha sido creado con el identificador {{ param }}",
+            "updated": "Un Slack Account ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Slack Account ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}
