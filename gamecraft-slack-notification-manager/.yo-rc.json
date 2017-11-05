@@ -1,0 +1,42 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.gamecraft",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "4.10.1",
+    "baseName": "gamecraftslacknotificationmanager",
+    "packageName": "com.gamecraft",
+    "packageFolder": "com/gamecraft",
+    "serverPort": "8086",
+    "authenticationType": "jwt",
+    "hibernateCache": "hazelcast",
+    "clusteredHttpSession": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSocialSignIn": false,
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "091410e7915f607a3aa9f333bba4ecfeca914c90",
+    "enableTranslation": true,
+    "applicationType": "microservice",
+    "testFrameworks": [
+      "gatling",
+      "cucumber"
+    ],
+    "jhiPrefix": "jhi",
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "es"
+    ],
+    "clientPackageManager": "yarn",
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}

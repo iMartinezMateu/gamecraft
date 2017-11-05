@@ -1,0 +1,37 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "slackAccountName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "slackAccountDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "slackAccountToken",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "slackAccountEnabled",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20171105152033",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "slack_account",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecraftslacknotificationmanager",
+    "searchEngine": "elasticsearch"
+}
