@@ -184,7 +184,10 @@ public class SlackAccountResource {
             // Send message to provided channels (public channel, private group or direct message channel)
             if (slackMessage.getChannels().length != 0 && slackMessage.getChannels().length < 10) {
                 for (String channel : slackMessage.getChannels()) {
-                    session.sendMessage(session.findChannelByName(channel), slackMessage.getMessage());
+                    if (session.findChannelByName(channel) != null)
+                        session.sendMessage(session.findChannelByName(channel), slackMessage.getMessage());
+                    else
+                        log.error("Channel " + channel + " not found in Slack!");
                 }
             }
             else if (slackMessage.getChannels().length > 10) {
