@@ -3,11 +3,15 @@ package com.gamecraft.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.gamecraft.domain.SlackAccount;
 import com.gamecraft.service.SlackAccountService;
+import com.gamecraft.service.dto.SlackMessage;
 import com.gamecraft.web.rest.errors.BadRequestAlertException;
 import com.gamecraft.web.rest.util.HeaderUtil;
 import com.gamecraft.web.rest.util.PaginationUtil;
 import com.gamecraft.service.dto.SlackAccountCriteria;
 import com.gamecraft.service.SlackAccountQueryService;
+import com.ullink.slack.simpleslackapi.SlackChannel;
+import com.ullink.slack.simpleslackapi.SlackSession;
+import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -20,6 +24,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -150,6 +156,58 @@ public class SlackAccountResource {
         Page<SlackAccount> page = slackAccountService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/slack-accounts");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    /**
+     * POST  /slack-accounts/:id/send : send a message using the provided slackAccount.
+     *
+     * @param id the id of the slackAccount
+     * @return the ResponseEntity with status 200 (OK) or with status 404 (Not Found)
+     */
+    @PostMapping("/slack-accounts/{id}/send")
+    @Timed
+    public ResponseEntity<SlackAccount> sendMessage(@PathVariable Long id, @RequestBody SlackMessage slackMessage) {
+        log.debug("REST request to send SlackAccount : {}", id);
+        log.debug(slackMessage.toString());
+        SlackAccount slackAccount = slackAccountService.findOne(id);
+        if (slackAccount == null)
+            return ResponseEntity.notFound().build();
+        if (slackAccount.isSlackAccountEnabled())
+        {
+            SlackSession session = SlackSessionFactory.createWebSocketSlackSession(slackAccount.getSlackAccountToken());
+            try {
+                session.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+                log.error(e.getMessage());
+                return ResponseEntity.badRequest().build();
+            }
+            // Send message to provided channels (public channel, private group or direct message channel)
+            if (slackMessage.getChannels().length != 0 && slackMessage.getChannels().length < 10) {
+                for (String channel : slackMessage.getChannels()) {
+                    session.sendMessage(session.findChannelByName(channel), slackMessage.getMessage());
+                }
+            }
+            else if (slackMessage.getChannels().length > 10) {
+                log.error("The message can not be sent to more than ten channels");
+                return ResponseEntity.badRequest().build();
+            }
+            // Send direct message to provided user accounts
+            if (slackMessage.getUsers().length != 0 && slackMessage.getUsers().length < 10) {
+                for (String user : slackMessage.getUsers()) {
+                    session.sendMessageToUser(user, slackMessage.getMessage(), null);
+                }
+            }
+            else if (slackMessage.getUsers().length > 10){
+                log.error("The message can not be sent to more than ten users");
+                return ResponseEntity.badRequest().build();
+            }
+        }
+        else {
+            log.error("Slack account is disabled!");
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
 }
