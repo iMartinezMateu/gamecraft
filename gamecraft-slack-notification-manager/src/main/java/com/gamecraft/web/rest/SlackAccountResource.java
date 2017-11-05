@@ -164,7 +164,7 @@ public class SlackAccountResource {
      */
     @PostMapping("/slack-accounts/{id}/send")
     @Timed
-    public ResponseEntity<SlackAccount> sendMessage(@PathVariable Long id, @RequestBody SlackMessage slackMessage) {
+    public ResponseEntity<SlackAccount> sendMessage(@PathVariable Long id, @RequestBody SlackMessage slackMessage) throws IOException {
         log.debug("REST request to send SlackAccount : {}", id);
         log.debug(slackMessage.toString());
         SlackAccount slackAccount = slackAccountService.findOne(id);
@@ -178,6 +178,7 @@ public class SlackAccountResource {
             } catch (IOException e) {
                 e.printStackTrace();
                 log.error(e.getMessage());
+                session.disconnect();
                 return ResponseEntity.badRequest().build();
             }
             // Send message to provided channels (public channel, private group or direct message channel)
@@ -188,6 +189,7 @@ public class SlackAccountResource {
             }
             else if (slackMessage.getChannels().length > 10) {
                 log.error("The message can not be sent to more than ten channels");
+                session.disconnect();
                 return ResponseEntity.badRequest().build();
             }
             // Send direct message to provided user accounts
@@ -198,8 +200,10 @@ public class SlackAccountResource {
             }
             else if (slackMessage.getUsers().length > 10){
                 log.error("The message can not be sent to more than ten users");
+                session.disconnect();
                 return ResponseEntity.badRequest().build();
             }
+            session.disconnect();
         }
         else {
             log.error("Slack account is disabled!");
