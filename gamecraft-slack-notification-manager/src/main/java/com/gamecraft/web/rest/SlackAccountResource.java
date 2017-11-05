@@ -187,7 +187,7 @@ public class SlackAccountResource {
                     if (session.findChannelByName(channel) != null)
                         session.sendMessage(session.findChannelByName(channel), slackMessage.getMessage());
                     else
-                        log.error("Channel " + channel + " not found in Slack!");
+                        log.error("Channel " + channel + " not found in Slack!. Did you invite the bot to the corresponding channel?");
                 }
             }
             else if (slackMessage.getChannels().length > 10) {
