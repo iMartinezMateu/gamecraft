@@ -32,7 +32,8 @@ public class SlackAccount implements Serializable {
     @Column(name = "slack_account_description")
     private String slackAccountDescription;
 
-    @Column(name = "slack_account_token")
+    @NotNull
+    @Column(name = "slack_account_token", nullable = false)
     private String slackAccountToken;
 
     @Column(name = "slack_account_enabled")

@@ -178,6 +178,24 @@ public class SlackAccountResourceIntTest {
 
     @Test
     @Transactional
+    public void checkSlackAccountTokenIsRequired() throws Exception {
+        int databaseSizeBeforeTest = slackAccountRepository.findAll().size();
+        // set the field null
+        slackAccount.setSlackAccountToken(null);
+
+        // Create the SlackAccount, which fails.
+
+        restSlackAccountMockMvc.perform(post("/api/slack-accounts")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(slackAccount)))
+            .andExpect(status().isBadRequest());
+
+        List<SlackAccount> slackAccountList = slackAccountRepository.findAll();
+        assertThat(slackAccountList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllSlackAccounts() throws Exception {
         // Initialize the database
         slackAccountRepository.saveAndFlush(slackAccount);

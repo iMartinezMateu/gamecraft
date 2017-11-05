@@ -31,7 +31,7 @@
             </column>
 
             <column name="slack_account_token" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="slack_account_enabled" type="bit">

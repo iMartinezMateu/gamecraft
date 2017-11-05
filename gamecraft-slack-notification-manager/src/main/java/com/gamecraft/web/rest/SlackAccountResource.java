@@ -9,7 +9,6 @@ import com.gamecraft.web.rest.util.HeaderUtil;
 import com.gamecraft.web.rest.util.PaginationUtil;
 import com.gamecraft.service.dto.SlackAccountCriteria;
 import com.gamecraft.service.SlackAccountQueryService;
-import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import io.swagger.annotations.ApiParam;
@@ -24,7 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;

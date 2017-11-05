@@ -39,7 +39,13 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.slackAccount.slackAccountToken" for="field_slackAccountToken">Slack Account Token</label>
             <input type="text" class="form-control" name="slackAccountToken" id="field_slackAccountToken"
-                [(ngModel)]="slackAccount.slackAccountToken"  />
+                [(ngModel)]="slackAccount.slackAccountToken" required />
+            <div [hidden]="!(editForm.controls.slackAccountToken?.dirty && editForm.controls.slackAccountToken?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.slackAccountToken?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.slackAccount.slackAccountEnabled" for="field_slackAccountEnabled">Slack Account Enabled</label>
