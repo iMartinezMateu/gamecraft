@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "telegramBotName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "telegramBotDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "telegramBotToken",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "telegramBotEnabled",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20180102223156",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "telegram_bot",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecrafttelegramnotificationmanager",
+    "searchEngine": "elasticsearch"
+}
