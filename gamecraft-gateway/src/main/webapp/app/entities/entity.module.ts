@@ -7,6 +7,7 @@ import { GamecraftgatewayTeamProjectModule } from './team-project/team-project.m
 import { GamecraftgatewayEngineModule } from './engine/engine.module';
 import { GamecraftgatewayEmailAccountModule } from './email-account/email-account.module';
 import { GamecraftgatewaySlackAccountModule } from './slack-account/slack-account.module';
+import { GamecraftgatewayTelegramBotModule } from './telegram-bot/telegram-bot.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -18,6 +19,7 @@ import { GamecraftgatewaySlackAccountModule } from './slack-account/slack-accoun
         GamecraftgatewayEngineModule,
         GamecraftgatewayEmailAccountModule,
         GamecraftgatewaySlackAccountModule,
+        GamecraftgatewayTelegramBotModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

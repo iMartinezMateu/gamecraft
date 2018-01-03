@@ -1,0 +1,37 @@
+
+<div *ngIf="telegramBot">
+    <h2><span jhiTranslate="gamecraftgatewayApp.telegramBot.detail.title">Telegram Bot</span> {{telegramBot.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.telegramBot.telegramBotName">Telegram Bot Name</span></dt>
+        <dd>
+            <span>{{telegramBot.telegramBotName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.telegramBot.telegramBotDescription">Telegram Bot Description</span></dt>
+        <dd>
+            <span>{{telegramBot.telegramBotDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.telegramBot.telegramBotToken">Telegram Bot Token</span></dt>
+        <dd>
+            <span>{{telegramBot.telegramBotToken}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.telegramBot.telegramBotEnabled">Telegram Bot Enabled</span></dt>
+        <dd>
+            <span>{{telegramBot.telegramBotEnabled}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'telegram-bot/'+ telegramBot.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

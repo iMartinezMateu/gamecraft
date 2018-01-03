@@ -1,0 +1,29 @@
+{
+    "gamecraftgatewayApp": {
+        "telegramBot" : {
+            "home": {
+                "title": "Telegram Bots",
+                "createLabel": "Create a new Telegram Bot",
+                "createOrEditLabel": "Create or edit a Telegram Bot",
+                "search": "Search for Telegram Bot"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Telegram Bot {{ id }}?"
+            },
+            "detail": {
+                "title": "Telegram Bot"
+            },
+            "telegramBotName": "Telegram Bot Name",
+            "telegramBotDescription": "Telegram Bot Description",
+            "telegramBotToken": "Telegram Bot Token",
+            "telegramBotEnabled": "Telegram Bot Enabled"
+        }
+    },
+    "gamecrafttelegramnotificationmanagerApp": {
+        "telegramBot" : {
+            "created": "A new Telegram Bot is created with identifier {{ param }}",
+            "updated": "A Telegram Bot is updated with identifier {{ param }}",
+            "deleted": "A Telegram Bot is deleted with identifier {{ param }}"
+        }
+    }
+}

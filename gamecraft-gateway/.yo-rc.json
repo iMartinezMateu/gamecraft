@@ -3,7 +3,7 @@
     "promptValues": {
       "packageName": "com.gamecraft",
       "nativeLanguage": "en",
-      "microservicePath": "../gamecraft-slack-notification-manager"
+      "microservicePath": "../gamecraft-telegram-notification-manager"
     },
     "jhipsterVersion": "4.10.1",
     "baseName": "gamecraftgateway",
