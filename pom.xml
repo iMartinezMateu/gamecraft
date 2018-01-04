@@ -20,6 +20,7 @@
         <module>gamecraft-email-notification-manager</module>
         <module>gamecraft-slack-notification-manager</module>
         <module>gamecraft-telegram-notification-manager</module>
+        <module>gamecraft-irc-notification-manager</module>
     </modules>
 
 </project>
