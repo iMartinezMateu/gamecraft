@@ -40,6 +40,8 @@ public class IrcBotCriteria implements Serializable {
 
     private StringFilter ircBotNickname;
 
+    private BooleanFilter ircServerSecuredProtocolEnabled;
+
     public IrcBotCriteria() {
     }
 
@@ -99,6 +101,14 @@ public class IrcBotCriteria implements Serializable {
         this.ircBotNickname = ircBotNickname;
     }
 
+    public BooleanFilter getIrcServerSecuredProtocolEnabled() {
+        return ircServerSecuredProtocolEnabled;
+    }
+
+    public void setIrcServerSecuredProtocolEnabled(BooleanFilter ircServerSecuredProtocolEnabled) {
+        this.ircServerSecuredProtocolEnabled = ircServerSecuredProtocolEnabled;
+    }
+
     @Override
     public String toString() {
         return "IrcBotCriteria{" +
@@ -109,6 +119,7 @@ public class IrcBotCriteria implements Serializable {
                 (ircServerAddress != null ? "ircServerAddress=" + ircServerAddress + ", " : "") +
                 (ircServerPort != null ? "ircServerPort=" + ircServerPort + ", " : "") +
                 (ircBotNickname != null ? "ircBotNickname=" + ircBotNickname + ", " : "") +
+                (ircServerSecuredProtocolEnabled != null ? "ircServerSecuredProtocolEnabled=" + ircServerSecuredProtocolEnabled + ", " : "") +
             "}";
     }
 

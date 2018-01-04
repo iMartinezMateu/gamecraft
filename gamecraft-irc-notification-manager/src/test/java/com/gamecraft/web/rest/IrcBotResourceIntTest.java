@@ -60,6 +60,9 @@ public class IrcBotResourceIntTest {
     private static final String DEFAULT_IRC_BOT_NICKNAME = "AAAAAAAAAA";
     private static final String UPDATED_IRC_BOT_NICKNAME = "BBBBBBBBBB";
 
+    private static final Boolean DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED = false;
+    private static final Boolean UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED = true;
+
     @Autowired
     private IrcBotRepository ircBotRepository;
 
@@ -112,7 +115,8 @@ public class IrcBotResourceIntTest {
             .ircBotEnabled(DEFAULT_IRC_BOT_ENABLED)
             .ircServerAddress(DEFAULT_IRC_SERVER_ADDRESS)
             .ircServerPort(DEFAULT_IRC_SERVER_PORT)
-            .ircBotNickname(DEFAULT_IRC_BOT_NICKNAME);
+            .ircBotNickname(DEFAULT_IRC_BOT_NICKNAME)
+            .ircServerSecuredProtocolEnabled(DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
         return ircBot;
     }
 
@@ -143,6 +147,7 @@ public class IrcBotResourceIntTest {
         assertThat(testIrcBot.getIrcServerAddress()).isEqualTo(DEFAULT_IRC_SERVER_ADDRESS);
         assertThat(testIrcBot.getIrcServerPort()).isEqualTo(DEFAULT_IRC_SERVER_PORT);
         assertThat(testIrcBot.getIrcBotNickname()).isEqualTo(DEFAULT_IRC_BOT_NICKNAME);
+        assertThat(testIrcBot.isIrcServerSecuredProtocolEnabled()).isEqualTo(DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
 
         // Validate the IrcBot in Elasticsearch
         IrcBot ircBotEs = ircBotSearchRepository.findOne(testIrcBot.getId());
@@ -242,6 +247,24 @@ public class IrcBotResourceIntTest {
 
     @Test
     @Transactional
+    public void checkIrcServerSecuredProtocolEnabledIsRequired() throws Exception {
+        int databaseSizeBeforeTest = ircBotRepository.findAll().size();
+        // set the field null
+        ircBot.setIrcServerSecuredProtocolEnabled(null);
+
+        // Create the IrcBot, which fails.
+
+        restIrcBotMockMvc.perform(post("/api/irc-bots")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(ircBot)))
+            .andExpect(status().isBadRequest());
+
+        List<IrcBot> ircBotList = ircBotRepository.findAll();
+        assertThat(ircBotList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllIrcBots() throws Exception {
         // Initialize the database
         ircBotRepository.saveAndFlush(ircBot);
@@ -256,7 +279,8 @@ public class IrcBotResourceIntTest {
             .andExpect(jsonPath("$.[*].ircBotEnabled").value(hasItem(DEFAULT_IRC_BOT_ENABLED.booleanValue())))
             .andExpect(jsonPath("$.[*].ircServerAddress").value(hasItem(DEFAULT_IRC_SERVER_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].ircServerPort").value(hasItem(DEFAULT_IRC_SERVER_PORT)))
-            .andExpect(jsonPath("$.[*].ircBotNickname").value(hasItem(DEFAULT_IRC_BOT_NICKNAME.toString())));
+            .andExpect(jsonPath("$.[*].ircBotNickname").value(hasItem(DEFAULT_IRC_BOT_NICKNAME.toString())))
+            .andExpect(jsonPath("$.[*].ircServerSecuredProtocolEnabled").value(hasItem(DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED.booleanValue())));
     }
 
     @Test
@@ -275,7 +299,8 @@ public class IrcBotResourceIntTest {
             .andExpect(jsonPath("$.ircBotEnabled").value(DEFAULT_IRC_BOT_ENABLED.booleanValue()))
             .andExpect(jsonPath("$.ircServerAddress").value(DEFAULT_IRC_SERVER_ADDRESS.toString()))
             .andExpect(jsonPath("$.ircServerPort").value(DEFAULT_IRC_SERVER_PORT))
-            .andExpect(jsonPath("$.ircBotNickname").value(DEFAULT_IRC_BOT_NICKNAME.toString()));
+            .andExpect(jsonPath("$.ircBotNickname").value(DEFAULT_IRC_BOT_NICKNAME.toString()))
+            .andExpect(jsonPath("$.ircServerSecuredProtocolEnabled").value(DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED.booleanValue()));
     }
 
     @Test
@@ -538,6 +563,45 @@ public class IrcBotResourceIntTest {
         // Get all the ircBotList where ircBotNickname is null
         defaultIrcBotShouldNotBeFound("ircBotNickname.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllIrcBotsByIrcServerSecuredProtocolEnabledIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ircBotRepository.saveAndFlush(ircBot);
+
+        // Get all the ircBotList where ircServerSecuredProtocolEnabled equals to DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED
+        defaultIrcBotShouldBeFound("ircServerSecuredProtocolEnabled.equals=" + DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
+
+        // Get all the ircBotList where ircServerSecuredProtocolEnabled equals to UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED
+        defaultIrcBotShouldNotBeFound("ircServerSecuredProtocolEnabled.equals=" + UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllIrcBotsByIrcServerSecuredProtocolEnabledIsInShouldWork() throws Exception {
+        // Initialize the database
+        ircBotRepository.saveAndFlush(ircBot);
+
+        // Get all the ircBotList where ircServerSecuredProtocolEnabled in DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED or UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED
+        defaultIrcBotShouldBeFound("ircServerSecuredProtocolEnabled.in=" + DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED + "," + UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
+
+        // Get all the ircBotList where ircServerSecuredProtocolEnabled equals to UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED
+        defaultIrcBotShouldNotBeFound("ircServerSecuredProtocolEnabled.in=" + UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllIrcBotsByIrcServerSecuredProtocolEnabledIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        ircBotRepository.saveAndFlush(ircBot);
+
+        // Get all the ircBotList where ircServerSecuredProtocolEnabled is not null
+        defaultIrcBotShouldBeFound("ircServerSecuredProtocolEnabled.specified=true");
+
+        // Get all the ircBotList where ircServerSecuredProtocolEnabled is null
+        defaultIrcBotShouldNotBeFound("ircServerSecuredProtocolEnabled.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -551,7 +615,8 @@ public class IrcBotResourceIntTest {
             .andExpect(jsonPath("$.[*].ircBotEnabled").value(hasItem(DEFAULT_IRC_BOT_ENABLED.booleanValue())))
             .andExpect(jsonPath("$.[*].ircServerAddress").value(hasItem(DEFAULT_IRC_SERVER_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].ircServerPort").value(hasItem(DEFAULT_IRC_SERVER_PORT)))
-            .andExpect(jsonPath("$.[*].ircBotNickname").value(hasItem(DEFAULT_IRC_BOT_NICKNAME.toString())));
+            .andExpect(jsonPath("$.[*].ircBotNickname").value(hasItem(DEFAULT_IRC_BOT_NICKNAME.toString())))
+            .andExpect(jsonPath("$.[*].ircServerSecuredProtocolEnabled").value(hasItem(DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED.booleanValue())));
     }
 
     /**
@@ -590,7 +655,8 @@ public class IrcBotResourceIntTest {
             .ircBotEnabled(UPDATED_IRC_BOT_ENABLED)
             .ircServerAddress(UPDATED_IRC_SERVER_ADDRESS)
             .ircServerPort(UPDATED_IRC_SERVER_PORT)
-            .ircBotNickname(UPDATED_IRC_BOT_NICKNAME);
+            .ircBotNickname(UPDATED_IRC_BOT_NICKNAME)
+            .ircServerSecuredProtocolEnabled(UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
 
         restIrcBotMockMvc.perform(put("/api/irc-bots")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -607,6 +673,7 @@ public class IrcBotResourceIntTest {
         assertThat(testIrcBot.getIrcServerAddress()).isEqualTo(UPDATED_IRC_SERVER_ADDRESS);
         assertThat(testIrcBot.getIrcServerPort()).isEqualTo(UPDATED_IRC_SERVER_PORT);
         assertThat(testIrcBot.getIrcBotNickname()).isEqualTo(UPDATED_IRC_BOT_NICKNAME);
+        assertThat(testIrcBot.isIrcServerSecuredProtocolEnabled()).isEqualTo(UPDATED_IRC_SERVER_SECURED_PROTOCOL_ENABLED);
 
         // Validate the IrcBot in Elasticsearch
         IrcBot ircBotEs = ircBotSearchRepository.findOne(testIrcBot.getId());
@@ -669,7 +736,8 @@ public class IrcBotResourceIntTest {
             .andExpect(jsonPath("$.[*].ircBotEnabled").value(hasItem(DEFAULT_IRC_BOT_ENABLED.booleanValue())))
             .andExpect(jsonPath("$.[*].ircServerAddress").value(hasItem(DEFAULT_IRC_SERVER_ADDRESS.toString())))
             .andExpect(jsonPath("$.[*].ircServerPort").value(hasItem(DEFAULT_IRC_SERVER_PORT)))
-            .andExpect(jsonPath("$.[*].ircBotNickname").value(hasItem(DEFAULT_IRC_BOT_NICKNAME.toString())));
+            .andExpect(jsonPath("$.[*].ircBotNickname").value(hasItem(DEFAULT_IRC_BOT_NICKNAME.toString())))
+            .andExpect(jsonPath("$.[*].ircServerSecuredProtocolEnabled").value(hasItem(DEFAULT_IRC_SERVER_SECURED_PROTOCOL_ENABLED.booleanValue())));
     }
 
     @Test

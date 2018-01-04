@@ -22,17 +22,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
-import static com.gamecraft.web.rest.util.IrcBotListener.sendString;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing IrcBot.
@@ -178,8 +175,7 @@ public class IrcBotResource {
                 if (ircMessage.getIrcChannel().charAt(0) != '#') {
                     ircMessage.setIrcChannel('#' + ircMessage.getIrcChannel());
                 }
-                Client client = Client.builder().nick(ircBot.getIrcBotNickname()).serverHost(ircBot.getIrcServerAddress()).serverPort(ircBot.getIrcServerPort()).secure(false).buildAndConnect();
-
+                Client client = Client.builder().nick(ircBot.getIrcBotNickname()).serverHost(ircBot.getIrcServerAddress()).serverPort(ircBot.getIrcServerPort()).secure(ircBot.isIrcServerSecuredProtocolEnabled()).buildAndConnect();
                 client.addChannel(ircMessage.getIrcChannel());
                 client.sendMessage(ircMessage.getIrcChannel(), ircMessage.getMessage());
                 client.sendRawLine("QUIT Bye.");
@@ -195,5 +191,6 @@ public class IrcBotResource {
         }
         return ResponseEntity.ok().build();
     }
+
 
 }

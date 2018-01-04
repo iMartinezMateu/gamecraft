@@ -48,6 +48,10 @@ public class IrcBot implements Serializable {
     @Column(name = "irc_bot_nickname", nullable = false)
     private String ircBotNickname;
 
+    @NotNull
+    @Column(name = "irc_server_secured_protocol_enabled", nullable = false)
+    private Boolean ircServerSecuredProtocolEnabled;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -134,6 +138,19 @@ public class IrcBot implements Serializable {
     public void setIrcBotNickname(String ircBotNickname) {
         this.ircBotNickname = ircBotNickname;
     }
+
+    public Boolean isIrcServerSecuredProtocolEnabled() {
+        return ircServerSecuredProtocolEnabled;
+    }
+
+    public IrcBot ircServerSecuredProtocolEnabled(Boolean ircServerSecuredProtocolEnabled) {
+        this.ircServerSecuredProtocolEnabled = ircServerSecuredProtocolEnabled;
+        return this;
+    }
+
+    public void setIrcServerSecuredProtocolEnabled(Boolean ircServerSecuredProtocolEnabled) {
+        this.ircServerSecuredProtocolEnabled = ircServerSecuredProtocolEnabled;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -166,6 +183,7 @@ public class IrcBot implements Serializable {
             ", ircServerAddress='" + getIrcServerAddress() + "'" +
             ", ircServerPort='" + getIrcServerPort() + "'" +
             ", ircBotNickname='" + getIrcBotNickname() + "'" +
+            ", ircServerSecuredProtocolEnabled='" + isIrcServerSecuredProtocolEnabled() + "'" +
             "}";
     }
 }

@@ -54,6 +54,15 @@ describe('IrcBot e2e test', () => {
         expect(ircBotDialogPage.getIrcServerPortInput()).toMatch('5');
         ircBotDialogPage.setIrcBotNicknameInput('ircBotNickname');
         expect(ircBotDialogPage.getIrcBotNicknameInput()).toMatch('ircBotNickname');
+        ircBotDialogPage.getIrcServerSecuredProtocolEnabledInput().isSelected().then(function (selected) {
+            if (selected) {
+                ircBotDialogPage.getIrcServerSecuredProtocolEnabledInput().click();
+                expect(ircBotDialogPage.getIrcServerSecuredProtocolEnabledInput().isSelected()).toBeFalsy();
+            } else {
+                ircBotDialogPage.getIrcServerSecuredProtocolEnabledInput().click();
+                expect(ircBotDialogPage.getIrcServerSecuredProtocolEnabledInput().isSelected()).toBeTruthy();
+            }
+        });
         ircBotDialogPage.save();
         expect(ircBotDialogPage.getSaveButton().isPresent()).toBeFalsy();
     }); 
@@ -86,6 +95,7 @@ export class IrcBotDialogPage {
     ircServerAddressInput = element(by.css('input#field_ircServerAddress'));
     ircServerPortInput = element(by.css('input#field_ircServerPort'));
     ircBotNicknameInput = element(by.css('input#field_ircBotNickname'));
+    ircServerSecuredProtocolEnabledInput = element(by.css('input#field_ircServerSecuredProtocolEnabled'));
 
     getModalTitle() {
         return this.modalTitle.getAttribute('jhiTranslate');
@@ -134,6 +144,9 @@ export class IrcBotDialogPage {
         return this.ircBotNicknameInput.getAttribute('value');
     }
 
+    getIrcServerSecuredProtocolEnabledInput = function () {
+        return this.ircServerSecuredProtocolEnabledInput;
+    }
     save() {
         this.saveButton.click();
     }

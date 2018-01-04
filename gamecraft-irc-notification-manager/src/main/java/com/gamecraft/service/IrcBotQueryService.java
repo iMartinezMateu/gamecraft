@@ -94,6 +94,9 @@ public class IrcBotQueryService extends QueryService<IrcBot> {
             if (criteria.getIrcBotNickname() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getIrcBotNickname(), IrcBot_.ircBotNickname));
             }
+            if (criteria.getIrcServerSecuredProtocolEnabled() != null) {
+                specification = specification.and(buildSpecification(criteria.getIrcServerSecuredProtocolEnabled(), IrcBot_.ircServerSecuredProtocolEnabled));
+            }
         }
         return specification;
     }

@@ -82,6 +82,17 @@
                 </small>
             </div>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.ircBot.ircServerSecuredProtocolEnabled" for="field_ircServerSecuredProtocolEnabled">Irc Server Secured Protocol Enabled</label>
+            <input type="checkbox" class="form-control" name="ircServerSecuredProtocolEnabled" id="field_ircServerSecuredProtocolEnabled"
+                [(ngModel)]="ircBot.ircServerSecuredProtocolEnabled"  />
+            <div [hidden]="!(editForm.controls.ircServerSecuredProtocolEnabled?.dirty && editForm.controls.ircServerSecuredProtocolEnabled?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ircServerSecuredProtocolEnabled?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
 
     </div>
     <div class="modal-footer">

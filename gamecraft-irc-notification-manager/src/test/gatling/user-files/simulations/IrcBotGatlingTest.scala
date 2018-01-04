@@ -68,7 +68,7 @@ class IrcBotGatlingTest extends Simulation {
             .exec(http("Create new ircBot")
             .post("/gamecraftircnotificationmanager/api/irc-bots")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "ircBotName":"SAMPLE_TEXT", "ircBotDescription":"SAMPLE_TEXT", "ircBotEnabled":null, "ircServerAddress":"SAMPLE_TEXT", "ircServerPort":"0", "ircBotNickname":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "ircBotName":"SAMPLE_TEXT", "ircBotDescription":"SAMPLE_TEXT", "ircBotEnabled":null, "ircServerAddress":"SAMPLE_TEXT", "ircServerPort":"0", "ircBotNickname":"SAMPLE_TEXT", "ircServerSecuredProtocolEnabled":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_ircBot_url"))).exitHereIfFailed
             .pause(10)

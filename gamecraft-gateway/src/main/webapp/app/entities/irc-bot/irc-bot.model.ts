@@ -9,7 +9,9 @@ export class IrcBot implements BaseEntity {
         public ircServerAddress?: string,
         public ircServerPort?: number,
         public ircBotNickname?: string,
+        public ircServerSecuredProtocolEnabled?: boolean,
     ) {
         this.ircBotEnabled = false;
+        this.ircServerSecuredProtocolEnabled = false;
     }
 }

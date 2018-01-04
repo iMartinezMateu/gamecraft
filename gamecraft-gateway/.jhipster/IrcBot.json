@@ -43,6 +43,13 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "ircServerSecuredProtocolEnabled",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180104114855",

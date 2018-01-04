@@ -18,7 +18,8 @@
             "ircBotEnabled": "Irc Bot Enabled",
             "ircServerAddress": "Irc Server Address",
             "ircServerPort": "Irc Server Port",
-            "ircBotNickname": "Irc Bot Nickname"
+            "ircBotNickname": "Irc Bot Nickname",
+            "ircServerSecuredProtocolEnabled": "Irc Server Secured Protocol Enabled"
         }
     },
     "gamecraftircnotificationmanagerApp": {
