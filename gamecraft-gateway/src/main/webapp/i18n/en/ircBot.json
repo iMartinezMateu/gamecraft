@@ -1,0 +1,31 @@
+{
+    "gamecraftgatewayApp": {
+        "ircBot" : {
+            "home": {
+                "title": "Irc Bots",
+                "createLabel": "Create a new Irc Bot",
+                "createOrEditLabel": "Create or edit a Irc Bot",
+                "search": "Search for Irc Bot"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Irc Bot {{ id }}?"
+            },
+            "detail": {
+                "title": "Irc Bot"
+            },
+            "ircBotName": "Irc Bot Name",
+            "ircBotDescription": "Irc Bot Description",
+            "ircBotEnabled": "Irc Bot Enabled",
+            "ircServerAddress": "Irc Server Address",
+            "ircServerPort": "Irc Server Port",
+            "ircBotNickname": "Irc Bot Nickname"
+        }
+    },
+    "gamecraftircnotificationmanagerApp": {
+        "ircBot" : {
+            "created": "A new Irc Bot is created with identifier {{ param }}",
+            "updated": "A Irc Bot is updated with identifier {{ param }}",
+            "deleted": "A Irc Bot is deleted with identifier {{ param }}"
+        }
+    }
+}

@@ -1,0 +1,95 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myIrcBotLabel" jhiTranslate="gamecraftgatewayApp.ircBot.home.createOrEditLabel">Create or edit a Irc Bot</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!ircBot.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="ircBot.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.ircBot.ircBotName" for="field_ircBotName">Irc Bot Name</label>
+            <input type="text" class="form-control" name="ircBotName" id="field_ircBotName"
+                [(ngModel)]="ircBot.ircBotName" required minlength="3" maxlength="50" />
+            <div [hidden]="!(editForm.controls.ircBotName?.dirty && editForm.controls.ircBotName?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ircBotName?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ircBotName?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                   This field is required to be at least 3 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ircBotName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 50 }">
+                   This field cannot be longer than 50 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.ircBot.ircBotDescription" for="field_ircBotDescription">Irc Bot Description</label>
+            <input type="text" class="form-control" name="ircBotDescription" id="field_ircBotDescription"
+                [(ngModel)]="ircBot.ircBotDescription"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.ircBot.ircBotEnabled" for="field_ircBotEnabled">Irc Bot Enabled</label>
+            <input type="checkbox" class="form-control" name="ircBotEnabled" id="field_ircBotEnabled"
+                [(ngModel)]="ircBot.ircBotEnabled"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.ircBot.ircServerAddress" for="field_ircServerAddress">Irc Server Address</label>
+            <input type="text" class="form-control" name="ircServerAddress" id="field_ircServerAddress"
+                [(ngModel)]="ircBot.ircServerAddress" required />
+            <div [hidden]="!(editForm.controls.ircServerAddress?.dirty && editForm.controls.ircServerAddress?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ircServerAddress?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.ircBot.ircServerPort" for="field_ircServerPort">Irc Server Port</label>
+            <input type="number" class="form-control" name="ircServerPort" id="field_ircServerPort"
+                [(ngModel)]="ircBot.ircServerPort" required min="0" />
+            <div [hidden]="!(editForm.controls.ircServerPort?.dirty && editForm.controls.ircServerPort?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ircServerPort?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ircServerPort?.errors?.min" jhiTranslate="entity.validation.min" translateValues="{ min: 0 }">
+                    This field should be at least 0.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ircServerPort?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.ircBot.ircBotNickname" for="field_ircBotNickname">Irc Bot Nickname</label>
+            <input type="text" class="form-control" name="ircBotNickname" id="field_ircBotNickname"
+                [(ngModel)]="ircBot.ircBotNickname" required />
+            <div [hidden]="!(editForm.controls.ircBotNickname?.dirty && editForm.controls.ircBotNickname?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ircBotNickname?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

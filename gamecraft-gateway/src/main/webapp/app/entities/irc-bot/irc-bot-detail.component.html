@@ -1,0 +1,45 @@
+
+<div *ngIf="ircBot">
+    <h2><span jhiTranslate="gamecraftgatewayApp.ircBot.detail.title">Irc Bot</span> {{ircBot.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotName">Irc Bot Name</span></dt>
+        <dd>
+            <span>{{ircBot.ircBotName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotDescription">Irc Bot Description</span></dt>
+        <dd>
+            <span>{{ircBot.ircBotDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotEnabled">Irc Bot Enabled</span></dt>
+        <dd>
+            <span>{{ircBot.ircBotEnabled}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.ircBot.ircServerAddress">Irc Server Address</span></dt>
+        <dd>
+            <span>{{ircBot.ircServerAddress}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.ircBot.ircServerPort">Irc Server Port</span></dt>
+        <dd>
+            <span>{{ircBot.ircServerPort}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotNickname">Irc Bot Nickname</span></dt>
+        <dd>
+            <span>{{ircBot.ircBotNickname}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'irc-bot/'+ ircBot.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

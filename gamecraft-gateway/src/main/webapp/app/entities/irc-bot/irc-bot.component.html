@@ -1,0 +1,88 @@
+<div>
+    <h2>
+        <span jhiTranslate="gamecraftgatewayApp.ircBot.home.title">Irc Bots</span>
+        <button class="btn btn-primary float-right jh-create-entity create-irc-bot" [routerLink]="['/', { outlets: { popup: ['irc-bot-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="gamecraftgatewayApp.ircBot.home.createLabel">
+            Create new Irc Bot
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'gamecraftgatewayApp.ircBot.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="ircBots">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ircBotName"><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotName">Irc Bot Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ircBotDescription"><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotDescription">Irc Bot Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ircBotEnabled"><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotEnabled">Irc Bot Enabled</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ircServerAddress"><span jhiTranslate="gamecraftgatewayApp.ircBot.ircServerAddress">Irc Server Address</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ircServerPort"><span jhiTranslate="gamecraftgatewayApp.ircBot.ircServerPort">Irc Server Port</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="ircBotNickname"><span jhiTranslate="gamecraftgatewayApp.ircBot.ircBotNickname">Irc Bot Nickname</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ircBot of ircBots ;trackBy: trackId">
+                <td><a [routerLink]="['../irc-bot', ircBot.id ]">{{ircBot.id}}</a></td>
+                <td>{{ircBot.ircBotName}}</td>
+                <td>{{ircBot.ircBotDescription}}</td>
+                <td>{{ircBot.ircBotEnabled}}</td>
+                <td>{{ircBot.ircServerAddress}}</td>
+                <td>{{ircBot.ircServerPort}}</td>
+                <td>{{ircBot.ircBotNickname}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../irc-bot', ircBot.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'irc-bot/'+ ircBot.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'irc-bot/'+ ircBot.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="ircBots && ircBots.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [maxSize]="5" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>
