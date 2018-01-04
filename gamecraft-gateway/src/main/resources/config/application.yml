@@ -35,24 +35,34 @@ eureka:
             profile: ${spring.profiles.active}
             version: ${info.project.version}
 ribbon:
+    MaxAutoRetries: 3
+    ReadTimeout: 60000
+    ConnectTimeout: 60000
     eureka:
         enabled: true
+
 # See http://cloud.spring.io/spring-cloud-netflix/spring-cloud-netflix.html
 zuul: # those values must be configured depending on the application specific needs
     host:
+        connect-timeout-millis: 5000
+        socket-timeout-millis: 60000
         max-total-connections: 1000
         max-per-route-connections: 100
     semaphore:
         max-semaphores: 500
 
-# See https://github.com/Netflix/Hystrix/wiki/Configuration
+
 hystrix:
     command:
         default:
             execution:
+                timeout:
+                    enabled: false
                 isolation:
+                    strategy: THREAD
                     thread:
-                        timeoutInMilliseconds: 10000
+                        timeoutInMilliseconds: 60000
+
 
 management:
     security:
