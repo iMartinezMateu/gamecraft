@@ -13,7 +13,7 @@
     <artifactId>gamecraftteam</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Gamecraftteam</name>
+    <name>Gamecraft Team</name>
 
     <properties>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
