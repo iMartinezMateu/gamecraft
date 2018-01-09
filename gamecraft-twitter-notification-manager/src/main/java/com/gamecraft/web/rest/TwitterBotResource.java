@@ -191,7 +191,7 @@ public class TwitterBotResource {
             }
         }
         else {
-            log.error("Telegram bot is disabled!");
+            log.error("Twitter bot is disabled!");
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
@@ -223,12 +223,13 @@ public class TwitterBotResource {
             try {
                 twitter.sendDirectMessage(directMessage.getReceiver(),directMessage.getMessage());
             } catch (TwitterException e) {
-                log.error("Telegram bot is disabled!");
+                e.printStackTrace();
+                log.error(e.getErrorMessage());
                 return ResponseEntity.badRequest().build();
             }
         }
         else {
-            log.error("Telegram bot is disabled!");
+            log.error("Twitter bot is disabled!");
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
