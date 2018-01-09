@@ -1,0 +1,49 @@
+
+<div *ngIf="twitterBot">
+    <h2><span jhiTranslate="gamecraftgatewayApp.twitterBot.detail.title">Twitter Bot</span> {{twitterBot.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotName">Twitter Bot Name</span></dt>
+        <dd>
+            <span>{{twitterBot.twitterBotName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotDescription">Twitter Bot Description</span></dt>
+        <dd>
+            <span>{{twitterBot.twitterBotDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotConsumerKey">Twitter Bot Consumer Key</span></dt>
+        <dd>
+            <span>{{twitterBot.twitterBotConsumerKey}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotConsumerSecret">Twitter Bot Consumer Secret</span></dt>
+        <dd>
+            <span>{{twitterBot.twitterBotConsumerSecret}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotAccessToken">Twitter Bot Access Token</span></dt>
+        <dd>
+            <span>{{twitterBot.twitterBotAccessToken}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotAccessTokenSecret">Twitter Bot Access Token Secret</span></dt>
+        <dd>
+            <span>{{twitterBot.twitterBotAccessTokenSecret}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotEnabled">Twitter Bot Enabled</span></dt>
+        <dd>
+            <span>{{twitterBot.twitterBotEnabled}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'twitter-bot/'+ twitterBot.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

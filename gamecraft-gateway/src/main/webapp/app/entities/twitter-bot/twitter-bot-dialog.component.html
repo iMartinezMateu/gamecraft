@@ -1,0 +1,98 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myTwitterBotLabel" jhiTranslate="gamecraftgatewayApp.twitterBot.home.createOrEditLabel">Create or edit a Twitter Bot</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!twitterBot.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="twitterBot.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotName" for="field_twitterBotName">Twitter Bot Name</label>
+            <input type="text" class="form-control" name="twitterBotName" id="field_twitterBotName"
+                [(ngModel)]="twitterBot.twitterBotName" required minlength="3" maxlength="100" />
+            <div [hidden]="!(editForm.controls.twitterBotName?.dirty && editForm.controls.twitterBotName?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.twitterBotName?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.twitterBotName?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                   This field is required to be at least 3 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.twitterBotName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 100 }">
+                   This field cannot be longer than 100 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotDescription" for="field_twitterBotDescription">Twitter Bot Description</label>
+            <input type="text" class="form-control" name="twitterBotDescription" id="field_twitterBotDescription"
+                [(ngModel)]="twitterBot.twitterBotDescription"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotConsumerKey" for="field_twitterBotConsumerKey">Twitter Bot Consumer Key</label>
+            <input type="text" class="form-control" name="twitterBotConsumerKey" id="field_twitterBotConsumerKey"
+                [(ngModel)]="twitterBot.twitterBotConsumerKey" required />
+            <div [hidden]="!(editForm.controls.twitterBotConsumerKey?.dirty && editForm.controls.twitterBotConsumerKey?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.twitterBotConsumerKey?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotConsumerSecret" for="field_twitterBotConsumerSecret">Twitter Bot Consumer Secret</label>
+            <input type="text" class="form-control" name="twitterBotConsumerSecret" id="field_twitterBotConsumerSecret"
+                [(ngModel)]="twitterBot.twitterBotConsumerSecret" required />
+            <div [hidden]="!(editForm.controls.twitterBotConsumerSecret?.dirty && editForm.controls.twitterBotConsumerSecret?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.twitterBotConsumerSecret?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotAccessToken" for="field_twitterBotAccessToken">Twitter Bot Access Token</label>
+            <input type="text" class="form-control" name="twitterBotAccessToken" id="field_twitterBotAccessToken"
+                [(ngModel)]="twitterBot.twitterBotAccessToken" required />
+            <div [hidden]="!(editForm.controls.twitterBotAccessToken?.dirty && editForm.controls.twitterBotAccessToken?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.twitterBotAccessToken?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotAccessTokenSecret" for="field_twitterBotAccessTokenSecret">Twitter Bot Access Token Secret</label>
+            <input type="text" class="form-control" name="twitterBotAccessTokenSecret" id="field_twitterBotAccessTokenSecret"
+                [(ngModel)]="twitterBot.twitterBotAccessTokenSecret" required />
+            <div [hidden]="!(editForm.controls.twitterBotAccessTokenSecret?.dirty && editForm.controls.twitterBotAccessTokenSecret?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.twitterBotAccessTokenSecret?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.twitterBot.twitterBotEnabled" for="field_twitterBotEnabled">Twitter Bot Enabled</label>
+            <input type="checkbox" class="form-control" name="twitterBotEnabled" id="field_twitterBotEnabled"
+                [(ngModel)]="twitterBot.twitterBotEnabled"  />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

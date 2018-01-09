@@ -1,0 +1,32 @@
+{
+    "gamecraftgatewayApp": {
+        "twitterBot" : {
+            "home": {
+                "title": "Twitter Bots",
+                "createLabel": "Crear nuevo Twitter Bot",
+                "createOrEditLabel": "Crear o editar Twitter Bot",
+                "search": "Search for Twitter Bot"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Twitter Bot {{ id }}?"
+            },
+            "detail": {
+                "title": "Twitter Bot"
+            },
+            "twitterBotName": "Twitter Bot Name",
+            "twitterBotDescription": "Twitter Bot Description",
+            "twitterBotConsumerKey": "Twitter Bot Consumer Key",
+            "twitterBotConsumerSecret": "Twitter Bot Consumer Secret",
+            "twitterBotAccessToken": "Twitter Bot Access Token",
+            "twitterBotAccessTokenSecret": "Twitter Bot Access Token Secret",
+            "twitterBotEnabled": "Twitter Bot Enabled"
+        }
+    },
+    "gamecrafttwitternotificationmanagerApp": {
+        "twitterBot" : {
+            "created": "Un nuevo Twitter Bot ha sido creado con el identificador {{ param }}",
+            "updated": "Un Twitter Bot ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Twitter Bot ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}

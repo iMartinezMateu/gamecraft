@@ -16,6 +16,7 @@
                 "slackAccount": "Slack Account",
                 "telegramBot": "Telegram Bot",
                 "ircBot": "Irc Bot",
+                "twitterBot": "Twitter Bot",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
