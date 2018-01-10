@@ -22,6 +22,7 @@
         <module>gamecraft-telegram-notification-manager</module>
         <module>gamecraft-irc-notification-manager</module>
         <module>gamecraft-twitter-notification-manager</module>
+        <module>gamecraft-hipchat-notification-manager</module>
     </modules>
 
 </project>
