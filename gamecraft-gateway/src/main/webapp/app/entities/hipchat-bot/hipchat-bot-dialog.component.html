@@ -1,0 +1,65 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myHipchatBotLabel" jhiTranslate="gamecraftgatewayApp.hipchatBot.home.createOrEditLabel">Create or edit a Hipchat Bot</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!hipchatBot.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="hipchatBot.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotName" for="field_hipchatBotName">Hipchat Bot Name</label>
+            <input type="text" class="form-control" name="hipchatBotName" id="field_hipchatBotName"
+                [(ngModel)]="hipchatBot.hipchatBotName" required minlength="3" maxlength="100" />
+            <div [hidden]="!(editForm.controls.hipchatBotName?.dirty && editForm.controls.hipchatBotName?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.hipchatBotName?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.hipchatBotName?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                   This field is required to be at least 3 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.hipchatBotName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 100 }">
+                   This field cannot be longer than 100 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotDescription" for="field_hipchatBotDescription">Hipchat Bot Description</label>
+            <input type="text" class="form-control" name="hipchatBotDescription" id="field_hipchatBotDescription"
+                [(ngModel)]="hipchatBot.hipchatBotDescription"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotToken" for="field_hipchatBotToken">Hipchat Bot Token</label>
+            <input type="text" class="form-control" name="hipchatBotToken" id="field_hipchatBotToken"
+                [(ngModel)]="hipchatBot.hipchatBotToken" required />
+            <div [hidden]="!(editForm.controls.hipchatBotToken?.dirty && editForm.controls.hipchatBotToken?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.hipchatBotToken?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotEnabled" for="field_hipchatBotEnabled">Hipchat Bot Enabled</label>
+            <input type="checkbox" class="form-control" name="hipchatBotEnabled" id="field_hipchatBotEnabled"
+                [(ngModel)]="hipchatBot.hipchatBotEnabled"  />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

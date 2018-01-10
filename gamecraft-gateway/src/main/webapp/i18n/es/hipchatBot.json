@@ -1,0 +1,29 @@
+{
+    "gamecraftgatewayApp": {
+        "hipchatBot" : {
+            "home": {
+                "title": "Hipchat Bots",
+                "createLabel": "Crear nuevo Hipchat Bot",
+                "createOrEditLabel": "Crear o editar Hipchat Bot",
+                "search": "Search for Hipchat Bot"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Hipchat Bot {{ id }}?"
+            },
+            "detail": {
+                "title": "Hipchat Bot"
+            },
+            "hipchatBotName": "Hipchat Bot Name",
+            "hipchatBotDescription": "Hipchat Bot Description",
+            "hipchatBotToken": "Hipchat Bot Token",
+            "hipchatBotEnabled": "Hipchat Bot Enabled"
+        }
+    },
+    "gamecrafthipchatnotificationmanagerApp": {
+        "hipchatBot" : {
+            "created": "Un nuevo Hipchat Bot ha sido creado con el identificador {{ param }}",
+            "updated": "Un Hipchat Bot ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Hipchat Bot ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}

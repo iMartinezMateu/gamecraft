@@ -1,0 +1,37 @@
+
+<div *ngIf="hipchatBot">
+    <h2><span jhiTranslate="gamecraftgatewayApp.hipchatBot.detail.title">Hipchat Bot</span> {{hipchatBot.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotName">Hipchat Bot Name</span></dt>
+        <dd>
+            <span>{{hipchatBot.hipchatBotName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotDescription">Hipchat Bot Description</span></dt>
+        <dd>
+            <span>{{hipchatBot.hipchatBotDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotToken">Hipchat Bot Token</span></dt>
+        <dd>
+            <span>{{hipchatBot.hipchatBotToken}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotEnabled">Hipchat Bot Enabled</span></dt>
+        <dd>
+            <span>{{hipchatBot.hipchatBotEnabled}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'hipchat-bot/'+ hipchatBot.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

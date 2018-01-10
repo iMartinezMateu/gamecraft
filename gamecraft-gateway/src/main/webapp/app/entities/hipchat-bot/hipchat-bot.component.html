@@ -1,0 +1,84 @@
+<div>
+    <h2>
+        <span jhiTranslate="gamecraftgatewayApp.hipchatBot.home.title">Hipchat Bots</span>
+        <button class="btn btn-primary float-right jh-create-entity create-hipchat-bot" [routerLink]="['/', { outlets: { popup: ['hipchat-bot-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="gamecraftgatewayApp.hipchatBot.home.createLabel">
+            Create new Hipchat Bot
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'gamecraftgatewayApp.hipchatBot.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="hipchatBots">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="hipchatBotName"><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotName">Hipchat Bot Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="hipchatBotDescription"><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotDescription">Hipchat Bot Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="hipchatBotToken"><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotToken">Hipchat Bot Token</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="hipchatBotEnabled"><span jhiTranslate="gamecraftgatewayApp.hipchatBot.hipchatBotEnabled">Hipchat Bot Enabled</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let hipchatBot of hipchatBots ;trackBy: trackId">
+                <td><a [routerLink]="['../hipchat-bot', hipchatBot.id ]">{{hipchatBot.id}}</a></td>
+                <td>{{hipchatBot.hipchatBotName}}</td>
+                <td>{{hipchatBot.hipchatBotDescription}}</td>
+                <td>{{hipchatBot.hipchatBotToken}}</td>
+                <td>{{hipchatBot.hipchatBotEnabled}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../hipchat-bot', hipchatBot.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'hipchat-bot/'+ hipchatBot.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'hipchat-bot/'+ hipchatBot.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="hipchatBots && hipchatBots.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [maxSize]="5" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

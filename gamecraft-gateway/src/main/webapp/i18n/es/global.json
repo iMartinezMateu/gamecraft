@@ -17,6 +17,7 @@
                 "telegramBot": "Telegram Bot",
                 "ircBot": "Irc Bot",
                 "twitterBot": "Twitter Bot",
+                "hipchatBot": "Hipchat Bot",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
