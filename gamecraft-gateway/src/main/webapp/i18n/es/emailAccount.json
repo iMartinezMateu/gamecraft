@@ -2,32 +2,32 @@
     "gamecraftgatewayApp": {
         "emailAccount" : {
             "home": {
-                "title": "Email Accounts",
-                "createLabel": "Crear nuevo Email Account",
-                "createOrEditLabel": "Crear o editar Email Account",
-                "search": "Buscar Email Account"
+                "title": "Cuentas de e-mail",
+                "createLabel": "Crear nueva cuenta de e-mail",
+                "createOrEditLabel": "Crear o editar cuenta de e-mail",
+                "search": "Buscar cuenta de e-mail"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Email Account {{ id }}?"
+                "question": "¿Seguro que quiere eliminar la cuenta de e-mail {{ id }}?"
             },
             "detail": {
-                "title": "Email Account"
+                "title": "Cuenta de e-mail"
             },
-            "emailAccountName": "Nombre de la cuenta de Email",
-            "emailSmtpServer": "Servidor SMTP de la cuenta de Email",
-            "emailSmtpUsername": "Usuario SMTP de la cuenta de Email",
-            "emailSmtpPassword": "Contraseña SMTP de la cuenta de Email",
+            "emailAccountName": "Nombre de la cuenta de e-mail",
+            "emailSmtpServer": "Servidor SMTP de la cuenta de e-mail",
+            "emailSmtpUsername": "Usuario SMTP de la cuenta de e-mail",
+            "emailSmtpPassword": "Contraseña SMTP de la cuenta de e-mail",
             "emailSmtpUseSSL": "Usar SSL",
-            "emailSmtpPort": "Puerto SMTP de la cuenta de Email",
-            "emailAccountDescription": "Descripción de la cuenta de Email",
-            "emailAccountEnabled": "Cuenta de Email activada"
+            "emailSmtpPort": "Puerto SMTP de la cuenta de e-mail",
+            "emailAccountDescription": "Descripción de la cuenta de e-mail",
+            "emailAccountEnabled": "Cuenta de e-mail activada"
         }
     },
     "gamecraftemailnotificationmanagerApp": {
         "emailAccount" : {
-            "created": "Un nuevo Email Account ha sido creado con el identificador {{ param }}",
-            "updated": "Un Email Account ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Email Account ha sido eliminado con el identificador {{ param }}"
+            "created": "Una nueva cuenta de e-mail ha sido creado con el identificador {{ param }}",
+            "updated": "Una cuenta de e-mail ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Una cuenta de e-mail ha sido eliminado con el identificador {{ param }}"
         }
     }
 }

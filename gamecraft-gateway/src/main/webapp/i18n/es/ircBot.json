@@ -3,23 +3,23 @@
         "ircBot" : {
             "home": {
                 "title": "Irc Bots",
-                "createLabel": "Crear nuevo Irc Bot",
-                "createOrEditLabel": "Crear o editar Irc Bot",
-                "search": "Search for Irc Bot"
+                "createLabel": "Crear nuevo conector para un bot de IRC",
+                "createOrEditLabel": "Crear o editar conector para un bot de IRC",
+                "search": "Buscar conector para un bot de IRC"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Irc Bot {{ id }}?"
+                "question": "¿Seguro que quiere eliminar el conector para un bot de IRC {{ id }}?"
             },
             "detail": {
                 "title": "Irc Bot"
             },
-            "ircBotName": "Irc Bot Name",
-            "ircBotDescription": "Irc Bot Description",
-            "ircBotEnabled": "Irc Bot Enabled",
-            "ircServerAddress": "Irc Server Address",
-            "ircServerPort": "Irc Server Port",
-            "ircBotNickname": "Irc Bot Nickname",
-            "ircServerSecuredProtocolEnabled": "Irc Server Secured Protocol Enabled"
+            "ircBotName": "Nombre del bot de IRC",
+            "ircBotDescription": "Descripción del bot de IRC",
+            "ircBotEnabled": "Bot de IRC activado",
+            "ircServerAddress": "Dirección del servidor IRC",
+            "ircServerPort": "Puerto del servidor IRC",
+            "ircBotNickname": "Nick del bot IRC",
+            "ircServerSecuredProtocolEnabled": "¿Utilizar protocolo seguro?"
         }
     },
     "gamecraftircnotificationmanagerApp": {

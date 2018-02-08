@@ -2,28 +2,28 @@
     "gamecraftgatewayApp": {
         "hipchatBot" : {
             "home": {
-                "title": "Hipchat Bots",
-                "createLabel": "Crear nuevo Hipchat Bot",
-                "createOrEditLabel": "Crear o editar Hipchat Bot",
-                "search": "Search for Hipchat Bot"
+                "title": "Bots de Hipchat",
+                "createLabel": "Crear nuevo conector para un bot de Hipchat",
+                "createOrEditLabel": "Crear o editar conector para un bot de Hipchat",
+                "search": "Buscar conector para un bot de Hipchat"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Hipchat Bot {{ id }}?"
+                "question": "¿Seguro que quiere eliminar el conector para un bot de Hipchat {{ id }}?"
             },
             "detail": {
                 "title": "Hipchat Bot"
             },
-            "hipchatBotName": "Hipchat Bot Name",
-            "hipchatBotDescription": "Hipchat Bot Description",
-            "hipchatBotToken": "Hipchat Bot Token",
-            "hipchatBotEnabled": "Hipchat Bot Enabled"
+            "hipchatBotName": "Nombre del bot Hipchat",
+            "hipchatBotDescription": "Descripción del bot Hipchat",
+            "hipchatBotToken": "Token del bot de Hipchat",
+            "hipchatBotEnabled": "Activar bot de Hipchat"
         }
     },
     "gamecrafthipchatnotificationmanagerApp": {
         "hipchatBot" : {
-            "created": "Un nuevo Hipchat Bot ha sido creado con el identificador {{ param }}",
-            "updated": "Un Hipchat Bot ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Hipchat Bot ha sido eliminado con el identificador {{ param }}"
+            "created": "Un nuevo conector para un bot de Hipchat ha sido creado con el identificador {{ param }}",
+            "updated": "Un conector para un bot de Hipchat ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un conector para un bot de Hipchat ha sido eliminado con el identificador {{ param }}"
         }
     }
 }

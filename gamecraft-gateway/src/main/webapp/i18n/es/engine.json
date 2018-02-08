@@ -3,27 +3,27 @@
         "engine" : {
             "home": {
                 "title": "Engines",
-                "createLabel": "Crear nuevo Engine",
-                "createOrEditLabel": "Crear o editar Engine",
-                "search": "Search for Engine"
+                "createLabel": "Crear nuevo engine",
+                "createOrEditLabel": "Crear o editar engine",
+                "search": "Buscar un engine"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Engine {{ id }}?"
+                "question": "¿Seguro que quiere eliminar un engine {{ id }}?"
             },
             "detail": {
                 "title": "Engine"
             },
-            "engineName": "Engine Name",
-            "engineDescription": "Engine Description",
-            "engineCompilerPath": "Engine Compiler Path",
-            "engineCompilerArguments": "Engine Compiler Arguments"
+            "engineName": "Nombre del engine",
+            "engineDescription": "Descripción del engine",
+            "engineCompilerPath": "Ruta del compilador del engine",
+            "engineCompilerArguments": "Argumentos del compilador del engine"
         }
     },
     "gamecraftenginemanagerApp": {
         "engine" : {
-            "created": "Un nuevo Engine ha sido creado con el identificador {{ param }}",
-            "updated": "Un Engine ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Engine ha sido eliminado con el identificador {{ param }}"
+            "created": "Un nuevo engine ha sido creado con el identificador {{ param }}",
+            "updated": "Un engine ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un engine ha sido eliminado con el identificador {{ param }}"
         }
     }
 }

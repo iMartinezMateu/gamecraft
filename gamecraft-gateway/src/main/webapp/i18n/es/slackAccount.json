@@ -2,28 +2,28 @@
     "gamecraftgatewayApp": {
         "slackAccount" : {
             "home": {
-                "title": "Slack Accounts",
-                "createLabel": "Crear nuevo Slack Account",
-                "createOrEditLabel": "Crear o editar Slack Account",
-                "search": "Search for Slack Account"
+                "title": "Cuentas de Slack",
+                "createLabel": "Crear nueva cuenta de Slack",
+                "createOrEditLabel": "Crear o editar cuenta de Slack",
+                "search": "Buscar una cuenta de Slack"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Slack Account {{ id }}?"
+                "question": "¿Seguro que quiere eliminar la cuenta de Slack {{ id }}?"
             },
             "detail": {
-                "title": "Slack Account"
+                "title": "Cuenta de Slack"
             },
-            "slackAccountName": "Slack Account Name",
-            "slackAccountDescription": "Slack Account Description",
-            "slackAccountToken": "Slack Account Token",
-            "slackAccountEnabled": "Slack Account Enabled"
+            "slackAccountName": "Nombre de la cuenta de Slack",
+            "slackAccountDescription": "Descripción de la cuenta de Slack",
+            "slackAccountToken": "Token de la cuenta de Slack",
+            "slackAccountEnabled": "Activar cuenta de Slack"
         }
     },
     "gamecraftslacknotificationmanagerApp": {
         "slackAccount" : {
-            "created": "Un nuevo Slack Account ha sido creado con el identificador {{ param }}",
-            "updated": "Un Slack Account ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Slack Account ha sido eliminado con el identificador {{ param }}"
+            "created": "Una nueva cuenta de Slack ha sido creada con el identificador {{ param }}",
+            "updated": "Una cuenta de Slack ha sido actualizada con el identificador {{ param }}",
+            "deleted": "Una cuenta de Slack ha sido eliminada con el identificador {{ param }}"
         }
     }
 }

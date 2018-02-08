@@ -96,7 +96,7 @@
         "ribbon": {
             "dev":"Development"
         },
-        "item-count": "Monstrando {{first}} - {{second}} de {{total}} artículos."
+        "item-count": "Mostrando {{first}} - {{second}} de {{total}} artículos."
     },
     "entity": {
         "action": {
@@ -106,7 +106,7 @@
             "cancel": "Cancelar",
             "delete": "Eliminar",
             "edit": "Editar",
-            "open": "Open",
+            "open": "Abrir",
             "save": "Guardar",
             "view": "Vista"
         },
@@ -136,9 +136,9 @@
         "url.not.found": "Not found",
         "NotNull": "¡El campo {{fieldName}} no puede estar vacío!",
         "Size": "¡El campo {{fieldName}} no cumple con los requisitos de tamaño mínimo/máximo!",
-        "userexists": "Login name already used!",
-        "emailexists": "Email is already in use!",
-        "idexists": "A new {{entityName}} cannot already have an ID"
+        "userexists": "Ese usuario ya existe en la base de datos",
+        "emailexists": "La dirección de e-mail ya se está utilizando en otra cuenta",
+        "idexists": "Ya existe un identificador para la entidad {{entityName}}"
     },
     "footer": "pie de página"
 }

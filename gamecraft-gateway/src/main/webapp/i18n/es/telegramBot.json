@@ -2,28 +2,28 @@
     "gamecraftgatewayApp": {
         "telegramBot" : {
             "home": {
-                "title": "Telegram Bots",
-                "createLabel": "Crear nuevo Telegram Bot",
-                "createOrEditLabel": "Crear o editar Telegram Bot",
-                "search": "Search for Telegram Bot"
+                "title": "Bot de Telegram",
+                "createLabel": "Crear nuevo conector para un bot de Telegram",
+                "createOrEditLabel": "Crear o editar conector para un bot de Telegram",
+                "search": "Buscar conector para un bot de Telegram"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Telegram Bot {{ id }}?"
+                "question": "¿Seguro que quiere eliminar el bot de Telegram {{ id }}?"
             },
             "detail": {
-                "title": "Telegram Bot"
+                "title": "Bot de Telegram"
             },
-            "telegramBotName": "Telegram Bot Name",
-            "telegramBotDescription": "Telegram Bot Description",
-            "telegramBotToken": "Telegram Bot Token",
-            "telegramBotEnabled": "Telegram Bot Enabled"
+            "telegramBotName": "Nombre del bot de Telegram",
+            "telegramBotDescription": "Descripción del bot de Telegram",
+            "telegramBotToken": "Token del bot de Telegram",
+            "telegramBotEnabled": "Activar bot de Telegram"
         }
     },
-    "gamecrafttelegramnotificationmanagerApp": {
+    "gamecrafttelegrambotApp": {
         "telegramBot" : {
-            "created": "Un nuevo Telegram Bot ha sido creado con el identificador {{ param }}",
-            "updated": "Un Telegram Bot ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Telegram Bot ha sido eliminado con el identificador {{ param }}"
+            "created": "Un nuevo bot de Telegram ha sido creado con el identificador {{ param }}",
+            "updated": "Un bot de Telegram ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un bot de Telegram ha sido eliminado con el identificador {{ param }}"
         }
     }
 }

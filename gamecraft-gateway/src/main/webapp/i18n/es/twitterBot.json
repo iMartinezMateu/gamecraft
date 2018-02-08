@@ -2,31 +2,31 @@
     "gamecraftgatewayApp": {
         "twitterBot" : {
             "home": {
-                "title": "Twitter Bots",
-                "createLabel": "Crear nuevo Twitter Bot",
-                "createOrEditLabel": "Crear o editar Twitter Bot",
-                "search": "Search for Twitter Bot"
+                "title": "Bot de Twitter",
+                "createLabel": "Crear nuevo conector para bot de Twitter",
+                "createOrEditLabel": "Crear o editar conector para bot de Twitter",
+                "search": "Buscar conector para bot de Twitter"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Twitter Bot {{ id }}?"
+                "question": "¿Seguro que quiere eliminar el bot de Twitter {{ id }}?"
             },
             "detail": {
-                "title": "Twitter Bot"
+                "title": "Bot de Twitter"
             },
-            "twitterBotName": "Twitter Bot Name",
-            "twitterBotDescription": "Twitter Bot Description",
-            "twitterBotConsumerKey": "Twitter Bot Consumer Key",
-            "twitterBotConsumerSecret": "Twitter Bot Consumer Secret",
-            "twitterBotAccessToken": "Twitter Bot Access Token",
-            "twitterBotAccessTokenSecret": "Twitter Bot Access Token Secret",
-            "twitterBotEnabled": "Twitter Bot Enabled"
+            "twitterBotName": "Nombre del bot de Twitter",
+            "twitterBotDescription": "Descripción del bot de Twitter",
+            "twitterBotConsumerKey": "Consumer Key del bot de Twitter",
+            "twitterBotConsumerSecret": "Consumer Secret del bot de Twitter",
+            "twitterBotAccessToken": "Access Token del bot de Twitter",
+            "twitterBotAccessTokenSecret": "Secret Token del bot de Twitter",
+            "twitterBotEnabled": "Bot de Twitter activado"
         }
     },
     "gamecrafttwitternotificationmanagerApp": {
         "twitterBot" : {
-            "created": "Un nuevo Twitter Bot ha sido creado con el identificador {{ param }}",
-            "updated": "Un Twitter Bot ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Twitter Bot ha sido eliminado con el identificador {{ param }}"
+            "created": "Un nuevo bot de Twitter ha sido creado con el identificador {{ param }}",
+            "updated": "Un bot de Twitter ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un bot de Twitter ha sido eliminado con el identificador {{ param }}"
         }
     }
 }

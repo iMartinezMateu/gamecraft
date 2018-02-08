@@ -2,26 +2,26 @@
     "gamecraftgatewayApp": {
         "team" : {
             "home": {
-                "title": "Teams",
-                "createLabel": "Crear nuevo Team",
-                "createOrEditLabel": "Crear o editar Team",
-                "search": "Search for Team"
+                "title": "Equipos",
+                "createLabel": "Crear nuevo equipo",
+                "createOrEditLabel": "Crear o editar equipo",
+                "search": "Buscar equipo"
             },
             "delete": {
-                "question": "¿Seguro que quiere eliminar Team {{ id }}?"
+                "question": "¿Seguro que quiere eliminar equipo {{ id }}?"
             },
             "detail": {
-                "title": "Team"
+                "title": "Equipo"
             },
-            "teamName": "Team Name",
-            "teamDescription": "Team Description"
+            "teamName": "Nombre del equipo",
+            "teamDescription": "Descripción del equipo"
         }
     },
     "gamecraftteamApp": {
         "team" : {
-            "created": "Un nuevo Team ha sido creado con el identificador {{ param }}",
-            "updated": "Un Team ha sido actualizado con el identificador {{ param }}",
-            "deleted": "Un Team ha sido eliminado con el identificador {{ param }}"
+            "created": "Un nuevo equipo ha sido creado con el identificador {{ param }}",
+            "updated": "Un equipo ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un equipo ha sido eliminado con el identificador {{ param }}"
         }
     }
 }
