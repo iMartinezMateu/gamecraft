@@ -1,0 +1,37 @@
+
+<div *ngIf="sonarInstance">
+    <h2><span jhiTranslate="gamecraftgatewayApp.sonarInstance.detail.title">Sonar Instance</span> {{sonarInstance.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceName">Sonar Instance Name</span></dt>
+        <dd>
+            <span>{{sonarInstance.sonarInstanceName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceDescription">Sonar Instance Description</span></dt>
+        <dd>
+            <span>{{sonarInstance.sonarInstanceDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceRunnerPath">Sonar Instance Runner Path</span></dt>
+        <dd>
+            <span>{{sonarInstance.sonarInstanceRunnerPath}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceEnabled">Sonar Instance Enabled</span></dt>
+        <dd>
+            <span>{{sonarInstance.sonarInstanceEnabled}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'sonar-instance/'+ sonarInstance.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

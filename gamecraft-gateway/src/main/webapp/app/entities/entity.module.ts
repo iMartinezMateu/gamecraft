@@ -11,6 +11,7 @@ import { GamecraftgatewayTelegramBotModule } from './telegram-bot/telegram-bot.m
 import { GamecraftgatewayIrcBotModule } from './irc-bot/irc-bot.module';
 import { GamecraftgatewayTwitterBotModule } from './twitter-bot/twitter-bot.module';
 import { GamecraftgatewayHipchatBotModule } from './hipchat-bot/hipchat-bot.module';
+import { GamecraftgatewaySonarInstanceModule } from './sonar-instance/sonar-instance.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -26,6 +27,7 @@ import { GamecraftgatewayHipchatBotModule } from './hipchat-bot/hipchat-bot.modu
         GamecraftgatewayIrcBotModule,
         GamecraftgatewayTwitterBotModule,
         GamecraftgatewayHipchatBotModule,
+        GamecraftgatewaySonarInstanceModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

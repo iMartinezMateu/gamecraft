@@ -25,6 +25,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                 '/gamecraftircnotificationmanager',
                 '/gamecrafttwitternotificationmanager',
                 '/gamecrafthipchatnotificationmanager',
+                '/gamecraftsonarmanager',
                 /* jhipster-needle-add-entity-to-webpack - JHipster will add entity api paths here */
                 '/api',
                 '/management',

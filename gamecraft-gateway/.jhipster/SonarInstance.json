@@ -1,0 +1,40 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "sonarInstanceName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "sonarInstanceDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sonarInstanceRunnerPath",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sonarInstanceEnabled",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180308115910",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "sonar_instance",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecraftsonarmanager",
+    "searchEngine": "elasticsearch"
+}

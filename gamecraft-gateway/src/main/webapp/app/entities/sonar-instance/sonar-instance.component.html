@@ -1,0 +1,84 @@
+<div>
+    <h2>
+        <span jhiTranslate="gamecraftgatewayApp.sonarInstance.home.title">Sonar Instances</span>
+        <button class="btn btn-primary float-right jh-create-entity create-sonar-instance" [routerLink]="['/', { outlets: { popup: ['sonar-instance-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="gamecraftgatewayApp.sonarInstance.home.createLabel">
+            Create new Sonar Instance
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'gamecraftgatewayApp.sonarInstance.home.search' | translate }}">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="sonarInstances">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sonarInstanceName"><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceName">Sonar Instance Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sonarInstanceDescription"><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceDescription">Sonar Instance Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sonarInstanceRunnerPath"><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceRunnerPath">Sonar Instance Runner Path</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sonarInstanceEnabled"><span jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceEnabled">Sonar Instance Enabled</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let sonarInstance of sonarInstances ;trackBy: trackId">
+                <td><a [routerLink]="['../sonar-instance', sonarInstance.id ]">{{sonarInstance.id}}</a></td>
+                <td>{{sonarInstance.sonarInstanceName}}</td>
+                <td>{{sonarInstance.sonarInstanceDescription}}</td>
+                <td>{{sonarInstance.sonarInstanceRunnerPath}}</td>
+                <td>{{sonarInstance.sonarInstanceEnabled}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../sonar-instance', sonarInstance.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'sonar-instance/'+ sonarInstance.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'sonar-instance/'+ sonarInstance.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- Pager is not implemented yet, so this is normal pagination instead -->
+        <div *ngIf="sonarInstances && sonarInstances.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [maxSize]="5" [(page)]="page"  (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

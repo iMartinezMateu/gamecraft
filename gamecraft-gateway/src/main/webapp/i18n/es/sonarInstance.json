@@ -1,0 +1,29 @@
+{
+    "gamecraftgatewayApp": {
+        "sonarInstance" : {
+            "home": {
+                "title": "Sonar Instances",
+                "createLabel": "Crear nuevo Sonar Instance",
+                "createOrEditLabel": "Crear o editar Sonar Instance",
+                "search": "Search for Sonar Instance"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Sonar Instance {{ id }}?"
+            },
+            "detail": {
+                "title": "Sonar Instance"
+            },
+            "sonarInstanceName": "Sonar Instance Name",
+            "sonarInstanceDescription": "Sonar Instance Description",
+            "sonarInstanceRunnerPath": "Sonar Instance Runner Path",
+            "sonarInstanceEnabled": "Sonar Instance Enabled"
+        }
+    },
+    "gamecraftsonarmanagerApp": {
+        "sonarInstance" : {
+            "created": "Un nuevo Sonar Instance ha sido creado con el identificador {{ param }}",
+            "updated": "Un Sonar Instance ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Sonar Instance ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}

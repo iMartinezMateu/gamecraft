@@ -1,0 +1,65 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="mySonarInstanceLabel" jhiTranslate="gamecraftgatewayApp.sonarInstance.home.createOrEditLabel">Create or edit a Sonar Instance</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!sonarInstance.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="sonarInstance.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceName" for="field_sonarInstanceName">Sonar Instance Name</label>
+            <input type="text" class="form-control" name="sonarInstanceName" id="field_sonarInstanceName"
+                [(ngModel)]="sonarInstance.sonarInstanceName" required minlength="3" maxlength="100" />
+            <div [hidden]="!(editForm.controls.sonarInstanceName?.dirty && editForm.controls.sonarInstanceName?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.sonarInstanceName?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.sonarInstanceName?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                   This field is required to be at least 3 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.sonarInstanceName?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 100 }">
+                   This field cannot be longer than 100 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceDescription" for="field_sonarInstanceDescription">Sonar Instance Description</label>
+            <input type="text" class="form-control" name="sonarInstanceDescription" id="field_sonarInstanceDescription"
+                [(ngModel)]="sonarInstance.sonarInstanceDescription"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceRunnerPath" for="field_sonarInstanceRunnerPath">Sonar Instance Runner Path</label>
+            <input type="text" class="form-control" name="sonarInstanceRunnerPath" id="field_sonarInstanceRunnerPath"
+                [(ngModel)]="sonarInstance.sonarInstanceRunnerPath"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.sonarInstance.sonarInstanceEnabled" for="field_sonarInstanceEnabled">Sonar Instance Enabled</label>
+            <input type="checkbox" class="form-control" name="sonarInstanceEnabled" id="field_sonarInstanceEnabled"
+                [(ngModel)]="sonarInstance.sonarInstanceEnabled"  />
+            <div [hidden]="!(editForm.controls.sonarInstanceEnabled?.dirty && editForm.controls.sonarInstanceEnabled?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.sonarInstanceEnabled?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

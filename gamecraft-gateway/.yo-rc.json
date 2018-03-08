@@ -3,7 +3,7 @@
     "promptValues": {
       "packageName": "com.gamecraft",
       "nativeLanguage": "en",
-      "microservicePath": "../gamecraft-hipchat-notification-manager"
+      "microservicePath": "../gamecraft-sonar-manager"
     },
     "jhipsterVersion": "4.10.1",
     "baseName": "gamecraftgateway",
