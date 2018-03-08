@@ -24,6 +24,7 @@
         <module>gamecraft-twitter-notification-manager</module>
         <module>gamecraft-hipchat-notification-manager</module>
         <module>gamecraft-sonar-manager</module>
+        <module>gamecraft-group</module>
     </modules>
 
 </project>
