@@ -23,6 +23,7 @@
         <module>gamecraft-irc-notification-manager</module>
         <module>gamecraft-twitter-notification-manager</module>
         <module>gamecraft-hipchat-notification-manager</module>
+        <module>gamecraft-sonar-manager</module>
     </modules>
 
 </project>
