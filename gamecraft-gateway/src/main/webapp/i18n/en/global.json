@@ -19,6 +19,8 @@
                 "twitterBot": "Twitter Bot",
                 "hipchatBot": "Hipchat Bot",
                 "sonarInstance": "Sonar Instance",
+                "groups": "Groups",
+                "groupsUser": "Groups User",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

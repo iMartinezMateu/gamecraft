@@ -1,0 +1,27 @@
+{
+    "gamecraftgatewayApp": {
+        "groupsUser" : {
+            "home": {
+                "title": "Groups Users",
+                "createLabel": "Create a new Groups User",
+                "createOrEditLabel": "Create or edit a Groups User",
+                "search": "Search for Groups User"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Groups User {{ id }}?"
+            },
+            "detail": {
+                "title": "Groups User"
+            },
+            "groupId": "Group Id",
+            "userId": "User Id"
+        }
+    },
+    "gamecraftgroupApp": {
+        "groupsUser" : {
+            "created": "A new Groups User is created with identifier {{ param }}",
+            "updated": "A Groups User is updated with identifier {{ param }}",
+            "deleted": "A Groups User is deleted with identifier {{ param }}"
+        }
+    }
+}

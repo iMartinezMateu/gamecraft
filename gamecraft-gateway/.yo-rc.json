@@ -3,7 +3,7 @@
     "promptValues": {
       "packageName": "com.gamecraft",
       "nativeLanguage": "en",
-      "microservicePath": "../gamecraft-sonar-manager"
+      "microservicePath": "../gamecraft-group"
     },
     "jhipsterVersion": "4.10.1",
     "baseName": "gamecraftgateway",

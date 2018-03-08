@@ -1,0 +1,10 @@
+{
+    "gamecraftgatewayApp": {
+        "Role" : {
+            "null": "",
+            "GUEST": "GUEST",
+            "USER": "USER",
+            "ADMINISTRATOR": "ADMINISTRATOR"
+        }
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "groupName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "100"
+        },
+        {
+            "fieldName": "groupDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "groupRole",
+            "fieldType": "Role",
+            "fieldValues": "GUEST,USER,ADMINISTRATOR",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "groupEnabled",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180308175836",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "groups",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecraftgroup",
+    "searchEngine": "elasticsearch"
+}

@@ -1,0 +1,37 @@
+
+<div *ngIf="groups">
+    <h2><span jhiTranslate="gamecraftgatewayApp.groups.detail.title">Groups</span> {{groups.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.groups.groupName">Group Name</span></dt>
+        <dd>
+            <span>{{groups.groupName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.groups.groupDescription">Group Description</span></dt>
+        <dd>
+            <span>{{groups.groupDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.groups.groupRole">Group Role</span></dt>
+        <dd>
+            <span jhiTranslate="{{'gamecraftgatewayApp.Role.' + groups.groupRole}}">{{groups.groupRole}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.groups.groupEnabled">Group Enabled</span></dt>
+        <dd>
+            <span>{{groups.groupEnabled}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'groups/'+ groups.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
