@@ -25,6 +25,7 @@
         <module>gamecraft-hipchat-notification-manager</module>
         <module>gamecraft-sonar-manager</module>
         <module>gamecraft-group</module>
+        <module>gamecraft-ui</module>
     </modules>
 
 </project>
