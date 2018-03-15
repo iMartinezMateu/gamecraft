@@ -10,12 +10,12 @@ public class WebController {
 
     @RequestMapping(value="/",method = RequestMethod.GET)
     public String home(){
-        return "bootstraphelloworld";
+        return "login";
     }
 
-    @ResponseBody
-    @RequestMapping(value="/greeting",method = RequestMethod.GET)
-    public String Greeting(){
-        return "Message From SpringBoot Service - Hello World!";
+    @RequestMapping(value="/dashboard",method = RequestMethod.GET)
+    public String dashboard(){
+        return "dashboard";
     }
+
 }
