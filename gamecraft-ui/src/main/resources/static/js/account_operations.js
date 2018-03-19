@@ -1,6 +1,6 @@
 function authenticate(username, password) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/api/authenticate";
-    if (!isEmpty(username) || !isEmpty(password) ) {
+    if (!isEmpty(username) || !isEmpty(password)) {
         $.ajax
         ({
             type: "POST",
@@ -8,7 +8,7 @@ function authenticate(username, password) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            data: JSON.stringify({ "username": username, "password" : password , "rememberMe" : false}),
+            data: JSON.stringify({"username": username, "password": password, "rememberMe": false}),
             success: function (data) {
                 sessionStorage.setItem("token", data["id_token"]);
                 if (isAuthenticated()) {
@@ -22,29 +22,45 @@ function authenticate(username, password) {
     }
 }
 
+function logout() {
+    var logoutFlag = false;
+    if (isAuthenticated()) {
+        sessionStorage.removeItem("token");
+        logoutFlag = true;
+    }
+    return logoutFlag;
+}
+
+
 function isAuthenticated() {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/api/authenticate";
     var authFlag = false;
-    $.ajax
-    ({
-        type: "GET",
-        url: queryUrl,
-        async : false,
-        beforeSend : function(xhr) {
-            if (sessionStorage.getItem("token")) {
-                xhr.setRequestHeader("Authorization", "Bearer " +  sessionStorage.getItem("token"));
+    if (!sessionStorage.getItem("token")) {
+        authFlag = false;
+    }
+    else {
+        $.ajax
+        ({
+            type: "GET",
+            url: queryUrl,
+            async: false,
+            beforeSend: function (xhr) {
+                if (sessionStorage.getItem("token")) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+                }
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: function () {
+                authFlag = true;
+            },
+            error: function () {
+                authFlag = false;
             }
-        },
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        success: function () {
-             authFlag = true;
-        },
-        error: function () {
-            authFlag = false;
-        }
-    });
+        });
+    }
+
 
     return authFlag;
 }
@@ -56,10 +72,10 @@ function getAccountInformation(username) {
         type: "GET",
         url: queryUrl,
         contentType: "application/json",
-        beforeSend : function(xhr) {
+        beforeSend: function (xhr) {
             // set header if JWT is set
             if (sessionStorage.getItem("token")) {
-                xhr.setRequestHeader("Authorization", "Bearer " +  sessionStorage.getItem("token"));
+                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
             }
         },
         headers: {
