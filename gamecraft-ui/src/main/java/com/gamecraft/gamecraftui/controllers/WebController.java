@@ -18,4 +18,9 @@ public class WebController {
         return "dashboard";
     }
 
+    @RequestMapping(value="/users",method = RequestMethod.GET)
+    public String users(){
+        return "users/index";
+    }
+
 }
