@@ -10,6 +10,7 @@ function authenticate(username, password) {
             },
             data: JSON.stringify({"username": username, "password": password, "rememberMe": false}),
             success: function (data) {
+                sessionStorage.setItem("username", username);
                 sessionStorage.setItem("token", data["id_token"]);
                 if (isAuthenticated()) {
                     window.location.replace(location.protocol + '//' + document.domain + ':' + location.port + "/dashboard");
@@ -25,6 +26,7 @@ function authenticate(username, password) {
 function logout() {
     var logoutFlag = false;
     if (isAuthenticated()) {
+        sessionStorage.removeItem("username");
         sessionStorage.removeItem("token");
         logoutFlag = true;
     }
@@ -67,10 +69,12 @@ function isAuthenticated() {
 
 function getAccountInformation(username) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/api/users/" + username;
+    var accountInformation = "";
     $.ajax
     ({
         type: "GET",
         url: queryUrl,
+        async: false,
         contentType: "application/json",
         beforeSend: function (xhr) {
             // set header if JWT is set
@@ -83,9 +87,23 @@ function getAccountInformation(username) {
             'Content-Type': 'application/json'
         },
         success: function (data) {
-            alert(data);
+            accountInformation = data;
         }
     })
+    return accountInformation;
+}
+
+
+function isAdmin(username) {
+    var accountAuthorities = getAccountInformation(username)["authorities"];
+
+    if (~accountAuthorities.indexOf("ROLE_ADMIN")) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
 }
 
 function isEmpty(str) {
