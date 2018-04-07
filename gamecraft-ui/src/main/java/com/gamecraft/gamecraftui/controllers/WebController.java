@@ -23,4 +23,28 @@ public class WebController {
         return "users/index";
     }
 
+    @RequestMapping(value="/teams",method = RequestMethod.GET)
+    public String teams(){
+        return "teams/index";
+    }
+
+    @RequestMapping(value="/projects",method = RequestMethod.GET)
+    public String projects(){
+        return "projects/index";
+    }
+
+    @RequestMapping(value="/pipelines",method = RequestMethod.GET)
+    public String pipelines(){
+        return "pipelines/index";
+    }
+
+    @RequestMapping(value="/engines",method = RequestMethod.GET)
+    public String engines(){
+        return "engines/index";
+    }
+
+    @RequestMapping(value="/notifications",method = RequestMethod.GET)
+    public String notifications(){
+        return "notifications/index";
+    }
 }
