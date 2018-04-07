@@ -66,3 +66,18 @@ function fillProjectsTable() {
         });
     });
 }
+
+function fillEnginesTable() {
+    var engines = getEngines();
+    $(function() {
+        $.each(engines, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.engineName),
+                $('<td>').text(item.engineDescription)
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
