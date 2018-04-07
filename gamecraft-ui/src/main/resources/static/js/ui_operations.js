@@ -35,3 +35,18 @@ function fillUsersTable() {
         });
     });
 }
+
+function fillTeamsTable() {
+    var teams = getTeams();
+    $(function() {
+        $.each(teams, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.teamName),
+                $('<td>').text(item.teamDescription)
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
