@@ -50,3 +50,19 @@ function fillTeamsTable() {
         });
     });
 }
+
+function fillProjectsTable() {
+    var projects = getProjects();
+    $(function() {
+        $.each(projects, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.projectName),
+                $('<td>').text(item.projectDescription),
+                $('<td>').html("<a href="+ item.projectWebsite +">" + item.projectWebsite + "</a>")
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
