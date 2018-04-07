@@ -12,9 +12,15 @@ function checkAuthState() {
 
 function fillUsersTable() {
     var users = getUsers();
-
     $(function() {
+        var role= "";
         $.each(users, function(i, item) {
+            if (item.authorities[1] === "ROLE_ADMIN") {
+                role = "<span class=\"badge badge-pill badge-primary\">ADMIN</span>";
+            }
+            if (item.authorities[1] == undefined) {
+                role = "<span class=\"badge badge-pill badge-secondary\">USER</span>";
+            }
             var tr = $('<tr>').append(
                 $('<tr>'),
                 $('<td>').text(item.id),
@@ -22,10 +28,10 @@ function fillUsersTable() {
                 $('<td>').text(item.firstName),
                 $('<td>').text(item.lastName),
                 $('<td>').text(item.email),
-                $('<td>').text(item.authorities),
+                $('<td>').html(role),
                 $('<td>').text(item.createdDate)
             );
-            $(".table").append(tr.wrap('<tr>').html());
+            $(".table").append(tr.html());
         });
     });
 }
