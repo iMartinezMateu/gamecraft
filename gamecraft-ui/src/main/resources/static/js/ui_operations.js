@@ -81,3 +81,14 @@ function fillEnginesTable() {
         });
     });
 }
+
+function fillSettingsForm(username) {
+    var accountInformation = getAccountInformation(username);
+    $(document).ready(function () {
+        document.getElementById('firstname').value = accountInformation.firstName;
+        document.getElementById('lastname').value = accountInformation.lastName;
+        document.getElementById('email').value = accountInformation.email;
+        document.getElementById('language').value = localStorage.getItem("language");
+    });
+
+}

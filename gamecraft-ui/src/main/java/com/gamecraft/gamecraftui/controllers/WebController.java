@@ -47,4 +47,9 @@ public class WebController {
     public String notifications(){
         return "notifications/index";
     }
+
+    @RequestMapping(value="/settings",method = RequestMethod.GET)
+    public String settings(){
+        return "settings";
+    }
 }

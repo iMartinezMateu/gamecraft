@@ -10,7 +10,6 @@ function authenticate(username, password) {
             },
             data: JSON.stringify({"username": username, "password": password, "rememberMe": false}),
             success: function (data) {
-                sessionStorage.setItem("username", username);
                 sessionStorage.setItem("token", data["id_token"]);
                 if (isAuthenticated()) {
                     window.location.replace(location.protocol + '//' + document.domain + ':' + location.port + "/dashboard");
@@ -26,7 +25,6 @@ function authenticate(username, password) {
 function logout() {
     var logoutFlag = false;
     if (isAuthenticated()) {
-        sessionStorage.removeItem("username");
         sessionStorage.removeItem("token");
         logoutFlag = true;
     }
@@ -88,6 +86,38 @@ function getAccountInformation(username) {
         },
         success: function (data) {
             accountInformation = data;
+        },
+        error: function (data) {
+            alert(JSON.stringify(data));
+        }
+    })
+    return accountInformation;
+}
+
+function getUsername() {
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/account/";
+    var accountInformation = "";
+    $.ajax
+    ({
+        type: "GET",
+        url: queryUrl,
+        async: false,
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+            // set header if JWT is set
+            if (sessionStorage.getItem("token")) {
+                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+            }
+        },
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            accountInformation = data.login;
+        },
+        error: function (data) {
+            alert(JSON.stringify(data));
         }
     })
     return accountInformation;

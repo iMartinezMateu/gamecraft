@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Gamecraft CI</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/settings.css"/>
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+    <script src="/js/users_operations.js"></script>
+    <script src="/js/account_operations.js"></script>
+    <script src="/js/ui_operations.js"></script>
+    <script src="/js/validator.min.js"></script>
+    <script src="/js/lang_operations.js"></script>
+    <script src="/js/settings_operations.js"></script>
+    <script>
+        checkAuthState();
+        loadNavbar();
+        setDefaultLanguage();
+        fillSettingsForm(getUsername());
+    </script>
+</head>
+<body>
+<div class="navbar-frame"></div>
+<div class="container">
+
+    <h1>Settings</h1>
+    <div class="container center_div">
+        <form role="form" data-toggle="validator" name="form" id="form" class="form-horizontal"
+              enctype="multipart/form-data">
+            <div class="form-group has-feedback form-group-lg">
+                <div class="input-group">
+                    <label for="firstname">First Name:</label>
+                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="firstname" required="true"/>
+                </div>
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback form-group-lg">
+                <div class="input-group">
+                    <label for="lastname">Last Name:</label>
+                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="lastname" required="false"/>
+                </div>
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback form-group-lg">
+                <div class="input-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" class="form-control" id="email" required="true"/>
+                </div>
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback form-group-lg">
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" pattern="^[_A-z0-9]{1,}$" class="form-control" id="password"/>
+                </div>
+            </div>
+            <div class="form-group has-feedback form-group-lg">
+                <div class="input-group">
+                    <label for="language">Language:</label>
+                    <select id="language" class="form-control">
+                        <option value="EN">English</option>
+                        <option value="SP">Spanish</option>
+                    </select>
+                </div>
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="col-sm-12 controls">
+                <button type="button" onclick="saveSettings(getUsername(),password.value,email.value,firstname.value,lastname.value,language.value);"
+                        class="btn btn-primary pull-right"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>
+                    Save settings
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div> <!-- /container -->
+
+</body>
+</html>
