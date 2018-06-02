@@ -165,7 +165,7 @@ public class TwitterBotResource {
      * @param id the id of the twitterBot
      * @return the ResponseEntity with status 200 (OK) or with status 404 (Not Found)
      */
-    @PostMapping("/twitter-bots/{id}/send")
+    @PostMapping("/twitter-bots/{id}/sendTweet")
     @Timed
     public ResponseEntity<TwitterBot> sendTweet(@PathVariable Long id, @RequestBody Tweet tweet)  {
         log.debug("REST request to send TwitterBot : {}", id);
