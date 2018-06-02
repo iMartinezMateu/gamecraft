@@ -167,7 +167,7 @@ public class TwitterBotResource {
      */
     @PostMapping("/twitter-bots/{id}/send")
     @Timed
-    public ResponseEntity<TwitterBot> sendMessage(@PathVariable Long id, @RequestBody Tweet tweet)  {
+    public ResponseEntity<TwitterBot> sendTweet(@PathVariable Long id, @RequestBody Tweet tweet)  {
         log.debug("REST request to send TwitterBot : {}", id);
         TwitterBot twitterBot = twitterBotService.findOne(id);
         if (twitterBot == null)
