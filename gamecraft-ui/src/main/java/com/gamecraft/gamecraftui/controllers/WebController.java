@@ -48,6 +48,31 @@ public class WebController {
         return "notifications/index";
     }
 
+    @RequestMapping(value="/notifications/email",method = RequestMethod.GET)
+    public String emailNotifications(){
+        return "notifications/email/index";
+    }
+
+    @RequestMapping(value="/notifications/twitter",method = RequestMethod.GET)
+    public String twitterNotifications(){
+        return "notifications/twitter/index";
+    }
+
+    @RequestMapping(value="/notifications/telegram",method = RequestMethod.GET)
+    public String telegramNotifications(){
+        return "notifications/telegram/index";
+    }
+
+    @RequestMapping(value="/notifications/slack",method = RequestMethod.GET)
+    public String slackNotifications(){
+        return "notifications/slack/index";
+    }
+
+    @RequestMapping(value="/notifications/irc",method = RequestMethod.GET)
+    public String ircNotifications(){
+        return "notifications/irc/index";
+    }
+
     @RequestMapping(value="/settings",method = RequestMethod.GET)
     public String settings(){
         return "settings";

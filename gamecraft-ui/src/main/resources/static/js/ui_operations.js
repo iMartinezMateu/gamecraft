@@ -82,6 +82,81 @@ function fillEnginesTable() {
     });
 }
 
+function fillEmailAccountsTable() {
+    var accounts = getEmailAccounts();
+    $(function() {
+        $.each(accounts, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.emailAccountName),
+                $('<td>').text(item.emailAccountDescription)
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
+
+function fillIRCBotsTable() {
+    var bots = getIRCBots();
+    $(function() {
+        $.each(bots, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.ircBotName),
+                $('<td>').text(item.ircBotDescription)
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
+
+function fillSlackAccountTable() {
+    var bots = getSlackAccounts();
+    $(function() {
+        $.each(bots, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.slackAccountName),
+                $('<td>').text(item.slackAccountDescription)
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
+
+function fillTelegramBotsTable() {
+    var bots = getTelegramBots();
+    $(function() {
+        $.each(bots, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.telegramBotName),
+                $('<td>').text(item.telegramBotDescription)
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
+
+function fillTwitterBotsTable() {
+    var bots = getTwitterBots();
+    $(function() {
+        $.each(bots, function(i, item) {
+            var tr = $('<tr>').append(
+                $('<tr>'),
+                $('<td>').text(item.id),
+                $('<td>').text(item.twitterBotName),
+                $('<td>').text(item.twitterBotDescription)
+            );
+            $(".table").append(tr.html());
+        });
+    });
+}
+
 function fillSettingsForm(username) {
     var accountInformation = getAccountInformation(username);
     $(document).ready(function () {

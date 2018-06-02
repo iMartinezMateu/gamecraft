@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Gamecraft CI</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/dashboard.css"/>
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+    <script src="/js/telegram_notifications_operations.js"></script>
+    <script src="/js/account_operations.js"></script>
+    <script src="/js/ui_operations.js"></script>
+    <script src="/js/validator.min.js"></script>
+    <script>
+        checkAuthState();
+        loadNavbar();
+        fillTelegramBotsTable();
+    </script>
+</head>
+<body>
+<div class="navbar-frame"></div>
+<div class="container">
+
+    <h1>Telegram Bots</h1>
+    <table class="table table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Telegram Bot Name</th>
+            <th>Telegram Bot Description</th>
+        </tr>
+    </table>
+
+</div> <!-- /container -->
+
+
+</body>
+</html>
