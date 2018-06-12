@@ -26,10 +26,6 @@ function getIRCBots() {
     return botList;
 }
 
-function searchIRCBot() {
-
-}
-
 function addIRCBot() {
 
 }

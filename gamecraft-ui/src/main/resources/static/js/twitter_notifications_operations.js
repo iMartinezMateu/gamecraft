@@ -26,10 +26,6 @@ function getTwitterBots() {
     return botList;
 }
 
-function searchTwitterBot() {
-
-}
-
 function addTwitterBot() {
 
 }

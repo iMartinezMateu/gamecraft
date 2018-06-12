@@ -26,10 +26,6 @@ function getEmailAccounts() {
     return accountList;
 }
 
-function searchEmailAccount() {
-
-}
-
 function addEmailAccount() {
 
 }

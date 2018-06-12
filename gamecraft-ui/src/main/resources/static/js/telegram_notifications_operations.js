@@ -26,10 +26,6 @@ function getTelegramBots() {
     return botList;
 }
 
-function searchTelegramBot() {
-
-}
-
 function addTelegramBot() {
 
 }

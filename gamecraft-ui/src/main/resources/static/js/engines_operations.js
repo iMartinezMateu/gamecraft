@@ -23,10 +23,6 @@ function getEngines() {
     return enginesList;
 }
 
-function searchEngine() {
-
-}
-
 function addEngine() {
 
 }

@@ -26,10 +26,6 @@ function getSlackAccounts() {
     return botList;
 }
 
-function searchSlackAccount() {
-
-}
-
 function addSlackAccount() {
 
 }
