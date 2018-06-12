@@ -26,9 +26,6 @@ function getUsers() {
     return usersList;
 }
 
-function searchUser() {
-
-}
 
 function addUser(authorities, author, langKey, email, firstName, lastName, username, password) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/api/users/";
