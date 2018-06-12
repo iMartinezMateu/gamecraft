@@ -116,9 +116,119 @@ function deleteTeam(teamId) {
 }
 
 function assignUser(userId, teamId) {
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-users/";
 
+    var data = {
+        teamId: teamId,
+        userId: userId,
+    };
+    $.ajax
+    ({
+        type: "POST",
+        url: queryUrl,
+        async: false,
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+            // set header if JWT is set
+            if (sessionStorage.getItem("token")) {
+                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+            }
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            alert("User assigned to the team!");
+        },
+        error: function (data) {
+            alert(JSON.stringify(data));
+        }
+    });
 }
 
-function deassignUser(userId, teamId) {
+function deassignUser(assignmentId) {
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-users/" + assignmentId;
 
+    $.ajax
+    ({
+        type: "DELETE",
+        url: queryUrl,
+        async: false,
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+            // set header if JWT is set
+            if (sessionStorage.getItem("token")) {
+                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+            }
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            alert("Assignment deleted!");
+        },
+        error: function (data) {
+            alert(JSON.stringify(data));
+        }
+    });
+}
+
+function assignProject(teamId, projectId) {
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-projects/";
+
+    var data = {
+        teamId: teamId,
+        projectId: projectId,
+    };
+    $.ajax
+    ({
+        type: "POST",
+        url: queryUrl,
+        async: false,
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+            // set header if JWT is set
+            if (sessionStorage.getItem("token")) {
+                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+            }
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            alert("Project assigned to the team!");
+        },
+        error: function (data) {
+            alert(JSON.stringify(data));
+        }
+    });
+}
+
+function deassignProject(assignmentId) {
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-projects/" + assignmentId;
+
+    $.ajax
+    ({
+        type: "DELETE",
+        url: queryUrl,
+        async: false,
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+            // set header if JWT is set
+            if (sessionStorage.getItem("token")) {
+                xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+            }
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        success: function (data) {
+            alert("Assignment deleted!");
+        },
+        error: function (data) {
+            alert(JSON.stringify(data));
+        }
+    });
 }

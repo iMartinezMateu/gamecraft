@@ -121,10 +121,3 @@ function deleteProject(projectId) {
     });
 }
 
-function assignTeam(teamId, projectId) {
-
-}
-
-function deassignTeam(teamId, projectId) {
-
-}
