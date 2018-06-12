@@ -114,3 +114,11 @@ function deleteTeam(teamId) {
         }
     });
 }
+
+function assignUser(userId, teamId) {
+
+}
+
+function deassignUser(userId, teamId) {
+
+}
