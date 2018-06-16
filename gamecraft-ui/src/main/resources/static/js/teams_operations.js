@@ -24,7 +24,7 @@ function getTeams() {
 }
 
 function addTeam(teamName, teamDescription) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/teams/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftteam/api/teams/";
 
     var data = {
         teamName: teamName,
@@ -56,7 +56,7 @@ function addTeam(teamName, teamDescription) {
 }
 
 function updateTeam(teamId, teamName, teamDescription) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/teams/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftteam/api/teams/";
 
     var data = {
         teamId: teamId,
@@ -89,7 +89,7 @@ function updateTeam(teamId, teamName, teamDescription) {
 }
 
 function deleteTeam(teamId) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/teams/" + teamId;
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftteam/api/teams/" + teamId;
 
     $.ajax
     ({
@@ -116,7 +116,7 @@ function deleteTeam(teamId) {
 }
 
 function assignUser(userId, teamId) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-users/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftteam/api/team-users/";
 
     var data = {
         teamId: teamId,
@@ -148,7 +148,7 @@ function assignUser(userId, teamId) {
 }
 
 function deassignUser(assignmentId) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-users/" + assignmentId;
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/gamecraftteam/team-users/" + assignmentId;
 
     $.ajax
     ({
@@ -175,7 +175,7 @@ function deassignUser(assignmentId) {
 }
 
 function assignProject(teamId, projectId) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-projects/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/gamecraftteam/team-projects/";
 
     var data = {
         teamId: teamId,
@@ -207,7 +207,7 @@ function assignProject(teamId, projectId) {
 }
 
 function deassignProject(assignmentId) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/team-projects/" + assignmentId;
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/gamecraftteam/team-projects/" + assignmentId;
 
     $.ajax
     ({
