@@ -108,6 +108,7 @@ function updateUser(id, authorities, author, langKey, email, firstName, lastName
             alert(JSON.stringify(data));
         }
     });
+}
 
 function changePassword(password) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/api/account/change-password";
