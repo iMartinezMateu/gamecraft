@@ -101,7 +101,7 @@ function updateTwitterBot(twitterBotName, twitterBotDescription, twitterBotEnabl
     });
 }
 
-function deleteTwitterBot() {
+function deleteTwitterBot(twitterBotId) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttwitternotificationmanager/api/twitter-bots/" + twitterBotId;
 
     $.ajax
