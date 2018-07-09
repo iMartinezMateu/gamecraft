@@ -28,7 +28,7 @@ function getUsers() {
 
 
 function addUser(authorities, author, langKey, email, firstName, lastName, username, password) {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/users/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/register/";
 
     var data = {
             activated: true,

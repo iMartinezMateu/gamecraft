@@ -45,7 +45,7 @@ function fillUsersTable() {
                     $('<td>').text(item.email),
                     $('<td>').html(role),
                     $('<td>').text(item.createdDate),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteUser(" +item.login + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteUser('" +item.login + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
                 );
                 $(".table").append(tr.html());
 
@@ -64,7 +64,7 @@ function fillTeamsTable() {
                 $('<td>').text(item.id),
                 $('<td>').text(item.teamName),
                 $('<td>').text(item.teamDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTeam(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTeam('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
             );
             $(".table").append(tr.html());
         });
@@ -81,7 +81,7 @@ function fillProjectsTable() {
                 $('<td>').text(item.projectName),
                 $('<td>').text(item.projectDescription),
                 $('<td>').html("<a href="+ item.projectWebsite +">" + item.projectWebsite + "</a>"),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
 
         );
             $(".table").append(tr.html());
@@ -98,7 +98,7 @@ function fillEnginesTable() {
                 $('<td>').text(item.id),
                 $('<td>').text(item.engineName),
                 $('<td>').text(item.engineDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEngine(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEngine('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
         );
             $(".table").append(tr.html());
         });
@@ -114,7 +114,7 @@ function fillEmailAccountsTable() {
                 $('<td>').text(item.id),
                 $('<td>').text(item.emailAccountName),
                 $('<td>').text(item.emailAccountDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEmailAccount(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEmailAccount('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
             );
             $(".table").append(tr.html());
         });
@@ -130,7 +130,7 @@ function fillIRCBotsTable() {
                 $('<td>').text(item.id),
                 $('<td>').text(item.ircBotName),
                 $('<td>').text(item.ircBotDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteIRCBot(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteIRCBot('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
             );
             $(".table").append(tr.html());
         });
@@ -146,7 +146,7 @@ function fillSlackAccountTable() {
                 $('<td>').text(item.id),
                 $('<td>').text(item.slackAccountName),
                 $('<td>').text(item.slackAccountDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteSlackAccount(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteSlackAccount('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
             );
             $(".table").append(tr.html());
         });
@@ -162,7 +162,7 @@ function fillTelegramBotsTable() {
                 $('<td>').text(item.id),
                 $('<td>').text(item.telegramBotName),
                 $('<td>').text(item.telegramBotDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTelegramBot(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTelegramBot('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
             );
             $(".table").append(tr.html());
         });
@@ -178,7 +178,7 @@ function fillTwitterBotsTable() {
                 $('<td>').text(item.id),
                 $('<td>').text(item.twitterBotName),
                 $('<td>').text(item.twitterBotDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTwitterBot(" +item.id + "); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTwitterBot('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
             );
             $(".table").append(tr.html());
         });
@@ -191,7 +191,7 @@ function fillSettingsForm(username) {
         document.getElementById('firstname').value = accountInformation.firstName;
         document.getElementById('lastname').value = accountInformation.lastName;
         document.getElementById('email').value = accountInformation.email;
-        document.getElementById('language').value = localStorage.getItem("language");
+        document.getElementById('language').value = localStorage.getItem("language").toLowerCase();
     });
 
 }

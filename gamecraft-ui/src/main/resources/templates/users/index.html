@@ -36,9 +36,85 @@
             <th>Operations</th>
         </tr>
     </table>
-    <button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Create new user</button>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Create new user</button>
 </div> <!-- /container -->
 
 
 </body>
+
+<div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Create new user</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" data-toggle="validator" name="form" id="form" class="form-horizontal"
+                      enctype="multipart/form-data">
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="username">Username:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="username" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="firstname">First Name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="firstname" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="lastname">Last Name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="lastname" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="email">E-mail:</label>
+                            <input type="email" class="form-control" id="email" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="password">Password:</label>
+                            <input type="password" pattern="^[_A-z0-9]{1,}$" class="form-control" id="password"/>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="language">Language:</label>
+                            <select id="language" class="form-control">
+                                <option value="en">English</option>
+                                <option value="sp">Spanish</option>
+                            </select>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="role">Role:</label>
+                            <select id="role" class="form-control">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="if (role.value == 'user') { addUser(['ROLE_USER'], getUsername(),language.value, email.value,firstname.value,lastname.value,username.value, password.value); location.reload();} else {  addUser(['ROLE_ADMIN','ROLE_USER'], getUsername(),language.value, email.value,firstname.value,lastname.value,username.value, password.value);  location.reload(); }" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </html>
