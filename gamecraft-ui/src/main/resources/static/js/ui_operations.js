@@ -30,7 +30,8 @@ function fillUsersTable() {
                     $('<td>').text(item.lastName),
                     $('<td>').text(item.email),
                     $('<td>').html(role),
-                    $('<td>').text(item.createdDate)
+                    $('<td>').text(item.createdDate),
+                    $('<td>').html("")
                 );
                 $(".table").append(tr.html());
             }
