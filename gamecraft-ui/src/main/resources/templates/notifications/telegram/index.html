@@ -17,6 +17,11 @@
         checkAuthState();
         loadNavbar();
         fillTelegramBotsTable();
+        $(document).ready(function() {
+            if (!isAdmin(getUsername())) {
+                document.getElementById('createNotificatorButton').style.visibility = 'hidden';
+            }
+        });
     </script>
 </head>
 <body>
@@ -32,10 +37,51 @@
             <th>Operations</th>
         </tr>
     </table>
-    <button type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Create new notificator</button>
+    <button type="button" id="createNotificatorButton" class="btn btn-primary btn-sm"  data-toggle="modal" data-target="#createNotificatorModal"><span class="glyphicon glyphicon-plus"></span> Create new notificator</button>
 
 </div> <!-- /container -->
 
-
+<div class="modal fade" id="createNotificatorModal" tabindex="-1" role="dialog" aria-labelledby="createNotificatorModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Create new notificator</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" data-toggle="validator" name="form" id="form" class="form-horizontal"
+                      enctype="multipart/form-data">
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="notificatorName">Notificator name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="notificatorName" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="notificatorDescription">Notificator description:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="notificatorDescription" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="notificatorTelegramToken">Telegram Token:</label>
+                            <input type="text"  class="form-control" id="notificatorTelegramToken" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick=" addTelegramBot(notificatorName.value,notificatorDescription.value,notificatorTelegramToken.value); location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
