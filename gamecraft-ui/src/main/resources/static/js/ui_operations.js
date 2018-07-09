@@ -92,17 +92,31 @@ function fillProjectsTable() {
     var projects = getProjects();
     $(function() {
         $.each(projects, function(i, item) {
-            var tr = $('<tr>').append(
-                $('<tr>'),
-                $('<td>').text(item.id),
-                $('<td>').text(item.projectName),
-                $('<td>').text(item.projectDescription),
-                $('<td>').html("<a href="+ item.projectWebsite +">" + item.projectWebsite + "</a>"),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+            if (isAdmin(getUsername())) {
 
-        );
-            $(".table").append(tr.html());
+                var tr = $('<tr>').append(
+                    $('<tr>'),
+                    $('<td>').text(item.id),
+                    $('<td>').text(item.projectName),
+                    $('<td>').text(item.projectDescription),
+                    $('<td>').html("<a href=" + item.projectWebsite + ">" + item.projectWebsite + "</a>"),
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                );
+                $(".table").append(tr.html());
+            }
+            else {
+                var tr = $('<tr>').append(
+                    $('<tr>'),
+                    $('<td>').text(item.id),
+                    $('<td>').text(item.projectName),
+                    $('<td>').text(item.projectDescription),
+                    $('<td>').html("<a href=" + item.projectWebsite + ">" + item.projectWebsite + "</a>"),
+                    $('<td>').html("")
+                );
+                $(".table").append(tr.html());
+            }
         });
+
     });
 }
 
