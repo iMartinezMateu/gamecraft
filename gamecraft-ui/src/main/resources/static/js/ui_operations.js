@@ -137,14 +137,26 @@ function fillEnginesTable() {
     var engines = getEngines();
     $(function() {
         $.each(engines, function(i, item) {
-            var tr = $('<tr>').append(
-                $('<tr>'),
-                $('<td>').text(item.id),
-                $('<td>').text(item.engineName),
-                $('<td>').text(item.engineDescription),
-                $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEngine('" +item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
-        );
-            $(".table").append(tr.html());
+            if (isAdmin(getUsername())) {
+                var tr = $('<tr>').append(
+                    $('<tr>'),
+                    $('<td>').text(item.id),
+                    $('<td>').text(item.engineName),
+                    $('<td>').text(item.engineDescription),
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEngine('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                );
+                $(".table").append(tr.html());
+            }
+            else {
+                var tr = $('<tr>').append(
+                    $('<tr>'),
+                    $('<td>').text(item.id),
+                    $('<td>').text(item.engineName),
+                    $('<td>').text(item.engineDescription),
+                    $('<td>').html("")
+                );
+                $(".table").append(tr.html());
+            }
         });
     });
 }
