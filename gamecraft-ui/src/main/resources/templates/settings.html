@@ -61,14 +61,14 @@
                 <div class="input-group">
                     <label for="language">Language:</label>
                     <select id="language" class="form-control">
-                        <option value="EN">English</option>
-                        <option value="SP">Spanish</option>
+                        <option value="en">English</option>
+                        <option value="sp">Spanish</option>
                     </select>
                 </div>
                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             </div>
             <div class="col-sm-12 controls">
-                <button type="button" onclick="saveSettings(getUsername(),password.value,email.value,firstname.value,lastname.value,language.value);"
+                <button type="button" onclick="saveSettings(getUsername(),password.value,email.value,firstname.value,lastname.value,language.value); location.reload(); "
                         class="btn btn-primary pull-right"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>
                     Save settings
                 </button>
