@@ -17,6 +17,11 @@
         checkAuthState();
         loadNavbar();
         fillUsersTable();
+        $(document).ready(function() {
+            if (!isAdmin(getUsername())) {
+                document.getElementById('createUserButton').style.visibility = 'hidden';
+            }
+        });
     </script>
 </head>
 <body>
@@ -36,7 +41,7 @@
             <th>Operations</th>
         </tr>
     </table>
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Create new user</button>
+    <button type="button" id="createUserButton" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Create new user</button>
 </div> <!-- /container -->
 
 

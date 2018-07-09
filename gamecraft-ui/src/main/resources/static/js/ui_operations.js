@@ -21,7 +21,38 @@ function fillUsersTable() {
             if (item.authorities[1] == undefined) {
                 role = "<span class=\"badge badge-pill badge-secondary\">USER</span>";
             }
-            if (item.login == getUsername()) {
+            if (isAdmin(getUsername())) {
+                if (item.login == getUsername()) {
+                    var tr = $('<tr>').append(
+                        $('<tr>'),
+                        $('<td>').text(item.id),
+                        $('<td>').text(item.login),
+                        $('<td>').text(item.firstName),
+                        $('<td>').text(item.lastName),
+                        $('<td>').text(item.email),
+                        $('<td>').html(role),
+                        $('<td>').text(item.createdDate),
+                        $('<td>').html("")
+                    );
+                    $(".table").append(tr.html());
+                }
+                else {
+                    var tr = $('<tr>').append(
+                        $('<tr>'),
+                        $('<td>').text(item.id),
+                        $('<td>').text(item.login),
+                        $('<td>').text(item.firstName),
+                        $('<td>').text(item.lastName),
+                        $('<td>').text(item.email),
+                        $('<td>').html(role),
+                        $('<td>').text(item.createdDate),
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteUser('" +item.login + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
+                    );
+                    $(".table").append(tr.html());
+
+                }
+            }
+            else {
                 var tr = $('<tr>').append(
                     $('<tr>'),
                     $('<td>').text(item.id),
@@ -35,21 +66,7 @@ function fillUsersTable() {
                 );
                 $(".table").append(tr.html());
             }
-            else {
-                var tr = $('<tr>').append(
-                    $('<tr>'),
-                    $('<td>').text(item.id),
-                    $('<td>').text(item.login),
-                    $('<td>').text(item.firstName),
-                    $('<td>').text(item.lastName),
-                    $('<td>').text(item.email),
-                    $('<td>').html(role),
-                    $('<td>').text(item.createdDate),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteUser('" +item.login + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>")
-                );
-                $(".table").append(tr.html());
 
-            }
 
         });
     });
