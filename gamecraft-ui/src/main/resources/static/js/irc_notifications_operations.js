@@ -26,7 +26,7 @@ function getIRCBots() {
     return botList;
 }
 
-function addIRCBot(ircBotName, ircBotDescription, ircBotName, ircBotNickname, ircServerAddress, ircServerPort, ircServerSecuredProtocolEnabled) {
+function addIRCBot(ircBotName, ircBotDescription, ircBotNickname, ircServerAddress, ircServerPort, ircServerSecuredProtocolEnabled) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftircnotificationmanager/api/irc-bots/";
 
     var data = {
