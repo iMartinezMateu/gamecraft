@@ -23,6 +23,12 @@ function getEngines() {
     return enginesList;
 }
 
+function getEngine(id) {
+    return getEngines().filter(
+        function(data){ return data.id == id }
+    )[0];
+}
+
 function addEngine(engineName, engineDescription, engineCompilerPath, engineCompilerArguments) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftenginemanager/api/engines/";
 

@@ -19,10 +19,18 @@
         loadNavbar();
         fillEnginesTable();
         setDefaultLanguage();
+        var engineId;
         $(document).ready(function() {
             if (!isAdmin(getUsername())) {
                 document.getElementById('createEngineButton').style.visibility = 'hidden';
             }
+            $('#updateEngineModal').on('show.bs.modal', function(e) {
+                engineId = $(e.relatedTarget).data('engine-id');
+                $(e.currentTarget).find('input[id="newengineName"]').val(getEngine(engineId).engineName);
+                $(e.currentTarget).find('input[id="newengineDescription"]').val(getEngine(engineId).engineDescription);
+                $(e.currentTarget).find('input[id="newengineCompilerPath"]').val(getEngine(engineId).engineCompilerPath);
+                $(e.currentTarget).find('input[id="newengineCompilerArguments"]').val(getEngine(engineId).engineCompilerArguments);
+            });
         });
     </script>
 </head>
@@ -87,6 +95,56 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="addEngine(engineName.value,engineDescription.value,engineCompilerPath.value, engineCompilerArguments.value);  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateEngineModal" tabindex="-1" role="dialog" aria-labelledby="updateEngineButton" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update engine</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" data-toggle="validator" name="form" id="updateform" class="form-horizontal"
+                      enctype="multipart/form-data">
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newengineName">Engine name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newengineName" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newengineDescription">Engine description:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newengineDescription" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newengineCompilerPath">Engine Compiler Path:</label>
+                            <input type="text"  class="form-control" id="newengineCompilerPath" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newengineCompilerArguments">Engine Compiler Arguments:</label>
+                            <input type="text"  class="form-control" id="newengineCompilerArguments" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="updateEngine(engineId,newengineName.value,newengineDescription.value,newengineCompilerPath.value, newengineCompilerArguments.value);  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
