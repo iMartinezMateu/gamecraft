@@ -17,11 +17,27 @@
         checkAuthState();
         loadNavbar();
         fillUsersTable();
+        var userId;
         $(document).ready(function() {
             if (!isAdmin(getUsername())) {
                 document.getElementById('createUserButton').style.visibility = 'hidden';
             }
+            $('#updateUserModal').on('show.bs.modal', function(e) {
+                userId = $(e.relatedTarget).data('user-id');
+                $(e.currentTarget).find('input[id="newusername"]').val(getUser(userId).login);
+                $(e.currentTarget).find('input[id="newfirstname"]').val(getUser(userId).firstName);
+                $(e.currentTarget).find('input[id="newlastname"]').val(getUser(userId).lastName);
+                $(e.currentTarget).find('input[id="newemail"]').val(getUser(userId).email);
+                $(e.currentTarget).find('select[id="newlanguage"]').val(getUser(userId).langKey);
+                if (getUser(userId).authorities[1] == "ROLE_ADMIN") {
+                    $(e.currentTarget).find('select[id="newrole"]').val("admin");
+                }
+                else {
+                    $(e.currentTarget).find('select[id="newrole"]').val("user");
+                }
+            });
         });
+
     </script>
 </head>
 <body>
@@ -117,6 +133,82 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="if (role.value == 'user') { addUser(['ROLE_USER'], getUsername(),language.value, email.value,firstname.value,lastname.value,username.value, password.value); location.reload();} else {  addUser(['ROLE_ADMIN','ROLE_USER'], getUsername(),language.value, email.value,firstname.value,lastname.value,username.value, password.value);  location.reload(); }" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update user</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" data-toggle="validator" name="form" id="editform" class="form-horizontal"
+                      enctype="multipart/form-data">
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="username">Username:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newusername" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="firstname">First Name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newfirstname" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="lastname">Last Name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newlastname" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="email">E-mail:</label>
+                            <input type="email" class="form-control" id="newemail" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="password">Password:</label>
+                            <input type="password" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpassword"/>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="language">Language:</label>
+                            <select id="newlanguage" class="form-control">
+                                <option value="en">English</option>
+                                <option value="sp">Spanish</option>
+                            </select>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="role">Role:</label>
+                            <select id="newrole" class="form-control">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick=" if (role.value == 'user') { updateUser(userId,['ROLE_USER'], getUsername(),newlanguage.value, newemail.value,newfirstname.value,newlastname.value,newusername.value, newpassword.value); location.reload();} else {  updateUser($(e.relatedTarget).data('user-id'),['ROLE_ADMIN','ROLE_USER'], getUsername(),newlanguage.value, newemail.value,newfirstname.value,newlastname.value,newusername.value, newpassword.value);  location.reload(); } " class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
