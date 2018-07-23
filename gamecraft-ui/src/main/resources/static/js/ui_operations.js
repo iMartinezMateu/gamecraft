@@ -82,7 +82,7 @@ function fillTeamsTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.teamName),
                     $('<td>').text(item.teamDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTeam('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-target=\"#updateTeamModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTeam('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-team-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateTeamModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }
@@ -113,7 +113,7 @@ function fillProjectsTable() {
                     $('<td>').text(item.projectName),
                     $('<td>').text(item.projectDescription),
                     $('<td>').html("<a href=" + item.projectWebsite + ">" + item.projectWebsite + "</a>"),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-target=\"#updateProjectModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-project-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateProjectModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }
@@ -143,7 +143,7 @@ function fillEnginesTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.engineName),
                     $('<td>').text(item.engineDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEngine('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-target=\"#updateEngineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEngine('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-engine-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateEngineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }
@@ -171,7 +171,7 @@ function fillEmailAccountsTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.emailAccountName),
                     $('<td>').text(item.emailAccountDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEmailAccount('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-target=\"#updateEmailModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEmailAccount('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\"  data-notificator-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateEmailModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }
@@ -199,7 +199,7 @@ function fillIRCBotsTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.ircBotName),
                     $('<td>').text(item.ircBotDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteIRCBot('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\"  data-toggle=\"modal\" data-target=\"#updateNotificatorModal\"onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteIRCBot('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\"  data-notificator-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateNotificatorModal\"onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }
@@ -227,7 +227,7 @@ function fillSlackAccountTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.slackAccountName),
                     $('<td>').text(item.slackAccountDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteSlackAccount('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-target=\"#updateNotificatorModal\"  onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteSlackAccount('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-notificator-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateNotificatorModal\"  onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }
@@ -256,7 +256,7 @@ function fillTelegramBotsTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.telegramBotName),
                     $('<td>').text(item.telegramBotDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTelegramBot('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-target=\"#updateNotificatorModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTelegramBot('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-notificator-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateNotificatorModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }
@@ -285,7 +285,7 @@ function fillTwitterBotsTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.twitterBotName),
                     $('<td>').text(item.twitterBotDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTwitterBot('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-target=\"#updateNotificatorModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button> ")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteTwitterBot('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-notificator-id=\"" + item.id +"\" data-target=\"#updateNotificatorModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button> ")
                 );
                 $(".table").append(tr.html());
             }

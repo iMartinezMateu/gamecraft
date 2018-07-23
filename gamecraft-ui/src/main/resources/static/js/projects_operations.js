@@ -23,6 +23,11 @@ function getProjects() {
     return projectsList;
 }
 
+function getProject(id) {
+    return getProjects().filter(
+        function(data){ return data.id == id }
+    )[0];
+}
 
 function addProject(projectName, projectDescription, projectWebsite) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftproject/api/projects/";
@@ -59,10 +64,11 @@ function addProject(projectName, projectDescription, projectWebsite) {
     });
 }
 
-function updateProject(projectName, projectDescription, projectWebsite, projectArchived) {
+function updateProject(projectId, projectName, projectDescription, projectWebsite, projectArchived) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftproject/api/projects/";
 
     var data = {
+        id: projectId,
         projectName: projectName,
         projectDescription: projectDescription,
         projectWebsite: projectWebsite,

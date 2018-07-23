@@ -19,10 +19,17 @@
         loadNavbar();
         setDefaultLanguage();
         fillProjectsTable();
+        var projectId;
         $(document).ready(function() {
             if (!isAdmin(getUsername())) {
                 document.getElementById('createProjectButton').style.visibility = 'hidden';
             }
+            $('#updateProjectModal').on('show.bs.modal', function(e) {
+                projectId = $(e.relatedTarget).data('project-id');
+                $(e.currentTarget).find('input[id="newprojectName"]').val(getProject(projectId).projectName);
+                $(e.currentTarget).find('input[id="newprojectDescription"]').val(getProject(projectId).projectDescription);
+                $(e.currentTarget).find('input[id="newprojectWebpage"]').val(getProject(projectId).projectWebsite);
+            });
         });
     </script>
 </head>
@@ -80,6 +87,49 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="addProject(projectName.value,projectDescription.value,projectWebpage.value);  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateProjectModal" tabindex="-1" role="dialog" aria-labelledby="updateProjectModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update project</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" data-toggle="validator" name="form" id="updateform" class="form-horizontal"
+                      enctype="multipart/form-data">
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newprojectName">Project name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newprojectName" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newprojectDescription">Project description:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newprojectDescription" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newprojectWebpage">Project webpage:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newprojectWebpage" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="updateProject(projectId,newprojectName.value,newprojectDescription.value,newprojectWebpage.value,false);  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
