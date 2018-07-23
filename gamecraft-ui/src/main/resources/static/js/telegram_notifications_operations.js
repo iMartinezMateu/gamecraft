@@ -26,6 +26,12 @@ function getTelegramBots() {
     return botList;
 }
 
+function getTelegramBot(id) {
+    return getTelegramBots().filter(
+        function(data){ return data.id == id }
+    )[0];
+}
+
 function addTelegramBot(telegramBotName, telegramBotDescription, telegramBotToken) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttelegramnotificationmanager/api/telegram-bots/";
 
@@ -87,7 +93,7 @@ function updateTelegramBot(telegramBotId, telegramBotName, telegramBotDescriptio
             'Content-Type': 'application/json'
         },
         success: function (data) {
-            alert("Telegram notificator created!");
+            alert("Telegram notificator updated!");
         },
         error: function (data) {
             alert(JSON.stringify(data));
