@@ -26,6 +26,12 @@ function getSlackAccounts() {
     return botList;
 }
 
+function getSlackAccount(id) {
+    return getSlackAccounts().filter(
+        function(data){ return data.id == id }
+    )[0];
+}
+
 function addSlackAccount(slackAccountName,slackAccountDescription,slackAccountToken) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftslacknotificationmanager/api/slack-accounts/";
 
