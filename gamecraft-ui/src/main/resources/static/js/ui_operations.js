@@ -171,7 +171,7 @@ function fillEmailAccountsTable() {
                     $('<td>').text(item.id),
                     $('<td>').text(item.emailAccountName),
                     $('<td>').text(item.emailAccountDescription),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEmailAccount('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\"  data-notificator-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateEmailModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteEmailAccount('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\"  data-notificator-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateNotificatorModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                 );
                 $(".table").append(tr.html());
             }

@@ -26,6 +26,13 @@ function getEmailAccounts() {
     return accountList;
 }
 
+function getEmailAccount(id) {
+    return getEmailAccounts().filter(
+        function(data){ return data.id == id }
+    )[0];
+}
+
+
 function addEmailAccount(emailAccountDescription, emailAccountName, emailSmtpPassword, emailSmtpPort, emailSmtpServer, emailSmtpUseSSL, emailSmtpUsername) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftemailnotificationmanager/api/email-accounts/";
 

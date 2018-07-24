@@ -17,10 +17,23 @@
         checkAuthState();
         loadNavbar();
         fillEmailAccountsTable();
+        var notificatorId;
         $(document).ready(function() {
             if (!isAdmin(getUsername())) {
                 document.getElementById('createNotificatorButton').style.visibility = 'hidden';
             }
+            $('#updateNotificatorModal').on('show.bs.modal', function(e) {
+                notificatorId = $(e.relatedTarget).data('notificator-id');
+                $(e.currentTarget).find('input[id="newnotificatorName"]').val(getEmailAccount(notificatorId).emailAccountName);
+                $(e.currentTarget).find('input[id="newnotificatorDescription"]').val(getEmailAccount(notificatorId).emailAccountDescription);
+                $(e.currentTarget).find('input[id="newnotificatorSmtpServer"]').val(getEmailAccount(notificatorId).emailSmtpServer);
+                $(e.currentTarget).find('input[id="newnotificatorSmtpPort"]').val(getEmailAccount(notificatorId).emailSmtpPort);
+                $(e.currentTarget).find('input[id="newnotificatorSmtpUsername"]').val(getEmailAccount(notificatorId).emailSmtpUsername);
+                $(e.currentTarget).find('input[id="newnotificatorSmtpPassword"]').val(getEmailAccount(notificatorId).emailSmtpPassword);
+                if (getEmailAccount(notificatorId).emailSmtpUseSSL == true) {
+                    $(e.currentTarget).find('input[id="newnotificatorSmtpSecured"]').attr("checked","checked");
+                }
+            });
         });
     </script>
 </head>
@@ -106,6 +119,77 @@
             </div>
             <div class="modal-footer">
                 <button type="button" onclick="if (notificatorSmtpSecured.checked) { addEmailAccount(notificatorDescription.value,notificatorName.value,notificatorSmtpPassword.value,notificatorSmtpPort.value,notificatorSmtpServer.value,true,notificatorSmtpUsername.value); } else {addEmailAccount(notificatorDescription.value,notificatorName.value,notificatorSmtpPassword.value,notificatorSmtpPort.value,notificatorSmtpServer.value,false,notificatorSmtpUsername.value);}  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateNotificatorModal" tabindex="-1" role="dialog" aria-labelledby="updateNotificatorModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update notificator</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" data-toggle="validator" name="form" id="updateform" class="form-horizontal"
+                      enctype="multipart/form-data">
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newnotificatorName">Notificator name:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newnotificatorName" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newnotificatorDescription">Notificator description:</label>
+                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newnotificatorDescription" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newnotificatorSmtpServer">SMTP Server:</label>
+                            <input type="text"  class="form-control" id="newnotificatorSmtpServer" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newnotificatorSmtpPort">SMTP Port:</label>
+                            <input type="number"  class="form-control" id="newnotificatorSmtpPort" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newnotificatorSmtpUsername">SMTP Username:</label>
+                            <input type="text"  class="form-control" id="newnotificatorSmtpUsername" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newnotificatorSmtpPassword">SMTP Password:</label>
+                            <input type="password"  class="form-control" id="newnotificatorSmtpPassword" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="newnotificatorSmtpSecured">Use Secure Protocol (SSL):</label>
+                            <input type="checkbox"  class="form-control" id="newnotificatorSmtpSecured" required="true"/>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="if (newnotificatorSmtpSecured.checked) { updateEmailAccount(notificatorId,newnotificatorDescription.value,true,newnotificatorName.value,newnotificatorSmtpPassword.value,newnotificatorSmtpPort.value,newnotificatorSmtpServer.value,true,newnotificatorSmtpUsername.value); } else {updateEmailAccount(notificatorId,newnotificatorDescription.value,true,newnotificatorName.value,newnotificatorSmtpPassword.value,newnotificatorSmtpPort.value,newnotificatorSmtpServer.value,false,newnotificatorSmtpUsername.value);}  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
