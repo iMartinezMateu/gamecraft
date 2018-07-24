@@ -26,6 +26,12 @@ function getIRCBots() {
     return botList;
 }
 
+function getIRCBot(id) {
+    return getIRCBots().filter(
+        function(data){ return data.id == id }
+    )[0];
+}
+
 function addIRCBot(ircBotName, ircBotDescription, ircBotNickname, ircServerAddress, ircServerPort, ircServerSecuredProtocolEnabled) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftircnotificationmanager/api/irc-bots/";
 
@@ -67,7 +73,7 @@ function updateIRCBot(ircBotId, ircBotName, ircBotDescription, ircBotEnabled, ir
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftircnotificationmanager/api/irc-bots/";
 
     var data = {
-        "ircBotId": ircBotId,
+        "id": ircBotId,
         "ircBotDescription": ircBotDescription,
         "ircBotEnabled": ircBotEnabled,
         "ircBotName": ircBotName,
@@ -76,6 +82,7 @@ function updateIRCBot(ircBotId, ircBotName, ircBotDescription, ircBotEnabled, ir
         "ircServerPort": ircServerPort,
         "ircServerSecuredProtocolEnabled": ircServerSecuredProtocolEnabled
     };
+
     $.ajax
     ({
         type: "PUT",
@@ -93,12 +100,15 @@ function updateIRCBot(ircBotId, ircBotName, ircBotDescription, ircBotEnabled, ir
             'Content-Type': 'application/json'
         },
         success: function (data) {
-            alert("IRC notificator created!");
+            alert("IRC notificator updated!");
         },
         error: function (data) {
             alert(JSON.stringify(data));
         }
     });
+
+
+
 }
 
 function deleteIRCBot(ircBotId) {
