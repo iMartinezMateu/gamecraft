@@ -26,6 +26,12 @@ function getTwitterBots() {
     return botList;
 }
 
+function getTwitterBot(id) {
+    return getTwitterBots().filter(
+        function(data){ return data.id == id }
+    )[0];
+}
+
 function addTwitterBot(twitterBotName, twitterBotDescription, twitterBotConsumerKey, twitterBotConsumerSecret, twitterBotAccessToken, twitterBotAccessTokenSecret) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttwitternotificationmanager/api/twitter-bots/";
 
@@ -63,7 +69,7 @@ function addTwitterBot(twitterBotName, twitterBotDescription, twitterBotConsumer
     });
 }
 
-function updateTwitterBot(twitterBotName, twitterBotDescription, twitterBotEnabled, twitterBotConsumerKey, twitterBotConsumerSecret, twitterBotAccessToken, twitterBotAccessTokenSecret) {
+function updateTwitterBot(twitterBotId,twitterBotName, twitterBotDescription, twitterBotEnabled, twitterBotConsumerKey, twitterBotConsumerSecret, twitterBotAccessToken, twitterBotAccessTokenSecret) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttwitternotificationmanager/api/twitter-bots/";
 
     var data = {
@@ -93,7 +99,7 @@ function updateTwitterBot(twitterBotName, twitterBotDescription, twitterBotEnabl
             'Content-Type': 'application/json'
         },
         success: function (data) {
-            alert("Twitter notificator created!");
+            alert("Twitter notificator updated!");
         },
         error: function (data) {
             alert(JSON.stringify(data));
