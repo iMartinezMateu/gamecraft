@@ -4,6 +4,10 @@ import com.gamecraft.service.PipelineService;
 import com.gamecraft.domain.Pipeline;
 import com.gamecraft.repository.PipelineRepository;
 import com.gamecraft.repository.search.PipelineSearchRepository;
+import com.google.common.io.Files;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,6 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -82,6 +90,51 @@ public class PipelineServiceImpl implements PipelineService {
         log.debug("Request to delete Pipeline : {}", id);
         pipelineRepository.delete(id);
         pipelineSearchRepository.delete(id);
+
+    }
+
+    /**
+     * Execute the pipeline by id.
+     *
+     * @param id the id of the entity
+     */
+    @Override
+    public void execute(Long id) {
+        log.debug("Request to execute Pipeline : {}", id);
+        File workDirectory = Files.createTempDir();
+        Pipeline pipeline = pipelineRepository.findOne(id);
+        try {
+            Git git = Git.cloneRepository()
+                .setURI(pipeline.getPipelineRepositoryAddress())
+                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(pipeline.getPipelineRepositoryUsername(),pipeline.getPipelineRepositoryPassword()))
+                .setDirectory(workDirectory)
+                .call();
+
+            Process p = Runtime.getRuntime().exec(pipeline.getPipelineEngineCompilerPath() + " " + pipeline.getPipelineEngineCompilerArguments());
+            p.waitFor();
+
+            BufferedReader reader =
+                new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            StringBuffer output = new StringBuffer();
+
+            String line = "";
+            while ((line = reader.readLine())!= null) {
+                output.append(line + "\n");
+            }
+
+            log.debug(output.toString());
+
+
+        } catch (GitAPIException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
