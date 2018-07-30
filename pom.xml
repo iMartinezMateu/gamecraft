@@ -26,6 +26,7 @@
         <module>gamecraft-sonar-manager</module>
         <module>gamecraft-group</module>
         <module>gamecraft-ui</module>
+        <module>gamecraft-pipeline-manager</module>
     </modules>
 
 </project>
