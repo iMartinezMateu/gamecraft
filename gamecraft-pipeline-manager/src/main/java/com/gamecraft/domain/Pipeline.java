@@ -2,17 +2,22 @@ package com.gamecraft.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-
-import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.Objects;
 
 import com.gamecraft.domain.enumeration.PipelineRepositoryType;
 
 import com.gamecraft.domain.enumeration.PipelineNotificatorType;
+
+import com.gamecraft.domain.enumeration.PipelinePublicationService;
+
+import com.gamecraft.domain.enumeration.PipelineStatus;
+
+import com.gamecraft.domain.enumeration.PipelineScheduleType;
 
 /**
  * A Pipeline.
@@ -75,6 +80,33 @@ public class Pipeline implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "pipeline_notificator_type")
     private PipelineNotificatorType pipelineNotificatorType;
+
+    @Column(name = "pipeline_dropbox_app_key")
+    private String pipelineDropboxAppKey;
+
+    @Column(name = "pipeline_dropbox_token")
+    private String pipelineDropboxToken;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pipeline_publication_service")
+    private PipelinePublicationService pipelinePublicationService;
+
+    @Column(name = "pipeline_ftp_port")
+    private Integer pipelineFtpPort;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pipeline_status")
+    private PipelineStatus pipelineStatus;
+
+    @Column(name = "pipeline_project_name")
+    private String pipelineProjectName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pipeline_schedule_type")
+    private PipelineScheduleType pipelineScheduleType;
+
+    @Column(name = "pipeline_schedule_cron_job")
+    private String pipelineScheduleCronJob;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -266,6 +298,110 @@ public class Pipeline implements Serializable {
     public void setPipelineNotificatorType(PipelineNotificatorType pipelineNotificatorType) {
         this.pipelineNotificatorType = pipelineNotificatorType;
     }
+
+    public String getPipelineDropboxAppKey() {
+        return pipelineDropboxAppKey;
+    }
+
+    public Pipeline pipelineDropboxAppKey(String pipelineDropboxAppKey) {
+        this.pipelineDropboxAppKey = pipelineDropboxAppKey;
+        return this;
+    }
+
+    public void setPipelineDropboxAppKey(String pipelineDropboxAppKey) {
+        this.pipelineDropboxAppKey = pipelineDropboxAppKey;
+    }
+
+    public String getPipelineDropboxToken() {
+        return pipelineDropboxToken;
+    }
+
+    public Pipeline pipelineDropboxToken(String pipelineDropboxToken) {
+        this.pipelineDropboxToken = pipelineDropboxToken;
+        return this;
+    }
+
+    public void setPipelineDropboxToken(String pipelineDropboxToken) {
+        this.pipelineDropboxToken = pipelineDropboxToken;
+    }
+
+    public PipelinePublicationService getPipelinePublicationService() {
+        return pipelinePublicationService;
+    }
+
+    public Pipeline pipelinePublicationService(PipelinePublicationService pipelinePublicationService) {
+        this.pipelinePublicationService = pipelinePublicationService;
+        return this;
+    }
+
+    public void setPipelinePublicationService(PipelinePublicationService pipelinePublicationService) {
+        this.pipelinePublicationService = pipelinePublicationService;
+    }
+
+    public Integer getPipelineFtpPort() {
+        return pipelineFtpPort;
+    }
+
+    public Pipeline pipelineFtpPort(Integer pipelineFtpPort) {
+        this.pipelineFtpPort = pipelineFtpPort;
+        return this;
+    }
+
+    public void setPipelineFtpPort(Integer pipelineFtpPort) {
+        this.pipelineFtpPort = pipelineFtpPort;
+    }
+
+    public PipelineStatus getPipelineStatus() {
+        return pipelineStatus;
+    }
+
+    public Pipeline pipelineStatus(PipelineStatus pipelineStatus) {
+        this.pipelineStatus = pipelineStatus;
+        return this;
+    }
+
+    public void setPipelineStatus(PipelineStatus pipelineStatus) {
+        this.pipelineStatus = pipelineStatus;
+    }
+
+    public String getPipelineProjectName() {
+        return pipelineProjectName;
+    }
+
+    public Pipeline pipelineProjectName(String pipelineProjectName) {
+        this.pipelineProjectName = pipelineProjectName;
+        return this;
+    }
+
+    public void setPipelineProjectName(String pipelineProjectName) {
+        this.pipelineProjectName = pipelineProjectName;
+    }
+
+    public PipelineScheduleType getPipelineScheduleType() {
+        return pipelineScheduleType;
+    }
+
+    public Pipeline pipelineScheduleType(PipelineScheduleType pipelineScheduleType) {
+        this.pipelineScheduleType = pipelineScheduleType;
+        return this;
+    }
+
+    public void setPipelineScheduleType(PipelineScheduleType pipelineScheduleType) {
+        this.pipelineScheduleType = pipelineScheduleType;
+    }
+
+    public String getPipelineScheduleCronJob() {
+        return pipelineScheduleCronJob;
+    }
+
+    public Pipeline pipelineScheduleCronJob(String pipelineScheduleCronJob) {
+        this.pipelineScheduleCronJob = pipelineScheduleCronJob;
+        return this;
+    }
+
+    public void setPipelineScheduleCronJob(String pipelineScheduleCronJob) {
+        this.pipelineScheduleCronJob = pipelineScheduleCronJob;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -294,7 +430,7 @@ public class Pipeline implements Serializable {
             "id=" + getId() +
             ", pipelineName='" + getPipelineName() + "'" +
             ", pipelineDescription='" + getPipelineDescription() + "'" +
-            ", pipelineProjectId=" + getPipelineProjectId() +
+            ", pipelineProjectId='" + getPipelineProjectId() + "'" +
             ", pipelineRepositoryAddress='" + getPipelineRepositoryAddress() + "'" +
             ", pipelineRepositoryUsername='" + getPipelineRepositoryUsername() + "'" +
             ", pipelineRepositoryPassword='" + getPipelineRepositoryPassword() + "'" +
@@ -306,6 +442,14 @@ public class Pipeline implements Serializable {
             ", pipelineNotificatorDetails='" + getPipelineNotificatorDetails() + "'" +
             ", pipelineRepositoryType='" + getPipelineRepositoryType() + "'" +
             ", pipelineNotificatorType='" + getPipelineNotificatorType() + "'" +
+            ", pipelineDropboxAppKey='" + getPipelineDropboxAppKey() + "'" +
+            ", pipelineDropboxToken='" + getPipelineDropboxToken() + "'" +
+            ", pipelinePublicationService='" + getPipelinePublicationService() + "'" +
+            ", pipelineFtpPort='" + getPipelineFtpPort() + "'" +
+            ", pipelineStatus='" + getPipelineStatus() + "'" +
+            ", pipelineProjectName='" + getPipelineProjectName() + "'" +
+            ", pipelineScheduleType='" + getPipelineScheduleType() + "'" +
+            ", pipelineScheduleCronJob='" + getPipelineScheduleCronJob() + "'" +
             "}";
     }
 }

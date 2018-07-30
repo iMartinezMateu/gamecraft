@@ -21,12 +21,15 @@ import com.gamecraft.service.dto.PipelineCriteria;
 
 import com.gamecraft.domain.enumeration.PipelineRepositoryType;
 import com.gamecraft.domain.enumeration.PipelineNotificatorType;
+import com.gamecraft.domain.enumeration.PipelinePublicationService;
+import com.gamecraft.domain.enumeration.PipelineStatus;
+import com.gamecraft.domain.enumeration.PipelineScheduleType;
 
 /**
  * Service for executing complex queries for Pipeline entities in the database.
  * The main input is a {@link PipelineCriteria} which get's converted to {@link Specifications},
  * in a way that all the filters must apply.
- * It returns a {@link List} of {@link Pipeline} or a {@link Page} of {@link Pipeline} which fulfills the criteria.
+ * It returns a {@link List} of {%link Pipeline} or a {@link Page} of {%link Pipeline} which fulfills the criterias
  */
 @Service
 @Transactional(readOnly = true)
@@ -45,7 +48,7 @@ public class PipelineQueryService extends QueryService<Pipeline> {
     }
 
     /**
-     * Return a {@link List} of {@link Pipeline} which matches the criteria from the database
+     * Return a {@link List} of {%link Pipeline} which matches the criteria from the database
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -57,7 +60,7 @@ public class PipelineQueryService extends QueryService<Pipeline> {
     }
 
     /**
-     * Return a {@link Page} of {@link Pipeline} which matches the criteria from the database
+     * Return a {@link Page} of {%link Pipeline} which matches the criteria from the database
      * @param criteria The object which holds all the filters, which the entities should match.
      * @param page The page, which should be returned.
      * @return the matching entities.
@@ -119,6 +122,30 @@ public class PipelineQueryService extends QueryService<Pipeline> {
             }
             if (criteria.getPipelineNotificatorType() != null) {
                 specification = specification.and(buildSpecification(criteria.getPipelineNotificatorType(), Pipeline_.pipelineNotificatorType));
+            }
+            if (criteria.getPipelineDropboxAppKey() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPipelineDropboxAppKey(), Pipeline_.pipelineDropboxAppKey));
+            }
+            if (criteria.getPipelineDropboxToken() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPipelineDropboxToken(), Pipeline_.pipelineDropboxToken));
+            }
+            if (criteria.getPipelinePublicationService() != null) {
+                specification = specification.and(buildSpecification(criteria.getPipelinePublicationService(), Pipeline_.pipelinePublicationService));
+            }
+            if (criteria.getPipelineFtpPort() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPipelineFtpPort(), Pipeline_.pipelineFtpPort));
+            }
+            if (criteria.getPipelineStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getPipelineStatus(), Pipeline_.pipelineStatus));
+            }
+            if (criteria.getPipelineProjectName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPipelineProjectName(), Pipeline_.pipelineProjectName));
+            }
+            if (criteria.getPipelineScheduleType() != null) {
+                specification = specification.and(buildSpecification(criteria.getPipelineScheduleType(), Pipeline_.pipelineScheduleType));
+            }
+            if (criteria.getPipelineScheduleCronJob() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPipelineScheduleCronJob(), Pipeline_.pipelineScheduleCronJob));
             }
         }
         return specification;

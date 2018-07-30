@@ -35,6 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.gamecraft.domain.enumeration.PipelineRepositoryType;
 import com.gamecraft.domain.enumeration.PipelineNotificatorType;
+import com.gamecraft.domain.enumeration.PipelinePublicationService;
+import com.gamecraft.domain.enumeration.PipelineStatus;
+import com.gamecraft.domain.enumeration.PipelineScheduleType;
 /**
  * Test class for the PipelineResource REST controller.
  *
@@ -85,6 +88,30 @@ public class PipelineResourceIntTest {
 
     private static final PipelineNotificatorType DEFAULT_PIPELINE_NOTIFICATOR_TYPE = PipelineNotificatorType.EMAIL;
     private static final PipelineNotificatorType UPDATED_PIPELINE_NOTIFICATOR_TYPE = PipelineNotificatorType.TWITTER;
+
+    private static final String DEFAULT_PIPELINE_DROPBOX_APP_KEY = "AAAAAAAAAA";
+    private static final String UPDATED_PIPELINE_DROPBOX_APP_KEY = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PIPELINE_DROPBOX_TOKEN = "AAAAAAAAAA";
+    private static final String UPDATED_PIPELINE_DROPBOX_TOKEN = "BBBBBBBBBB";
+
+    private static final PipelinePublicationService DEFAULT_PIPELINE_PUBLICATION_SERVICE = PipelinePublicationService.FTP;
+    private static final PipelinePublicationService UPDATED_PIPELINE_PUBLICATION_SERVICE = PipelinePublicationService.DROPBOX;
+
+    private static final Integer DEFAULT_PIPELINE_FTP_PORT = 1;
+    private static final Integer UPDATED_PIPELINE_FTP_PORT = 2;
+
+    private static final PipelineStatus DEFAULT_PIPELINE_STATUS = PipelineStatus.IDLE;
+    private static final PipelineStatus UPDATED_PIPELINE_STATUS = PipelineStatus.RUNNING;
+
+    private static final String DEFAULT_PIPELINE_PROJECT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PIPELINE_PROJECT_NAME = "BBBBBBBBBB";
+
+    private static final PipelineScheduleType DEFAULT_PIPELINE_SCHEDULE_TYPE = PipelineScheduleType.WEBHOOK;
+    private static final PipelineScheduleType UPDATED_PIPELINE_SCHEDULE_TYPE = PipelineScheduleType.CRONJOB;
+
+    private static final String DEFAULT_PIPELINE_SCHEDULE_CRON_JOB = "AAAAAAAAAA";
+    private static final String UPDATED_PIPELINE_SCHEDULE_CRON_JOB = "BBBBBBBBBB";
 
     @Autowired
     private PipelineRepository pipelineRepository;
@@ -146,7 +173,15 @@ public class PipelineResourceIntTest {
             .pipelineFtpPassword(DEFAULT_PIPELINE_FTP_PASSWORD)
             .pipelineNotificatorDetails(DEFAULT_PIPELINE_NOTIFICATOR_DETAILS)
             .pipelineRepositoryType(DEFAULT_PIPELINE_REPOSITORY_TYPE)
-            .pipelineNotificatorType(DEFAULT_PIPELINE_NOTIFICATOR_TYPE);
+            .pipelineNotificatorType(DEFAULT_PIPELINE_NOTIFICATOR_TYPE)
+            .pipelineDropboxAppKey(DEFAULT_PIPELINE_DROPBOX_APP_KEY)
+            .pipelineDropboxToken(DEFAULT_PIPELINE_DROPBOX_TOKEN)
+            .pipelinePublicationService(DEFAULT_PIPELINE_PUBLICATION_SERVICE)
+            .pipelineFtpPort(DEFAULT_PIPELINE_FTP_PORT)
+            .pipelineStatus(DEFAULT_PIPELINE_STATUS)
+            .pipelineProjectName(DEFAULT_PIPELINE_PROJECT_NAME)
+            .pipelineScheduleType(DEFAULT_PIPELINE_SCHEDULE_TYPE)
+            .pipelineScheduleCronJob(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB);
         return pipeline;
     }
 
@@ -185,10 +220,18 @@ public class PipelineResourceIntTest {
         assertThat(testPipeline.getPipelineNotificatorDetails()).isEqualTo(DEFAULT_PIPELINE_NOTIFICATOR_DETAILS);
         assertThat(testPipeline.getPipelineRepositoryType()).isEqualTo(DEFAULT_PIPELINE_REPOSITORY_TYPE);
         assertThat(testPipeline.getPipelineNotificatorType()).isEqualTo(DEFAULT_PIPELINE_NOTIFICATOR_TYPE);
+        assertThat(testPipeline.getPipelineDropboxAppKey()).isEqualTo(DEFAULT_PIPELINE_DROPBOX_APP_KEY);
+        assertThat(testPipeline.getPipelineDropboxToken()).isEqualTo(DEFAULT_PIPELINE_DROPBOX_TOKEN);
+        assertThat(testPipeline.getPipelinePublicationService()).isEqualTo(DEFAULT_PIPELINE_PUBLICATION_SERVICE);
+        assertThat(testPipeline.getPipelineFtpPort()).isEqualTo(DEFAULT_PIPELINE_FTP_PORT);
+        assertThat(testPipeline.getPipelineStatus()).isEqualTo(DEFAULT_PIPELINE_STATUS);
+        assertThat(testPipeline.getPipelineProjectName()).isEqualTo(DEFAULT_PIPELINE_PROJECT_NAME);
+        assertThat(testPipeline.getPipelineScheduleType()).isEqualTo(DEFAULT_PIPELINE_SCHEDULE_TYPE);
+        assertThat(testPipeline.getPipelineScheduleCronJob()).isEqualTo(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB);
 
         // Validate the Pipeline in Elasticsearch
         Pipeline pipelineEs = pipelineSearchRepository.findOne(testPipeline.getId());
-        assertThat(pipelineEs).isEqualToIgnoringGivenFields(testPipeline);
+        assertThat(pipelineEs).isEqualToComparingFieldByField(testPipeline);
     }
 
     @Test
@@ -270,7 +313,15 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineFtpPassword").value(hasItem(DEFAULT_PIPELINE_FTP_PASSWORD.toString())))
             .andExpect(jsonPath("$.[*].pipelineNotificatorDetails").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_DETAILS.toString())))
             .andExpect(jsonPath("$.[*].pipelineRepositoryType").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].pipelineNotificatorType").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].pipelineNotificatorType").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineDropboxAppKey").value(hasItem(DEFAULT_PIPELINE_DROPBOX_APP_KEY.toString())))
+            .andExpect(jsonPath("$.[*].pipelineDropboxToken").value(hasItem(DEFAULT_PIPELINE_DROPBOX_TOKEN.toString())))
+            .andExpect(jsonPath("$.[*].pipelinePublicationService").value(hasItem(DEFAULT_PIPELINE_PUBLICATION_SERVICE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineFtpPort").value(hasItem(DEFAULT_PIPELINE_FTP_PORT)))
+            .andExpect(jsonPath("$.[*].pipelineStatus").value(hasItem(DEFAULT_PIPELINE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())));
     }
 
     @Test
@@ -297,7 +348,15 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.pipelineFtpPassword").value(DEFAULT_PIPELINE_FTP_PASSWORD.toString()))
             .andExpect(jsonPath("$.pipelineNotificatorDetails").value(DEFAULT_PIPELINE_NOTIFICATOR_DETAILS.toString()))
             .andExpect(jsonPath("$.pipelineRepositoryType").value(DEFAULT_PIPELINE_REPOSITORY_TYPE.toString()))
-            .andExpect(jsonPath("$.pipelineNotificatorType").value(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString()));
+            .andExpect(jsonPath("$.pipelineNotificatorType").value(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString()))
+            .andExpect(jsonPath("$.pipelineDropboxAppKey").value(DEFAULT_PIPELINE_DROPBOX_APP_KEY.toString()))
+            .andExpect(jsonPath("$.pipelineDropboxToken").value(DEFAULT_PIPELINE_DROPBOX_TOKEN.toString()))
+            .andExpect(jsonPath("$.pipelinePublicationService").value(DEFAULT_PIPELINE_PUBLICATION_SERVICE.toString()))
+            .andExpect(jsonPath("$.pipelineFtpPort").value(DEFAULT_PIPELINE_FTP_PORT))
+            .andExpect(jsonPath("$.pipelineStatus").value(DEFAULT_PIPELINE_STATUS.toString()))
+            .andExpect(jsonPath("$.pipelineProjectName").value(DEFAULT_PIPELINE_PROJECT_NAME.toString()))
+            .andExpect(jsonPath("$.pipelineScheduleType").value(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString()))
+            .andExpect(jsonPath("$.pipelineScheduleCronJob").value(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString()));
     }
 
     @Test
@@ -872,6 +931,345 @@ public class PipelineResourceIntTest {
         // Get all the pipelineList where pipelineNotificatorType is null
         defaultPipelineShouldNotBeFound("pipelineNotificatorType.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineDropboxAppKeyIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineDropboxAppKey equals to DEFAULT_PIPELINE_DROPBOX_APP_KEY
+        defaultPipelineShouldBeFound("pipelineDropboxAppKey.equals=" + DEFAULT_PIPELINE_DROPBOX_APP_KEY);
+
+        // Get all the pipelineList where pipelineDropboxAppKey equals to UPDATED_PIPELINE_DROPBOX_APP_KEY
+        defaultPipelineShouldNotBeFound("pipelineDropboxAppKey.equals=" + UPDATED_PIPELINE_DROPBOX_APP_KEY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineDropboxAppKeyIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineDropboxAppKey in DEFAULT_PIPELINE_DROPBOX_APP_KEY or UPDATED_PIPELINE_DROPBOX_APP_KEY
+        defaultPipelineShouldBeFound("pipelineDropboxAppKey.in=" + DEFAULT_PIPELINE_DROPBOX_APP_KEY + "," + UPDATED_PIPELINE_DROPBOX_APP_KEY);
+
+        // Get all the pipelineList where pipelineDropboxAppKey equals to UPDATED_PIPELINE_DROPBOX_APP_KEY
+        defaultPipelineShouldNotBeFound("pipelineDropboxAppKey.in=" + UPDATED_PIPELINE_DROPBOX_APP_KEY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineDropboxAppKeyIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineDropboxAppKey is not null
+        defaultPipelineShouldBeFound("pipelineDropboxAppKey.specified=true");
+
+        // Get all the pipelineList where pipelineDropboxAppKey is null
+        defaultPipelineShouldNotBeFound("pipelineDropboxAppKey.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineDropboxTokenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineDropboxToken equals to DEFAULT_PIPELINE_DROPBOX_TOKEN
+        defaultPipelineShouldBeFound("pipelineDropboxToken.equals=" + DEFAULT_PIPELINE_DROPBOX_TOKEN);
+
+        // Get all the pipelineList where pipelineDropboxToken equals to UPDATED_PIPELINE_DROPBOX_TOKEN
+        defaultPipelineShouldNotBeFound("pipelineDropboxToken.equals=" + UPDATED_PIPELINE_DROPBOX_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineDropboxTokenIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineDropboxToken in DEFAULT_PIPELINE_DROPBOX_TOKEN or UPDATED_PIPELINE_DROPBOX_TOKEN
+        defaultPipelineShouldBeFound("pipelineDropboxToken.in=" + DEFAULT_PIPELINE_DROPBOX_TOKEN + "," + UPDATED_PIPELINE_DROPBOX_TOKEN);
+
+        // Get all the pipelineList where pipelineDropboxToken equals to UPDATED_PIPELINE_DROPBOX_TOKEN
+        defaultPipelineShouldNotBeFound("pipelineDropboxToken.in=" + UPDATED_PIPELINE_DROPBOX_TOKEN);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineDropboxTokenIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineDropboxToken is not null
+        defaultPipelineShouldBeFound("pipelineDropboxToken.specified=true");
+
+        // Get all the pipelineList where pipelineDropboxToken is null
+        defaultPipelineShouldNotBeFound("pipelineDropboxToken.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelinePublicationServiceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelinePublicationService equals to DEFAULT_PIPELINE_PUBLICATION_SERVICE
+        defaultPipelineShouldBeFound("pipelinePublicationService.equals=" + DEFAULT_PIPELINE_PUBLICATION_SERVICE);
+
+        // Get all the pipelineList where pipelinePublicationService equals to UPDATED_PIPELINE_PUBLICATION_SERVICE
+        defaultPipelineShouldNotBeFound("pipelinePublicationService.equals=" + UPDATED_PIPELINE_PUBLICATION_SERVICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelinePublicationServiceIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelinePublicationService in DEFAULT_PIPELINE_PUBLICATION_SERVICE or UPDATED_PIPELINE_PUBLICATION_SERVICE
+        defaultPipelineShouldBeFound("pipelinePublicationService.in=" + DEFAULT_PIPELINE_PUBLICATION_SERVICE + "," + UPDATED_PIPELINE_PUBLICATION_SERVICE);
+
+        // Get all the pipelineList where pipelinePublicationService equals to UPDATED_PIPELINE_PUBLICATION_SERVICE
+        defaultPipelineShouldNotBeFound("pipelinePublicationService.in=" + UPDATED_PIPELINE_PUBLICATION_SERVICE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelinePublicationServiceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelinePublicationService is not null
+        defaultPipelineShouldBeFound("pipelinePublicationService.specified=true");
+
+        // Get all the pipelineList where pipelinePublicationService is null
+        defaultPipelineShouldNotBeFound("pipelinePublicationService.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineFtpPortIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineFtpPort equals to DEFAULT_PIPELINE_FTP_PORT
+        defaultPipelineShouldBeFound("pipelineFtpPort.equals=" + DEFAULT_PIPELINE_FTP_PORT);
+
+        // Get all the pipelineList where pipelineFtpPort equals to UPDATED_PIPELINE_FTP_PORT
+        defaultPipelineShouldNotBeFound("pipelineFtpPort.equals=" + UPDATED_PIPELINE_FTP_PORT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineFtpPortIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineFtpPort in DEFAULT_PIPELINE_FTP_PORT or UPDATED_PIPELINE_FTP_PORT
+        defaultPipelineShouldBeFound("pipelineFtpPort.in=" + DEFAULT_PIPELINE_FTP_PORT + "," + UPDATED_PIPELINE_FTP_PORT);
+
+        // Get all the pipelineList where pipelineFtpPort equals to UPDATED_PIPELINE_FTP_PORT
+        defaultPipelineShouldNotBeFound("pipelineFtpPort.in=" + UPDATED_PIPELINE_FTP_PORT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineFtpPortIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineFtpPort is not null
+        defaultPipelineShouldBeFound("pipelineFtpPort.specified=true");
+
+        // Get all the pipelineList where pipelineFtpPort is null
+        defaultPipelineShouldNotBeFound("pipelineFtpPort.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineFtpPortIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineFtpPort greater than or equals to DEFAULT_PIPELINE_FTP_PORT
+        defaultPipelineShouldBeFound("pipelineFtpPort.greaterOrEqualThan=" + DEFAULT_PIPELINE_FTP_PORT);
+
+        // Get all the pipelineList where pipelineFtpPort greater than or equals to UPDATED_PIPELINE_FTP_PORT
+        defaultPipelineShouldNotBeFound("pipelineFtpPort.greaterOrEqualThan=" + UPDATED_PIPELINE_FTP_PORT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineFtpPortIsLessThanSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineFtpPort less than or equals to DEFAULT_PIPELINE_FTP_PORT
+        defaultPipelineShouldNotBeFound("pipelineFtpPort.lessThan=" + DEFAULT_PIPELINE_FTP_PORT);
+
+        // Get all the pipelineList where pipelineFtpPort less than or equals to UPDATED_PIPELINE_FTP_PORT
+        defaultPipelineShouldBeFound("pipelineFtpPort.lessThan=" + UPDATED_PIPELINE_FTP_PORT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineStatus equals to DEFAULT_PIPELINE_STATUS
+        defaultPipelineShouldBeFound("pipelineStatus.equals=" + DEFAULT_PIPELINE_STATUS);
+
+        // Get all the pipelineList where pipelineStatus equals to UPDATED_PIPELINE_STATUS
+        defaultPipelineShouldNotBeFound("pipelineStatus.equals=" + UPDATED_PIPELINE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineStatus in DEFAULT_PIPELINE_STATUS or UPDATED_PIPELINE_STATUS
+        defaultPipelineShouldBeFound("pipelineStatus.in=" + DEFAULT_PIPELINE_STATUS + "," + UPDATED_PIPELINE_STATUS);
+
+        // Get all the pipelineList where pipelineStatus equals to UPDATED_PIPELINE_STATUS
+        defaultPipelineShouldNotBeFound("pipelineStatus.in=" + UPDATED_PIPELINE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineStatus is not null
+        defaultPipelineShouldBeFound("pipelineStatus.specified=true");
+
+        // Get all the pipelineList where pipelineStatus is null
+        defaultPipelineShouldNotBeFound("pipelineStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineProjectNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineProjectName equals to DEFAULT_PIPELINE_PROJECT_NAME
+        defaultPipelineShouldBeFound("pipelineProjectName.equals=" + DEFAULT_PIPELINE_PROJECT_NAME);
+
+        // Get all the pipelineList where pipelineProjectName equals to UPDATED_PIPELINE_PROJECT_NAME
+        defaultPipelineShouldNotBeFound("pipelineProjectName.equals=" + UPDATED_PIPELINE_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineProjectNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineProjectName in DEFAULT_PIPELINE_PROJECT_NAME or UPDATED_PIPELINE_PROJECT_NAME
+        defaultPipelineShouldBeFound("pipelineProjectName.in=" + DEFAULT_PIPELINE_PROJECT_NAME + "," + UPDATED_PIPELINE_PROJECT_NAME);
+
+        // Get all the pipelineList where pipelineProjectName equals to UPDATED_PIPELINE_PROJECT_NAME
+        defaultPipelineShouldNotBeFound("pipelineProjectName.in=" + UPDATED_PIPELINE_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineProjectNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineProjectName is not null
+        defaultPipelineShouldBeFound("pipelineProjectName.specified=true");
+
+        // Get all the pipelineList where pipelineProjectName is null
+        defaultPipelineShouldNotBeFound("pipelineProjectName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineScheduleTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineScheduleType equals to DEFAULT_PIPELINE_SCHEDULE_TYPE
+        defaultPipelineShouldBeFound("pipelineScheduleType.equals=" + DEFAULT_PIPELINE_SCHEDULE_TYPE);
+
+        // Get all the pipelineList where pipelineScheduleType equals to UPDATED_PIPELINE_SCHEDULE_TYPE
+        defaultPipelineShouldNotBeFound("pipelineScheduleType.equals=" + UPDATED_PIPELINE_SCHEDULE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineScheduleTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineScheduleType in DEFAULT_PIPELINE_SCHEDULE_TYPE or UPDATED_PIPELINE_SCHEDULE_TYPE
+        defaultPipelineShouldBeFound("pipelineScheduleType.in=" + DEFAULT_PIPELINE_SCHEDULE_TYPE + "," + UPDATED_PIPELINE_SCHEDULE_TYPE);
+
+        // Get all the pipelineList where pipelineScheduleType equals to UPDATED_PIPELINE_SCHEDULE_TYPE
+        defaultPipelineShouldNotBeFound("pipelineScheduleType.in=" + UPDATED_PIPELINE_SCHEDULE_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineScheduleTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineScheduleType is not null
+        defaultPipelineShouldBeFound("pipelineScheduleType.specified=true");
+
+        // Get all the pipelineList where pipelineScheduleType is null
+        defaultPipelineShouldNotBeFound("pipelineScheduleType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineScheduleCronJobIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineScheduleCronJob equals to DEFAULT_PIPELINE_SCHEDULE_CRON_JOB
+        defaultPipelineShouldBeFound("pipelineScheduleCronJob.equals=" + DEFAULT_PIPELINE_SCHEDULE_CRON_JOB);
+
+        // Get all the pipelineList where pipelineScheduleCronJob equals to UPDATED_PIPELINE_SCHEDULE_CRON_JOB
+        defaultPipelineShouldNotBeFound("pipelineScheduleCronJob.equals=" + UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineScheduleCronJobIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineScheduleCronJob in DEFAULT_PIPELINE_SCHEDULE_CRON_JOB or UPDATED_PIPELINE_SCHEDULE_CRON_JOB
+        defaultPipelineShouldBeFound("pipelineScheduleCronJob.in=" + DEFAULT_PIPELINE_SCHEDULE_CRON_JOB + "," + UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
+
+        // Get all the pipelineList where pipelineScheduleCronJob equals to UPDATED_PIPELINE_SCHEDULE_CRON_JOB
+        defaultPipelineShouldNotBeFound("pipelineScheduleCronJob.in=" + UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineScheduleCronJobIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineScheduleCronJob is not null
+        defaultPipelineShouldBeFound("pipelineScheduleCronJob.specified=true");
+
+        // Get all the pipelineList where pipelineScheduleCronJob is null
+        defaultPipelineShouldNotBeFound("pipelineScheduleCronJob.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -893,7 +1291,15 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineFtpPassword").value(hasItem(DEFAULT_PIPELINE_FTP_PASSWORD.toString())))
             .andExpect(jsonPath("$.[*].pipelineNotificatorDetails").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_DETAILS.toString())))
             .andExpect(jsonPath("$.[*].pipelineRepositoryType").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].pipelineNotificatorType").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].pipelineNotificatorType").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineDropboxAppKey").value(hasItem(DEFAULT_PIPELINE_DROPBOX_APP_KEY.toString())))
+            .andExpect(jsonPath("$.[*].pipelineDropboxToken").value(hasItem(DEFAULT_PIPELINE_DROPBOX_TOKEN.toString())))
+            .andExpect(jsonPath("$.[*].pipelinePublicationService").value(hasItem(DEFAULT_PIPELINE_PUBLICATION_SERVICE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineFtpPort").value(hasItem(DEFAULT_PIPELINE_FTP_PORT)))
+            .andExpect(jsonPath("$.[*].pipelineStatus").value(hasItem(DEFAULT_PIPELINE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())));
     }
 
     /**
@@ -926,8 +1332,6 @@ public class PipelineResourceIntTest {
 
         // Update the pipeline
         Pipeline updatedPipeline = pipelineRepository.findOne(pipeline.getId());
-        // Disconnect from session so that the updates on updatedPipeline are not directly saved in db
-        em.detach(updatedPipeline);
         updatedPipeline
             .pipelineName(UPDATED_PIPELINE_NAME)
             .pipelineDescription(UPDATED_PIPELINE_DESCRIPTION)
@@ -942,7 +1346,15 @@ public class PipelineResourceIntTest {
             .pipelineFtpPassword(UPDATED_PIPELINE_FTP_PASSWORD)
             .pipelineNotificatorDetails(UPDATED_PIPELINE_NOTIFICATOR_DETAILS)
             .pipelineRepositoryType(UPDATED_PIPELINE_REPOSITORY_TYPE)
-            .pipelineNotificatorType(UPDATED_PIPELINE_NOTIFICATOR_TYPE);
+            .pipelineNotificatorType(UPDATED_PIPELINE_NOTIFICATOR_TYPE)
+            .pipelineDropboxAppKey(UPDATED_PIPELINE_DROPBOX_APP_KEY)
+            .pipelineDropboxToken(UPDATED_PIPELINE_DROPBOX_TOKEN)
+            .pipelinePublicationService(UPDATED_PIPELINE_PUBLICATION_SERVICE)
+            .pipelineFtpPort(UPDATED_PIPELINE_FTP_PORT)
+            .pipelineStatus(UPDATED_PIPELINE_STATUS)
+            .pipelineProjectName(UPDATED_PIPELINE_PROJECT_NAME)
+            .pipelineScheduleType(UPDATED_PIPELINE_SCHEDULE_TYPE)
+            .pipelineScheduleCronJob(UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
 
         restPipelineMockMvc.perform(put("/api/pipelines")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -967,10 +1379,18 @@ public class PipelineResourceIntTest {
         assertThat(testPipeline.getPipelineNotificatorDetails()).isEqualTo(UPDATED_PIPELINE_NOTIFICATOR_DETAILS);
         assertThat(testPipeline.getPipelineRepositoryType()).isEqualTo(UPDATED_PIPELINE_REPOSITORY_TYPE);
         assertThat(testPipeline.getPipelineNotificatorType()).isEqualTo(UPDATED_PIPELINE_NOTIFICATOR_TYPE);
+        assertThat(testPipeline.getPipelineDropboxAppKey()).isEqualTo(UPDATED_PIPELINE_DROPBOX_APP_KEY);
+        assertThat(testPipeline.getPipelineDropboxToken()).isEqualTo(UPDATED_PIPELINE_DROPBOX_TOKEN);
+        assertThat(testPipeline.getPipelinePublicationService()).isEqualTo(UPDATED_PIPELINE_PUBLICATION_SERVICE);
+        assertThat(testPipeline.getPipelineFtpPort()).isEqualTo(UPDATED_PIPELINE_FTP_PORT);
+        assertThat(testPipeline.getPipelineStatus()).isEqualTo(UPDATED_PIPELINE_STATUS);
+        assertThat(testPipeline.getPipelineProjectName()).isEqualTo(UPDATED_PIPELINE_PROJECT_NAME);
+        assertThat(testPipeline.getPipelineScheduleType()).isEqualTo(UPDATED_PIPELINE_SCHEDULE_TYPE);
+        assertThat(testPipeline.getPipelineScheduleCronJob()).isEqualTo(UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
 
         // Validate the Pipeline in Elasticsearch
         Pipeline pipelineEs = pipelineSearchRepository.findOne(testPipeline.getId());
-        assertThat(pipelineEs).isEqualToIgnoringGivenFields(testPipeline);
+        assertThat(pipelineEs).isEqualToComparingFieldByField(testPipeline);
     }
 
     @Test
@@ -1037,7 +1457,15 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineFtpPassword").value(hasItem(DEFAULT_PIPELINE_FTP_PASSWORD.toString())))
             .andExpect(jsonPath("$.[*].pipelineNotificatorDetails").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_DETAILS.toString())))
             .andExpect(jsonPath("$.[*].pipelineRepositoryType").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].pipelineNotificatorType").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].pipelineNotificatorType").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineDropboxAppKey").value(hasItem(DEFAULT_PIPELINE_DROPBOX_APP_KEY.toString())))
+            .andExpect(jsonPath("$.[*].pipelineDropboxToken").value(hasItem(DEFAULT_PIPELINE_DROPBOX_TOKEN.toString())))
+            .andExpect(jsonPath("$.[*].pipelinePublicationService").value(hasItem(DEFAULT_PIPELINE_PUBLICATION_SERVICE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineFtpPort").value(hasItem(DEFAULT_PIPELINE_FTP_PORT)))
+            .andExpect(jsonPath("$.[*].pipelineStatus").value(hasItem(DEFAULT_PIPELINE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())));
     }
 
     @Test

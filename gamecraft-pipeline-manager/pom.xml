@@ -10,6 +10,8 @@
 
     <properties>
         <!-- Build properties -->
+        <dropbox-sdk.version>3.0.8</dropbox-sdk.version>
+        <commons-net.version>3.6</commons-net.version>
         <jgit.version>5.0.1.201806211838-r</jgit.version>
         <maven.version>3.0.0</maven.version>
         <java.version>1.8</java.version>
@@ -99,9 +101,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.dropbox.core</groupId>
+            <artifactId>dropbox-core-sdk</artifactId>
+            <version>${dropbox-sdk.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.jgit</groupId>
             <artifactId>org.eclipse.jgit</artifactId>
             <version>${jgit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>${commons-net.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

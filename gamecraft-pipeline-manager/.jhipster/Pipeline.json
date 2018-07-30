@@ -69,6 +69,41 @@
             "fieldName": "pipelineNotificatorType",
             "fieldType": "PipelineNotificatorType",
             "fieldValues": "EMAIL,TWITTER,TELEGRAM,IRC,SLACK,HIPCHAT"
+        },
+        {
+            "fieldName": "pipelineDropboxAppKey",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineDropboxToken",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelinePublicationService",
+            "fieldType": "PipelinePublicationService",
+            "fieldValues": "FTP,DROPBOX"
+        },
+        {
+            "fieldName": "pipelineFtpPort",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "pipelineStatus",
+            "fieldType": "PipelineStatus",
+            "fieldValues": "IDLE,RUNNING,FAILED"
+        },
+        {
+            "fieldName": "pipelineProjectName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineScheduleType",
+            "fieldType": "PipelineScheduleType",
+            "fieldValues": "WEBHOOK,CRONJOB"
+        },
+        {
+            "fieldName": "pipelineScheduleCronJob",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20171102184306",

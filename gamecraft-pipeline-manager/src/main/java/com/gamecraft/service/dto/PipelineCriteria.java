@@ -3,6 +3,9 @@ package com.gamecraft.service.dto;
 import java.io.Serializable;
 import com.gamecraft.domain.enumeration.PipelineRepositoryType;
 import com.gamecraft.domain.enumeration.PipelineNotificatorType;
+import com.gamecraft.domain.enumeration.PipelinePublicationService;
+import com.gamecraft.domain.enumeration.PipelineStatus;
+import com.gamecraft.domain.enumeration.PipelineScheduleType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -37,6 +40,24 @@ public class PipelineCriteria implements Serializable {
     public static class PipelineNotificatorTypeFilter extends Filter<PipelineNotificatorType> {
     }
 
+    /**
+     * Class for filtering PipelinePublicationService
+     */
+    public static class PipelinePublicationServiceFilter extends Filter<PipelinePublicationService> {
+    }
+
+    /**
+     * Class for filtering PipelineStatus
+     */
+    public static class PipelineStatusFilter extends Filter<PipelineStatus> {
+    }
+
+    /**
+     * Class for filtering PipelineScheduleType
+     */
+    public static class PipelineScheduleTypeFilter extends Filter<PipelineScheduleType> {
+    }
+
     private static final long serialVersionUID = 1L;
 
 
@@ -69,6 +90,22 @@ public class PipelineCriteria implements Serializable {
     private PipelineRepositoryTypeFilter pipelineRepositoryType;
 
     private PipelineNotificatorTypeFilter pipelineNotificatorType;
+
+    private StringFilter pipelineDropboxAppKey;
+
+    private StringFilter pipelineDropboxToken;
+
+    private PipelinePublicationServiceFilter pipelinePublicationService;
+
+    private IntegerFilter pipelineFtpPort;
+
+    private PipelineStatusFilter pipelineStatus;
+
+    private StringFilter pipelineProjectName;
+
+    private PipelineScheduleTypeFilter pipelineScheduleType;
+
+    private StringFilter pipelineScheduleCronJob;
 
     public PipelineCriteria() {
     }
@@ -193,6 +230,70 @@ public class PipelineCriteria implements Serializable {
         this.pipelineNotificatorType = pipelineNotificatorType;
     }
 
+    public StringFilter getPipelineDropboxAppKey() {
+        return pipelineDropboxAppKey;
+    }
+
+    public void setPipelineDropboxAppKey(StringFilter pipelineDropboxAppKey) {
+        this.pipelineDropboxAppKey = pipelineDropboxAppKey;
+    }
+
+    public StringFilter getPipelineDropboxToken() {
+        return pipelineDropboxToken;
+    }
+
+    public void setPipelineDropboxToken(StringFilter pipelineDropboxToken) {
+        this.pipelineDropboxToken = pipelineDropboxToken;
+    }
+
+    public PipelinePublicationServiceFilter getPipelinePublicationService() {
+        return pipelinePublicationService;
+    }
+
+    public void setPipelinePublicationService(PipelinePublicationServiceFilter pipelinePublicationService) {
+        this.pipelinePublicationService = pipelinePublicationService;
+    }
+
+    public IntegerFilter getPipelineFtpPort() {
+        return pipelineFtpPort;
+    }
+
+    public void setPipelineFtpPort(IntegerFilter pipelineFtpPort) {
+        this.pipelineFtpPort = pipelineFtpPort;
+    }
+
+    public PipelineStatusFilter getPipelineStatus() {
+        return pipelineStatus;
+    }
+
+    public void setPipelineStatus(PipelineStatusFilter pipelineStatus) {
+        this.pipelineStatus = pipelineStatus;
+    }
+
+    public StringFilter getPipelineProjectName() {
+        return pipelineProjectName;
+    }
+
+    public void setPipelineProjectName(StringFilter pipelineProjectName) {
+        this.pipelineProjectName = pipelineProjectName;
+    }
+
+    public PipelineScheduleTypeFilter getPipelineScheduleType() {
+        return pipelineScheduleType;
+    }
+
+    public void setPipelineScheduleType(PipelineScheduleTypeFilter pipelineScheduleType) {
+        this.pipelineScheduleType = pipelineScheduleType;
+    }
+
+    public StringFilter getPipelineScheduleCronJob() {
+        return pipelineScheduleCronJob;
+    }
+
+    public void setPipelineScheduleCronJob(StringFilter pipelineScheduleCronJob) {
+        this.pipelineScheduleCronJob = pipelineScheduleCronJob;
+    }
+
     @Override
     public String toString() {
         return "PipelineCriteria{" +
@@ -211,6 +312,14 @@ public class PipelineCriteria implements Serializable {
                 (pipelineNotificatorDetails != null ? "pipelineNotificatorDetails=" + pipelineNotificatorDetails + ", " : "") +
                 (pipelineRepositoryType != null ? "pipelineRepositoryType=" + pipelineRepositoryType + ", " : "") +
                 (pipelineNotificatorType != null ? "pipelineNotificatorType=" + pipelineNotificatorType + ", " : "") +
+                (pipelineDropboxAppKey != null ? "pipelineDropboxAppKey=" + pipelineDropboxAppKey + ", " : "") +
+                (pipelineDropboxToken != null ? "pipelineDropboxToken=" + pipelineDropboxToken + ", " : "") +
+                (pipelinePublicationService != null ? "pipelinePublicationService=" + pipelinePublicationService + ", " : "") +
+                (pipelineFtpPort != null ? "pipelineFtpPort=" + pipelineFtpPort + ", " : "") +
+                (pipelineStatus != null ? "pipelineStatus=" + pipelineStatus + ", " : "") +
+                (pipelineProjectName != null ? "pipelineProjectName=" + pipelineProjectName + ", " : "") +
+                (pipelineScheduleType != null ? "pipelineScheduleType=" + pipelineScheduleType + ", " : "") +
+                (pipelineScheduleCronJob != null ? "pipelineScheduleCronJob=" + pipelineScheduleCronJob + ", " : "") +
             "}";
     }
 

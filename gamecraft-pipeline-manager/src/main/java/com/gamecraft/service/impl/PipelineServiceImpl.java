@@ -1,9 +1,16 @@
 package com.gamecraft.service.impl;
 
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.UploadErrorException;
+import com.gamecraft.domain.enumeration.PipelineStatus;
 import com.gamecraft.service.PipelineService;
 import com.gamecraft.domain.Pipeline;
 import com.gamecraft.repository.PipelineRepository;
 import com.gamecraft.repository.search.PipelineSearchRepository;
+import com.gamecraft.util.FtpClient;
 import com.google.common.io.Files;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -15,10 +22,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -103,6 +110,9 @@ public class PipelineServiceImpl implements PipelineService {
         log.debug("Request to execute Pipeline : {}", id);
         File workDirectory = Files.createTempDir();
         Pipeline pipeline = pipelineRepository.findOne(id);
+        pipeline.setPipelineStatus(PipelineStatus.RUNNING);
+        save(pipeline);
+        processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " is running at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         try {
             Git git = Git.cloneRepository()
                 .setURI(pipeline.getPipelineRepositoryAddress())
@@ -110,7 +120,11 @@ public class PipelineServiceImpl implements PipelineService {
                 .setDirectory(workDirectory)
                 .call();
 
-            Process p = Runtime.getRuntime().exec(pipeline.getPipelineEngineCompilerPath() + " " + pipeline.getPipelineEngineCompilerArguments());
+
+            ProcessBuilder pb = new ProcessBuilder(pipeline.getPipelineEngineCompilerPath() + " " + pipeline.getPipelineEngineCompilerArguments());
+
+            pb.directory(workDirectory);
+            Process p = pb.start();
             p.waitFor();
 
             BufferedReader reader =
@@ -125,16 +139,70 @@ public class PipelineServiceImpl implements PipelineService {
 
             log.debug(output.toString());
 
+            switch (pipeline.getPipelinePublicationService()) {
+                case FTP:
+                    FtpClient ftpClient = new FtpClient(pipeline.getPipelineFtpAddress(),pipeline.getPipelineFtpPort(),pipeline.getPipelineFtpUsername(),pipeline.getPipelineFtpPassword());
+                    ftpClient.open();
+                    ftpClient.putFileToPath(workDirectory,"/gamecraft/" + LocalDateTime.now());
+                    ftpClient.close();
+                    break;
+                case DROPBOX:
+                    DbxRequestConfig config = DbxRequestConfig.newBuilder(pipeline.getPipelineDropboxAppKey()).build();
+                    DbxClientV2 client = new DbxClientV2(config, pipeline.getPipelineDropboxToken());
+                    InputStream in = new FileInputStream(workDirectory);
+                    FileMetadata metadata = client.files().uploadBuilder("/gamecraft/" + LocalDateTime.now() + "/" + workDirectory.getName())
+                            .uploadAndFinish(in);
+                    break;
+            }
 
         } catch (GitAPIException e) {
+            pipeline.setPipelineStatus(PipelineStatus.FAILED);
+            save(pipeline);
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of a repository problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
         } catch (InterruptedException e) {
+            pipeline.setPipelineStatus(PipelineStatus.FAILED);
+            save(pipeline);
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of an engine execution problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
         } catch (IOException e) {
+            pipeline.setPipelineStatus(PipelineStatus.FAILED);
+            save(pipeline);
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of data read or storage problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            e.printStackTrace();
+        } catch (UploadErrorException e) {
+            pipeline.setPipelineStatus(PipelineStatus.FAILED);
+            save(pipeline);
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            e.printStackTrace();
+        } catch (DbxException e) {
+            pipeline.setPipelineStatus(PipelineStatus.FAILED);
+            save(pipeline);
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
         }
+        processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " worked succesfully at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        pipeline.setPipelineStatus(PipelineStatus.IDLE);
+        save(pipeline);
 
+    }
 
+    private void processNotificator(Pipeline pipeline, String message) {
+        switch (pipeline.getPipelineNotificatorType()) {
+            case TELEGRAM:
+                break;
+            case TWITTER:
+                break;
+            case HIPCHAT:
+                break;
+            case SLACK:
+                break;
+            case IRC:
+                break;
+            case EMAIL:
+                break;
+
+        }
     }
 
     /**

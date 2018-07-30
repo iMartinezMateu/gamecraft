@@ -78,6 +78,38 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="pipeline_dropbox_app_key" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pipeline_dropbox_token" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pipeline_publication_service" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pipeline_ftp_port" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pipeline_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pipeline_project_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pipeline_schedule_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pipeline_schedule_cron_job" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         

@@ -8,6 +8,7 @@ import com.gamecraft.web.rest.util.HeaderUtil;
 import com.gamecraft.web.rest.util.PaginationUtil;
 import com.gamecraft.service.dto.PipelineCriteria;
 import com.gamecraft.service.PipelineQueryService;
+import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +100,7 @@ public class PipelineResource {
      */
     @GetMapping("/pipelines")
     @Timed
-    public ResponseEntity<List<Pipeline>> getAllPipelines(PipelineCriteria criteria, Pageable pageable) {
+    public ResponseEntity<List<Pipeline>> getAllPipelines(PipelineCriteria criteria,@ApiParam Pageable pageable) {
         log.debug("REST request to get Pipelines by criteria: {}", criteria);
         Page<Pipeline> page = pipelineQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/pipelines");
@@ -144,7 +145,7 @@ public class PipelineResource {
      */
     @GetMapping("/_search/pipelines")
     @Timed
-    public ResponseEntity<List<Pipeline>> searchPipelines(@RequestParam String query, Pageable pageable) {
+    public ResponseEntity<List<Pipeline>> searchPipelines(@RequestParam String query, @ApiParam Pageable pageable) {
         log.debug("REST request to search for a page of Pipelines for query {}", query);
         Page<Pipeline> page = pipelineService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/pipelines");
