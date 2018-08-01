@@ -6,15 +6,26 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.UploadErrorException;
 import com.gamecraft.domain.enumeration.PipelineStatus;
+import com.gamecraft.security.SecurityUtils;
 import com.gamecraft.service.PipelineService;
 import com.gamecraft.domain.Pipeline;
 import com.gamecraft.repository.PipelineRepository;
 import com.gamecraft.repository.search.PipelineSearchRepository;
 import com.gamecraft.util.FtpClient;
 import com.google.common.io.Files;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -25,7 +36,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -188,20 +201,60 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     private void processNotificator(Pipeline pipeline, String message) {
-        switch (pipeline.getPipelineNotificatorType()) {
-            case TELEGRAM:
-                break;
-            case TWITTER:
-                break;
-            case HIPCHAT:
-                break;
-            case SLACK:
-                break;
-            case IRC:
-                break;
-            case EMAIL:
-                break;
-
+        try {
+            String token = String.valueOf(SecurityUtils.getCurrentUserJWT());
+            String notificatorId = pipeline.getPipelineNotificatorDetails();
+            HttpClient client = HttpClientBuilder.create().build();
+            HttpPost post;
+            List<NameValuePair> urlParameters;
+            switch (pipeline.getPipelineNotificatorType()) {
+                case TELEGRAM:
+                    post = new HttpPost("http://0.0.0.0:8080/gamecrafttelegramnotificationmanager/api/telegram-bots/" + notificatorId + "/send");
+                    post.setHeader("Authorization", "Bearer " + token);
+                    urlParameters = new ArrayList<>();
+                    urlParameters.add(new BasicNameValuePair("telegramMessage", message));
+                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    client.execute(post);
+                    break;
+                case TWITTER:
+                    post = new HttpPost("http://0.0.0.0:8080/gamecrafttwitternotificationmanager/api/twitter-bots/" + notificatorId + "/sendTweet");
+                    post.setHeader("Authorization", "Bearer " + token);
+                    urlParameters = new ArrayList<>();
+                    urlParameters.add(new BasicNameValuePair("tweet", message));
+                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    client.execute(post);
+                    break;
+                case SLACK:
+                    post = new HttpPost("http://0.0.0.0:8080/gamecraftslacknotificationmanager/api/slack-accounts/" + notificatorId + "/send");
+                    post.setHeader("Authorization", "Bearer " + token);
+                    urlParameters = new ArrayList<>();
+                    urlParameters.add(new BasicNameValuePair("slackMessage", message));
+                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    client.execute(post);
+                    break;
+                case IRC:
+                    post = new HttpPost("http://0.0.0.0:8080/gamecraftircnotificationmanager/api/irc-bots/" + notificatorId + "/send");
+                    post.setHeader("Authorization", "Bearer " + token);
+                    urlParameters = new ArrayList<>();
+                    urlParameters.add(new BasicNameValuePair("ircMessage", message));
+                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    client.execute(post);
+                    break;
+                case EMAIL:
+                    post = new HttpPost("http://0.0.0.0:8080/gamecraftemailnotificationmanager/api/email-accounts/" + notificatorId + "/send");
+                    post.setHeader("Authorization", "Bearer " + token);
+                    urlParameters = new ArrayList<>();
+                    urlParameters.add(new BasicNameValuePair("email", message));
+                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    client.execute(post);
+                    break;
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
