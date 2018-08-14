@@ -5,3 +5,7 @@ body {
 .modal-body {
     margin: 10px;
 }
+
+.jumbotron {
+    background-color: #f8f8f8;
+}

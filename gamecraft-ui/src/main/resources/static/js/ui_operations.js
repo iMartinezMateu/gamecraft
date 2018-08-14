@@ -113,7 +113,7 @@ function fillProjectsTable() {
                     $('<td>').text(item.projectName),
                     $('<td>').text(item.projectDescription),
                     $('<td>').html("<a href=" + item.projectWebsite + ">" + item.projectWebsite + "</a>"),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-project-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateProjectModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-project-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateProjectModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>   <a href='/pipelines?project_id=" + item.id + "'><button type=\"button\" class=\"btn btn-secondary btn-xs\"><span class=\"glyphicon glyphicon-tasks\"></span> </button></a>")
                 );
                 $(".table").append(tr.html());
             }
@@ -127,6 +127,38 @@ function fillProjectsTable() {
                     $('<td>').html("")
                 );
                 $(".table").append(tr.html());
+            }
+        });
+
+    });
+}
+
+function fillPipelinesTable(projectId) {
+    var pipelines = getPipelines();
+    $(function() {
+        $.each(pipelines, function(i, item) {
+            if (item.projectId == projectId) {
+                if (isAdmin(getUsername())) {
+
+                    var tr = $('<tr>').append(
+                        $('<tr>'),
+                        $('<td>').text(item.id),
+                        $('<td>').text(item.pipelineName),
+                        $('<td>').text(item.pipelineDescription),
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipeline('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#updatePipelineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>   <a href='/pipelines?project_id=" + item.id + "'><button type=\"button\" class=\"btn btn-secondary btn-xs\"><span class=\"glyphicon glyphicon-tasks\"></span> </button></a>")
+                    );
+                    $(".table").append(tr.html());
+                }
+                else {
+                    var tr = $('<tr>').append(
+                        $('<tr>'),
+                        $('<td>').text(item.id),
+                        $('<td>').text(item.pipelineName),
+                        $('<td>').text(item.pipelineDescription),
+                        $('<td>').html("")
+                    );
+                    $(".table").append(tr.html());
+                }
             }
         });
 
@@ -312,4 +344,17 @@ function fillSettingsForm(username) {
         document.getElementById('language').value = localStorage.getItem("language").toLowerCase();
     });
 
+}
+
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
 }

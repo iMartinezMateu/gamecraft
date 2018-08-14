@@ -25,13 +25,21 @@
 
     <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
-        <h1>Dashboard</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It
-            includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
+        <h1>Welcome to Gamecraft!</h1>
+
+        <div class="alert alert-success" role="alert">You are logged in as user "<script> document.write(getUsername())</script>".</div>
+        <p>If you have any question on Gamecraft:</p>
+        <ul>
+            <li><a href="https://github.com/iMartinezMateu/gamecraft/issues?state=open" target="_blank" rel="noopener" >Gamecraft bug tracker</a></li>
+            <li><a href="https://github.com/iMartinezMateu/gamecraft/wiki" target="_blank" rel="noopener" >Gamecraft wiki</a></li>
+        </ul>
+
         <p>
-            <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+            <span jhiTranslate="home.like">If you like Gamecraft, don't forget to give us a star on</span> <a href="https://github.com/iMartinezMateu/gamecraft" target="_blank" rel="noopener" >GitHub</a>!
         </p>
+
+        <img src="/img/gamecraft.png" alt="Gamecraft" class="center-block" />
+
     </div>
 
 </div> <!-- /container -->
