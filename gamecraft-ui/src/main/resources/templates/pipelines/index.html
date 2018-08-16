@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/dashboard.css"/>
+    <link rel="stylesheet" href="/css/pipelines.css"/>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
     <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
     <script src="/js/account_operations.js"></script>
@@ -59,31 +60,182 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Create new project</h4>
+                <h4 class="modal-title">Create new pipeline</h4>
             </div>
             <div class="modal-body">
                 <form role="form" data-toggle="validator" name="form" id="form" class="form-horizontal"
                       enctype="multipart/form-data">
-                    <div class="form-group has-feedback form-group-lg">
-                        <div class="input-group">
-                            <label for="projectName">Project name:</label>
-                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="projectName" required="true"/>
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Pipeline Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineName">Pipeline name:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineName" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineDescription">Pipeline description:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineDescription" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                         </div>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
-                    <div class="form-group has-feedback form-group-lg">
-                        <div class="input-group">
-                            <label for="projectDescription">Project description:</label>
-                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="projectDescription" required="true"/>
+
+                        <div class="panel-heading">Repository Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineRepositoryUsername">Github Repository Username:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineRepositoryUsername" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineRepositoryPassword">Github Repository Password:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineRepositoryPassword" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineRepositoryAddress">Github Repository Address:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineRepositoryAddress" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineRepositoryBranch">Github Repository Branch:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineRepositoryBranch" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                         </div>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
-                    <div class="form-group has-feedback form-group-lg">
-                        <div class="input-group">
-                            <label for="projectWebpage">Project webpage:</label>
-                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="projectWebpage" required="true"/>
+
+                        <div class="panel-heading">Compilation Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineEngineName">Engine name:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineEngineName" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineEngineCompilerPath">Engine Compiler Path:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineEngineCompilerPath" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineEngineCompilerArguments">Engine Compiler Arguments:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineEngineCompilerArguments" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                         </div>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+
+                        <div class="panel-heading">FTP Publication Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineFtpAddress">FTP Address:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineFtpAddress" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineFtpPort">FTP Port:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineFtpPort" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineFtpUsername">FTP Username:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineFtpUsername" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineFtpPassword">FTP Password:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineFtpPassword" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">Dropbox Publication Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineDropboxAppKey">Dropbox App Key:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineDropboxAppKey" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineDropboxToken">Dropbox Token:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineDropboxToken" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">Notification Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineNotificatorType">Notificator Type:</label>
+                                    <select class="form-control" id="pipelineNotificatorType" required="true">
+                                        <option value="cronjob">E-mail</option>
+                                        <option value="webhook">Twitter</option>
+                                        <option value="webhook">Telegram</option>
+                                        <option value="webhook">Slack</option>
+                                        <option value="webhook">IRC</option>
+                                    </select>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineNotificatorName">Notificator name:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineNotificatorName" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">Scheduling Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineScheduleType">Schedule Type:</label>
+                                    <select class="form-control" id="pipelineScheduleType" required="true">
+                                        <option value="cronjob">Cron Job</option>
+                                        <option value="webhook">WebHook</option>
+                                    </select>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineScheduleCronjob">Schedule Cronjob:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineScheduleCronjob" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
