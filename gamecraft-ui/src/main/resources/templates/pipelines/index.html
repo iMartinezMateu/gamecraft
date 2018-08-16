@@ -13,6 +13,12 @@
     <script src="/js/account_operations.js"></script>
     <script src="/js/projects_operations.js"></script>
     <script src="/js/pipeline_operations.js"></script>
+    <script src="/js/engines_operations.js"></script>
+    <script src="/js/email_notifications_operations.js"></script>
+    <script src="/js/irc_notifications_operations.js"></script>
+    <script src="/js/slack_notifications_operations.js"></script>
+    <script src="/js/telegram_notifications_operations.js"></script>
+    <script src="/js/twitter_notifications_operations.js"></script>
     <script src="/js/ui_operations.js"></script>
     <script src="/js/validator.min.js"></script>
     <script src="/js/lang_operations.js"></script>
@@ -27,6 +33,97 @@
             if (!isAdmin(getUsername())) {
                 document.getElementById('createPipelineButton').style.visibility = 'hidden';
             }
+            $('#createPipelineModal').on('show.bs.modal', function(e) {
+                var engineSelect = document.getElementById("pipelineEngineName");
+                var engines = getEngines();
+                $("#pipelineEngineName").empty();
+                for(index in engines) {
+                    engineSelect.options[engineSelect.options.length] = new Option(engines[index].engineName, engines[index].id);
+                }
+                $(document).on('change','#pipelineEngineName',function(){
+                    var engineSelect = document.getElementById("pipelineEngineName");
+                    $(e.currentTarget).find('input[id="pipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
+                    $(e.currentTarget).find('input[id="pipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
+
+                });
+                $(document).on('change','#pipelineNotificatorType',function(){
+                    var notificatorTypeSelect = document.getElementById("pipelineNotificatorType");
+                    var pipelineNotificatorName = document.getElementById("pipelineNotificatorName");
+                    $("#pipelineNotificatorName").empty();
+                    switch (notificatorTypeSelect.options[notificatorTypeSelect.selectedIndex].value) {
+                        case "email":
+                            var notificators = getEmailAccounts();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].emailAccountName, notificators[index].id);
+                            }
+                            break;
+                        case "twitter":
+                            var notificators = getTwitterBots();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].twitterBotName, notificators[index].id);
+                            }
+                            break;
+                        case "telegram":
+                            var notificators = getTelegramBots();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].telegramBotName, notificators[index].id);
+                            }
+                            break;
+                        case "slack":
+                            var notificators = getSlackAccounts();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].slackAccountName, notificators[index].id);
+                            }
+                            break;
+                        case "irc":
+                            var notificators = getIRCBots();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].ircBotName, notificators[index].id);
+                            }
+                            break;
+                    }
+
+                });
+                var notificatorTypeSelect = document.getElementById("pipelineNotificatorType");
+                var pipelineNotificatorName = document.getElementById("pipelineNotificatorName");
+                $("#pipelineNotificatorName").empty();
+                switch (notificatorTypeSelect.options[notificatorTypeSelect.selectedIndex].value) {
+                    case "email":
+                        var notificators = getEmailAccounts();
+                        for(index in notificators) {
+                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].emailAccountName, notificators[index].id);
+                        }
+                        break;
+                    case "twitter":
+                        var notificators = getTwitterBots();
+                        for(index in notificators) {
+                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].twitterBotName, notificators[index].id);
+                        }
+                        break;
+                    case "telegram":
+                        var notificators = getTelegramBots();
+                        for(index in notificators) {
+                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].telegramBotName, notificators[index].id);
+                        }
+                        break;
+                    case "slack":
+                        var notificators = getSlackAccounts();
+                        for(index in notificators) {
+                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].slackAccountName, notificators[index].id);
+                        }
+                        break;
+                    case "irc":
+                        var notificators = getIRCBots();
+                        for(index in notificators) {
+                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].ircBotName, notificators[index].id);
+                        }
+                        break;
+                }
+                $(e.currentTarget).find('input[id="pipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
+                $(e.currentTarget).find('input[id="pipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
+            });
+
+
             $('#updatePipelineModal').on('show.bs.modal', function(e) {
                 projectId = $(e.relatedTarget).data('project-id');
                 $(e.currentTarget).find('input[id="newprojectName"]').val(getProject(projectId).projectName);
@@ -122,7 +219,7 @@
                             <div class="form-group has-feedback form-group-lg">
                                 <div class="input-group">
                                     <label for="pipelineEngineName">Engine name:</label>
-                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineEngineName" required="true"/>
+                                    <select class="form-control" id="pipelineEngineName" required="true"></select>
                                 </div>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
@@ -198,11 +295,11 @@
                                 <div class="input-group">
                                     <label for="pipelineNotificatorType">Notificator Type:</label>
                                     <select class="form-control" id="pipelineNotificatorType" required="true">
-                                        <option value="cronjob">E-mail</option>
-                                        <option value="webhook">Twitter</option>
-                                        <option value="webhook">Telegram</option>
-                                        <option value="webhook">Slack</option>
-                                        <option value="webhook">IRC</option>
+                                        <option value="email">E-mail</option>
+                                        <option value="twitter">Twitter</option>
+                                        <option value="telegram">Telegram</option>
+                                        <option value="slack">Slack</option>
+                                        <option value="irc">IRC</option>
                                     </select>
                                 </div>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -210,7 +307,7 @@
                             <div class="form-group has-feedback form-group-lg">
                                 <div class="input-group">
                                     <label for="pipelineNotificatorName">Notificator name:</label>
-                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="pipelineNotificatorName" required="true"/>
+                                    <select class="form-control" id="pipelineNotificatorName" required="true"></select>
                                 </div>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             </div>
