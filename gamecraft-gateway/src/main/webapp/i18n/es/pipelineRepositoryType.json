@@ -1,0 +1,9 @@
+{
+    "gamecraftgatewayApp": {
+        "PipelineRepositoryType" : {
+            "null": "",
+            "GITHUB": "GITHUB",
+            "BITBUCKET": "BITBUCKET"
+        }
+    }
+}

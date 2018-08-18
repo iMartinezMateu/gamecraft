@@ -1,0 +1,77 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "pipelineName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength"
+            ],
+            "fieldValidateRulesMinlength": "3"
+        },
+        {
+            "fieldName": "pipelineDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineRepositoryType",
+            "fieldType": "PipelineRepositoryType",
+            "fieldValues": "GITHUB,BITBUCKET"
+        },
+        {
+            "fieldName": "pipelineRepositoryAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineRepositoryUsername",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineRepositoryPassword",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineRepositoryBranch",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineEngineId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "pipelineNotificatorId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "pipelineFtpAddress",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineFtpUsername",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineFtpPassword",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineSchedule",
+            "fieldType": "PipelineSchedule",
+            "fieldValues": "WEBHOOK,CRON"
+        },
+        {
+            "fieldName": "pipelineScheduleDetails",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180728161415",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "pipeline",
+    "jpaMetamodelFiltering": true,
+    "pagination": "pager",
+    "microserviceName": "gamecraftpipelineexecutor",
+    "searchEngine": "elasticsearch"
+}

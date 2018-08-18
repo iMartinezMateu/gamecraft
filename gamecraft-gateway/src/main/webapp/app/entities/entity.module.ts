@@ -14,6 +14,7 @@ import { GamecraftgatewayHipchatBotModule } from './hipchat-bot/hipchat-bot.modu
 import { GamecraftgatewaySonarInstanceModule } from './sonar-instance/sonar-instance.module';
 import { GamecraftgatewayGroupsModule } from './groups/groups.module';
 import { GamecraftgatewayGroupsUserModule } from './groups-user/groups-user.module';
+import { GamecraftgatewayPipelineModule } from './pipeline/pipeline.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -32,6 +33,7 @@ import { GamecraftgatewayGroupsUserModule } from './groups-user/groups-user.modu
         GamecraftgatewaySonarInstanceModule,
         GamecraftgatewayGroupsModule,
         GamecraftgatewayGroupsUserModule,
+        GamecraftgatewayPipelineModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

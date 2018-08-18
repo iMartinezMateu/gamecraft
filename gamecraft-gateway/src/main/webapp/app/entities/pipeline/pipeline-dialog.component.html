@@ -1,0 +1,109 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPipelineLabel" jhiTranslate="gamecraftgatewayApp.pipeline.home.createOrEditLabel">Create or edit a Pipeline</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!pipeline.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="pipeline.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineName" for="field_pipelineName">Pipeline Name</label>
+            <input type="text" class="form-control" name="pipelineName" id="field_pipelineName"
+                [(ngModel)]="pipeline.pipelineName" required minlength="3" />
+            <div [hidden]="!(editForm.controls.pipelineName?.dirty && editForm.controls.pipelineName?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.pipelineName?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.pipelineName?.errors?.minlength" jhiTranslate="entity.validation.minlength" translateValues="{ min: 3 }">
+                   This field is required to be at least 3 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineDescription" for="field_pipelineDescription">Pipeline Description</label>
+            <input type="text" class="form-control" name="pipelineDescription" id="field_pipelineDescription"
+                [(ngModel)]="pipeline.pipelineDescription"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryType" for="field_pipelineRepositoryType">Pipeline Repository Type</label>
+            <select class="form-control" name="pipelineRepositoryType" [(ngModel)]="pipeline.pipelineRepositoryType" id="field_pipelineRepositoryType" >
+                <option value="GITHUB">{{'gamecraftgatewayApp.PipelineRepositoryType.GITHUB' | translate}}</option>
+                <option value="BITBUCKET">{{'gamecraftgatewayApp.PipelineRepositoryType.BITBUCKET' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryAddress" for="field_pipelineRepositoryAddress">Pipeline Repository Address</label>
+            <input type="text" class="form-control" name="pipelineRepositoryAddress" id="field_pipelineRepositoryAddress"
+                [(ngModel)]="pipeline.pipelineRepositoryAddress"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryUsername" for="field_pipelineRepositoryUsername">Pipeline Repository Username</label>
+            <input type="text" class="form-control" name="pipelineRepositoryUsername" id="field_pipelineRepositoryUsername"
+                [(ngModel)]="pipeline.pipelineRepositoryUsername"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryPassword" for="field_pipelineRepositoryPassword">Pipeline Repository Password</label>
+            <input type="text" class="form-control" name="pipelineRepositoryPassword" id="field_pipelineRepositoryPassword"
+                [(ngModel)]="pipeline.pipelineRepositoryPassword"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryBranch" for="field_pipelineRepositoryBranch">Pipeline Repository Branch</label>
+            <input type="text" class="form-control" name="pipelineRepositoryBranch" id="field_pipelineRepositoryBranch"
+                [(ngModel)]="pipeline.pipelineRepositoryBranch"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineEngineId" for="field_pipelineEngineId">Pipeline Engine Id</label>
+            <input type="number" class="form-control" name="pipelineEngineId" id="field_pipelineEngineId"
+                [(ngModel)]="pipeline.pipelineEngineId"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineNotificatorId" for="field_pipelineNotificatorId">Pipeline Notificator Id</label>
+            <input type="number" class="form-control" name="pipelineNotificatorId" id="field_pipelineNotificatorId"
+                [(ngModel)]="pipeline.pipelineNotificatorId"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineFtpAddress" for="field_pipelineFtpAddress">Pipeline Ftp Address</label>
+            <input type="text" class="form-control" name="pipelineFtpAddress" id="field_pipelineFtpAddress"
+                [(ngModel)]="pipeline.pipelineFtpAddress"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineFtpUsername" for="field_pipelineFtpUsername">Pipeline Ftp Username</label>
+            <input type="text" class="form-control" name="pipelineFtpUsername" id="field_pipelineFtpUsername"
+                [(ngModel)]="pipeline.pipelineFtpUsername"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineFtpPassword" for="field_pipelineFtpPassword">Pipeline Ftp Password</label>
+            <input type="text" class="form-control" name="pipelineFtpPassword" id="field_pipelineFtpPassword"
+                [(ngModel)]="pipeline.pipelineFtpPassword"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineSchedule" for="field_pipelineSchedule">Pipeline Schedule</label>
+            <select class="form-control" name="pipelineSchedule" [(ngModel)]="pipeline.pipelineSchedule" id="field_pipelineSchedule" >
+                <option value="WEBHOOK">{{'gamecraftgatewayApp.PipelineSchedule.WEBHOOK' | translate}}</option>
+                <option value="CRON">{{'gamecraftgatewayApp.PipelineSchedule.CRON' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="gamecraftgatewayApp.pipeline.pipelineScheduleDetails" for="field_pipelineScheduleDetails">Pipeline Schedule Details</label>
+            <input type="text" class="form-control" name="pipelineScheduleDetails" id="field_pipelineScheduleDetails"
+                [(ngModel)]="pipeline.pipelineScheduleDetails"  />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,9 @@
+{
+    "gamecraftgatewayApp": {
+        "PipelineSchedule" : {
+            "null": "",
+            "WEBHOOK": "WEBHOOK",
+            "CRON": "CRON"
+        }
+    }
+}

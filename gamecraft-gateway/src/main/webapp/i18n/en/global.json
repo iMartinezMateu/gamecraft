@@ -21,6 +21,7 @@
                 "sonarInstance": "Sonar Instance",
                 "groups": "Groups",
                 "groupsUser": "Groups User",
+                "pipeline": "Pipeline",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

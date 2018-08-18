@@ -1,0 +1,77 @@
+
+<div *ngIf="pipeline">
+    <h2><span jhiTranslate="gamecraftgatewayApp.pipeline.detail.title">Pipeline</span> {{pipeline.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineName">Pipeline Name</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineName}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineDescription">Pipeline Description</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineDescription}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryType">Pipeline Repository Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'gamecraftgatewayApp.PipelineRepositoryType.' + pipeline.pipelineRepositoryType}}">{{pipeline.pipelineRepositoryType}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryAddress">Pipeline Repository Address</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineRepositoryAddress}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryUsername">Pipeline Repository Username</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineRepositoryUsername}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryPassword">Pipeline Repository Password</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineRepositoryPassword}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineRepositoryBranch">Pipeline Repository Branch</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineRepositoryBranch}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineEngineId">Pipeline Engine Id</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineEngineId}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineNotificatorId">Pipeline Notificator Id</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineNotificatorId}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineFtpAddress">Pipeline Ftp Address</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineFtpAddress}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineFtpUsername">Pipeline Ftp Username</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineFtpUsername}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineFtpPassword">Pipeline Ftp Password</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineFtpPassword}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineSchedule">Pipeline Schedule</span></dt>
+        <dd>
+            <span jhiTranslate="{{'gamecraftgatewayApp.PipelineSchedule.' + pipeline.pipelineSchedule}}">{{pipeline.pipelineSchedule}}</span>
+        </dd>
+        <dt><span jhiTranslate="gamecraftgatewayApp.pipeline.pipelineScheduleDetails">Pipeline Schedule Details</span></dt>
+        <dd>
+            <span>{{pipeline.pipelineScheduleDetails}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'pipeline/'+ pipeline.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,39 @@
+{
+    "gamecraftgatewayApp": {
+        "pipeline" : {
+            "home": {
+                "title": "Pipelines",
+                "createLabel": "Crear nuevo Pipeline",
+                "createOrEditLabel": "Crear o editar Pipeline",
+                "search": "Search for Pipeline"
+            },
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Pipeline {{ id }}?"
+            },
+            "detail": {
+                "title": "Pipeline"
+            },
+            "pipelineName": "Pipeline Name",
+            "pipelineDescription": "Pipeline Description",
+            "pipelineRepositoryType": "Pipeline Repository Type",
+            "pipelineRepositoryAddress": "Pipeline Repository Address",
+            "pipelineRepositoryUsername": "Pipeline Repository Username",
+            "pipelineRepositoryPassword": "Pipeline Repository Password",
+            "pipelineRepositoryBranch": "Pipeline Repository Branch",
+            "pipelineEngineId": "Pipeline Engine Id",
+            "pipelineNotificatorId": "Pipeline Notificator Id",
+            "pipelineFtpAddress": "Pipeline Ftp Address",
+            "pipelineFtpUsername": "Pipeline Ftp Username",
+            "pipelineFtpPassword": "Pipeline Ftp Password",
+            "pipelineSchedule": "Pipeline Schedule",
+            "pipelineScheduleDetails": "Pipeline Schedule Details"
+        }
+    },
+    "gamecraftpipelineexecutorApp": {
+        "pipeline" : {
+            "created": "Un nuevo Pipeline ha sido creado con el identificador {{ param }}",
+            "updated": "Un Pipeline ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Pipeline ha sido eliminado con el identificador {{ param }}"
+        }
+    }
+}
