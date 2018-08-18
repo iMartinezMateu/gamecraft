@@ -37,32 +37,74 @@
                 var engineSelect = document.getElementById("pipelineEngineName");
                 var engines = getEngines();
                 $("#pipelineEngineName").empty();
-                for(index in engines) {
-                    engineSelect.options[engineSelect.options.length] = new Option(engines[index].engineName, engines[index].id);
+                if (getEngines().length == 0) {
+                    alert("You cannot make new pipelines if there are no engines created.");
+                    e.stop();
                 }
-                $(document).on('change','#pipelineEngineName',function(){
-                    var engineSelect = document.getElementById("pipelineEngineName");
-                    $(e.currentTarget).find('input[id="pipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
-                    $(e.currentTarget).find('input[id="pipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
-
-                });
-                $(document).on('change','#pipelineScheduleType',function(){
-                    var scheduleSelect = document.getElementById("pipelineScheduleType");
-                    switch (scheduleSelect.options[scheduleSelect.selectedIndex].value) {
-                        case "cronjob":
-                            document.getElementById("pipelineScheduleCronjobLabel").style.display = 'block';
-                            document.getElementById("pipelineScheduleCronjob").style.display = 'block';
-                            document.getElementById('webhookMessage').innerHTML = '';
-                            break;
-                        case "webhook":
-                            document.getElementById("pipelineScheduleCronjobLabel").style.display = 'none';
-                            document.getElementById("pipelineScheduleCronjob").style.display = 'none';
-                            document.getElementById('webhookMessage').innerHTML = 'If Webhook option is enabled, then you have to configure your Github repository so after a push is done in the repository, the pipeline endpoint will be fired. After you create the pipeline, you will know the endpoint to put in the Webhook settings from Github repository.';
-                            break;
+                else {
+                    for(index in engines) {
+                        engineSelect.options[engineSelect.options.length] = new Option(engines[index].engineName, engines[index].id);
                     }
+                    $(document).on('change','#pipelineEngineName',function(){
+                        var engineSelect = document.getElementById("pipelineEngineName");
+                        $(e.currentTarget).find('input[id="pipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
+                        $(e.currentTarget).find('input[id="pipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
 
-                });
-                $(document).on('change','#pipelineNotificatorType',function(){
+                    });
+                    $(document).on('change','#pipelineScheduleType',function(){
+                        var scheduleSelect = document.getElementById("pipelineScheduleType");
+                        switch (scheduleSelect.options[scheduleSelect.selectedIndex].value) {
+                            case "cronjob":
+                                document.getElementById("pipelineScheduleCronjobLabel").style.display = 'block';
+                                document.getElementById("pipelineScheduleCronjob").style.display = 'block';
+                                document.getElementById('webhookMessage').innerHTML = '';
+                                break;
+                            case "webhook":
+                                document.getElementById("pipelineScheduleCronjobLabel").style.display = 'none';
+                                document.getElementById("pipelineScheduleCronjob").style.display = 'none';
+                                document.getElementById('webhookMessage').innerHTML = 'If Webhook option is enabled, then you have to configure your Github repository so after a push is done in the repository, the pipeline endpoint will be fired. After you create the pipeline, you will know the endpoint to put in the Webhook settings from Github repository.';
+                                break;
+                        }
+
+                    });
+                    $(document).on('change','#pipelineNotificatorType',function(){
+                        var notificatorTypeSelect = document.getElementById("pipelineNotificatorType");
+                        var pipelineNotificatorName = document.getElementById("pipelineNotificatorName");
+                        $("#pipelineNotificatorName").empty();
+                        switch (notificatorTypeSelect.options[notificatorTypeSelect.selectedIndex].value) {
+                            case "email":
+                                var notificators = getEmailAccounts();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].emailAccountName, notificators[index].id);
+                                }
+                                break;
+                            case "twitter":
+                                var notificators = getTwitterBots();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].twitterBotName, notificators[index].id);
+                                }
+                                break;
+                            case "telegram":
+                                var notificators = getTelegramBots();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].telegramBotName, notificators[index].id);
+                                }
+                                break;
+                            case "slack":
+                                var notificators = getSlackAccounts();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].slackAccountName, notificators[index].id);
+                                }
+                                break;
+                            case "irc":
+                                var notificators = getIRCBots();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].ircBotName, notificators[index].id);
+                                }
+                                break;
+                        }
+
+                    });
                     var notificatorTypeSelect = document.getElementById("pipelineNotificatorType");
                     var pipelineNotificatorName = document.getElementById("pipelineNotificatorName");
                     $("#pipelineNotificatorName").empty();
@@ -98,47 +140,10 @@
                             }
                             break;
                     }
-
-                });
-                var notificatorTypeSelect = document.getElementById("pipelineNotificatorType");
-                var pipelineNotificatorName = document.getElementById("pipelineNotificatorName");
-                $("#pipelineNotificatorName").empty();
-                switch (notificatorTypeSelect.options[notificatorTypeSelect.selectedIndex].value) {
-                    case "email":
-                        var notificators = getEmailAccounts();
-                        for(index in notificators) {
-                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].emailAccountName, notificators[index].id);
-                        }
-                        break;
-                    case "twitter":
-                        var notificators = getTwitterBots();
-                        for(index in notificators) {
-                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].twitterBotName, notificators[index].id);
-                        }
-                        break;
-                    case "telegram":
-                        var notificators = getTelegramBots();
-                        for(index in notificators) {
-                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].telegramBotName, notificators[index].id);
-                        }
-                        break;
-                    case "slack":
-                        var notificators = getSlackAccounts();
-                        for(index in notificators) {
-                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].slackAccountName, notificators[index].id);
-                        }
-                        break;
-                    case "irc":
-                        var notificators = getIRCBots();
-                        for(index in notificators) {
-                            pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].ircBotName, notificators[index].id);
-                        }
-                        break;
+                    $(e.currentTarget).find('input[id="pipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
+                    $(e.currentTarget).find('input[id="pipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
                 }
-                $(e.currentTarget).find('input[id="pipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
-                $(e.currentTarget).find('input[id="pipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
             });
-
 
             $('#updatePipelineModal').on('show.bs.modal', function(e) {
                 projectId = $(e.relatedTarget).data('project-id');
