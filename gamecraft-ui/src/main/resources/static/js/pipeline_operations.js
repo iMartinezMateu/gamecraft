@@ -30,7 +30,7 @@ function getPipeline(id) {
 }
 
 function addPipeline(pipelineName,pipelineDescription,pipelineProjectId,pipelineProjectName,pipelineDropboxAppKey,pipelineDropboxToken,pipelineEngineCompilerPath,pipelineEngineCompilerArguments,pipelineFtpAddress,pipelineFtpUsername,pipelineFtpPassword,pipelineFtpPort,pipelineNotificatorType,pipelineNotificatorDetails,
-                     pipelineNotificatorType,pipelinePublicationService,pipelineRepositoryAddress,pipelineRepositoryPassword,pipelineRepositoryType,pipelineRepositoryUsername,pipelineScheduleCronJob,pipelineScheduleType) {
+                     pipelinePublicationService,pipelineRepositoryAddress,pipelineRepositoryPassword,pipelineRepositoryType,pipelineRepositoryUsername,pipelineScheduleCronJob,pipelineScheduleType) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/";
 
     var data = {

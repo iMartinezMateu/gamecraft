@@ -359,7 +359,37 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="addProject(projectName.value,projectDescription.value,projectWebpage.value);  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" onclick="
+                switch (pipelineNotificatorType.value) {
+                    case 'email':
+                        if (pipelineScheduleType.value == 'cronjob')
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                        else
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');
+                    break;
+                    case 'twitter':
+                    if (pipelineScheduleType.value == 'cronjob')
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                        else
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                    case 'telegram':
+                    if (pipelineScheduleType.value == 'cronjob')
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                        else
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                    case 'slack':
+                    if (pipelineScheduleType.value == 'cronjob')
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                        else
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                    case 'irc':
+                        if (pipelineScheduleType.value == 'cronjob')
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                        else
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                }
+
+                 location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

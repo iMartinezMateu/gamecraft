@@ -137,7 +137,7 @@ function fillPipelinesTable(projectId) {
     var pipelines = getPipelines();
     $(function() {
         $.each(pipelines, function(i, item) {
-            if (item.projectId == projectId) {
+            if (item.pipelineProjectId == projectId) {
                 if (isAdmin(getUsername())) {
 
                     var tr = $('<tr>').append(
@@ -145,7 +145,7 @@ function fillPipelinesTable(projectId) {
                         $('<td>').text(item.id),
                         $('<td>').text(item.pipelineName),
                         $('<td>').text(item.pipelineDescription),
-                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipeline('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#updatePipelineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>   <a href='/pipelines?project_id=" + item.id + "'><button type=\"button\" class=\"btn btn-secondary btn-xs\"><span class=\"glyphicon glyphicon-tasks\"></span> </button></a>")
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipeline('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#updatePipelineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>  ")
                     );
                     $(".table").append(tr.html());
                 }
