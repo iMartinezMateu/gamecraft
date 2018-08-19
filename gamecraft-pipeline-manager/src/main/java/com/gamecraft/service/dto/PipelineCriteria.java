@@ -107,6 +107,8 @@ public class PipelineCriteria implements Serializable {
 
     private StringFilter pipelineScheduleCronJob;
 
+    private StringFilter pipelineRepositoryBranch;
+
     public PipelineCriteria() {
     }
 
@@ -294,6 +296,14 @@ public class PipelineCriteria implements Serializable {
         this.pipelineScheduleCronJob = pipelineScheduleCronJob;
     }
 
+    public StringFilter getPipelineRepositoryBranch() {
+        return pipelineRepositoryBranch;
+    }
+
+    public void setPipelineRepositoryBranch(StringFilter pipelineRepositoryBranch) {
+        this.pipelineRepositoryBranch = pipelineRepositoryBranch;
+    }
+
     @Override
     public String toString() {
         return "PipelineCriteria{" +
@@ -320,6 +330,7 @@ public class PipelineCriteria implements Serializable {
                 (pipelineProjectName != null ? "pipelineProjectName=" + pipelineProjectName + ", " : "") +
                 (pipelineScheduleType != null ? "pipelineScheduleType=" + pipelineScheduleType + ", " : "") +
                 (pipelineScheduleCronJob != null ? "pipelineScheduleCronJob=" + pipelineScheduleCronJob + ", " : "") +
+                (pipelineRepositoryBranch != null ? "pipelineRepositoryBranch=" + pipelineRepositoryBranch + ", " : "") +
             "}";
     }
 

@@ -108,6 +108,9 @@ public class Pipeline implements Serializable {
     @Column(name = "pipeline_schedule_cron_job")
     private String pipelineScheduleCronJob;
 
+    @Column(name = "pipeline_repository_branch")
+    private String pipelineRepositoryBranch;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -402,6 +405,19 @@ public class Pipeline implements Serializable {
     public void setPipelineScheduleCronJob(String pipelineScheduleCronJob) {
         this.pipelineScheduleCronJob = pipelineScheduleCronJob;
     }
+
+    public String getPipelineRepositoryBranch() {
+        return pipelineRepositoryBranch;
+    }
+
+    public Pipeline pipelineRepositoryBranch(String pipelineRepositoryBranch) {
+        this.pipelineRepositoryBranch = pipelineRepositoryBranch;
+        return this;
+    }
+
+    public void setPipelineRepositoryBranch(String pipelineRepositoryBranch) {
+        this.pipelineRepositoryBranch = pipelineRepositoryBranch;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -450,6 +466,7 @@ public class Pipeline implements Serializable {
             ", pipelineProjectName='" + getPipelineProjectName() + "'" +
             ", pipelineScheduleType='" + getPipelineScheduleType() + "'" +
             ", pipelineScheduleCronJob='" + getPipelineScheduleCronJob() + "'" +
+            ", pipelineRepositoryBranch='" + getPipelineRepositoryBranch() + "'" +
             "}";
     }
 }

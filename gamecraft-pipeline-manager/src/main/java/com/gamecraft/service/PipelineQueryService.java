@@ -147,6 +147,9 @@ public class PipelineQueryService extends QueryService<Pipeline> {
             if (criteria.getPipelineScheduleCronJob() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPipelineScheduleCronJob(), Pipeline_.pipelineScheduleCronJob));
             }
+            if (criteria.getPipelineRepositoryBranch() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPipelineRepositoryBranch(), Pipeline_.pipelineRepositoryBranch));
+            }
         }
         return specification;
     }

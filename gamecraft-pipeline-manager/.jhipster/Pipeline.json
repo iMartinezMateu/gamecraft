@@ -104,6 +104,10 @@
         {
             "fieldName": "pipelineScheduleCronJob",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "pipelineRepositoryBranch",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20171102184306",

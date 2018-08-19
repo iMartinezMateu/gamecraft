@@ -113,6 +113,9 @@ public class PipelineResourceIntTest {
     private static final String DEFAULT_PIPELINE_SCHEDULE_CRON_JOB = "AAAAAAAAAA";
     private static final String UPDATED_PIPELINE_SCHEDULE_CRON_JOB = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PIPELINE_REPOSITORY_BRANCH = "AAAAAAAAAA";
+    private static final String UPDATED_PIPELINE_REPOSITORY_BRANCH = "BBBBBBBBBB";
+
     @Autowired
     private PipelineRepository pipelineRepository;
 
@@ -181,7 +184,8 @@ public class PipelineResourceIntTest {
             .pipelineStatus(DEFAULT_PIPELINE_STATUS)
             .pipelineProjectName(DEFAULT_PIPELINE_PROJECT_NAME)
             .pipelineScheduleType(DEFAULT_PIPELINE_SCHEDULE_TYPE)
-            .pipelineScheduleCronJob(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB);
+            .pipelineScheduleCronJob(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB)
+            .pipelineRepositoryBranch(DEFAULT_PIPELINE_REPOSITORY_BRANCH);
         return pipeline;
     }
 
@@ -228,6 +232,7 @@ public class PipelineResourceIntTest {
         assertThat(testPipeline.getPipelineProjectName()).isEqualTo(DEFAULT_PIPELINE_PROJECT_NAME);
         assertThat(testPipeline.getPipelineScheduleType()).isEqualTo(DEFAULT_PIPELINE_SCHEDULE_TYPE);
         assertThat(testPipeline.getPipelineScheduleCronJob()).isEqualTo(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB);
+        assertThat(testPipeline.getPipelineRepositoryBranch()).isEqualTo(DEFAULT_PIPELINE_REPOSITORY_BRANCH);
 
         // Validate the Pipeline in Elasticsearch
         Pipeline pipelineEs = pipelineSearchRepository.findOne(testPipeline.getId());
@@ -321,7 +326,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineStatus").value(hasItem(DEFAULT_PIPELINE_STATUS.toString())))
             .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())));
+            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())))
+            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())));
     }
 
     @Test
@@ -356,7 +362,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.pipelineStatus").value(DEFAULT_PIPELINE_STATUS.toString()))
             .andExpect(jsonPath("$.pipelineProjectName").value(DEFAULT_PIPELINE_PROJECT_NAME.toString()))
             .andExpect(jsonPath("$.pipelineScheduleType").value(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString()))
-            .andExpect(jsonPath("$.pipelineScheduleCronJob").value(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString()));
+            .andExpect(jsonPath("$.pipelineScheduleCronJob").value(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString()))
+            .andExpect(jsonPath("$.pipelineRepositoryBranch").value(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString()));
     }
 
     @Test
@@ -1270,6 +1277,45 @@ public class PipelineResourceIntTest {
         // Get all the pipelineList where pipelineScheduleCronJob is null
         defaultPipelineShouldNotBeFound("pipelineScheduleCronJob.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineRepositoryBranchIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineRepositoryBranch equals to DEFAULT_PIPELINE_REPOSITORY_BRANCH
+        defaultPipelineShouldBeFound("pipelineRepositoryBranch.equals=" + DEFAULT_PIPELINE_REPOSITORY_BRANCH);
+
+        // Get all the pipelineList where pipelineRepositoryBranch equals to UPDATED_PIPELINE_REPOSITORY_BRANCH
+        defaultPipelineShouldNotBeFound("pipelineRepositoryBranch.equals=" + UPDATED_PIPELINE_REPOSITORY_BRANCH);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineRepositoryBranchIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineRepositoryBranch in DEFAULT_PIPELINE_REPOSITORY_BRANCH or UPDATED_PIPELINE_REPOSITORY_BRANCH
+        defaultPipelineShouldBeFound("pipelineRepositoryBranch.in=" + DEFAULT_PIPELINE_REPOSITORY_BRANCH + "," + UPDATED_PIPELINE_REPOSITORY_BRANCH);
+
+        // Get all the pipelineList where pipelineRepositoryBranch equals to UPDATED_PIPELINE_REPOSITORY_BRANCH
+        defaultPipelineShouldNotBeFound("pipelineRepositoryBranch.in=" + UPDATED_PIPELINE_REPOSITORY_BRANCH);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineRepositoryBranchIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineRepositoryBranch is not null
+        defaultPipelineShouldBeFound("pipelineRepositoryBranch.specified=true");
+
+        // Get all the pipelineList where pipelineRepositoryBranch is null
+        defaultPipelineShouldNotBeFound("pipelineRepositoryBranch.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -1299,7 +1345,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineStatus").value(hasItem(DEFAULT_PIPELINE_STATUS.toString())))
             .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())));
+            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())))
+            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())));
     }
 
     /**
@@ -1354,7 +1401,8 @@ public class PipelineResourceIntTest {
             .pipelineStatus(UPDATED_PIPELINE_STATUS)
             .pipelineProjectName(UPDATED_PIPELINE_PROJECT_NAME)
             .pipelineScheduleType(UPDATED_PIPELINE_SCHEDULE_TYPE)
-            .pipelineScheduleCronJob(UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
+            .pipelineScheduleCronJob(UPDATED_PIPELINE_SCHEDULE_CRON_JOB)
+            .pipelineRepositoryBranch(UPDATED_PIPELINE_REPOSITORY_BRANCH);
 
         restPipelineMockMvc.perform(put("/api/pipelines")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -1387,6 +1435,7 @@ public class PipelineResourceIntTest {
         assertThat(testPipeline.getPipelineProjectName()).isEqualTo(UPDATED_PIPELINE_PROJECT_NAME);
         assertThat(testPipeline.getPipelineScheduleType()).isEqualTo(UPDATED_PIPELINE_SCHEDULE_TYPE);
         assertThat(testPipeline.getPipelineScheduleCronJob()).isEqualTo(UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
+        assertThat(testPipeline.getPipelineRepositoryBranch()).isEqualTo(UPDATED_PIPELINE_REPOSITORY_BRANCH);
 
         // Validate the Pipeline in Elasticsearch
         Pipeline pipelineEs = pipelineSearchRepository.findOne(testPipeline.getId());
@@ -1465,7 +1514,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineStatus").value(hasItem(DEFAULT_PIPELINE_STATUS.toString())))
             .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())));
+            .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())))
+            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())));
     }
 
     @Test
