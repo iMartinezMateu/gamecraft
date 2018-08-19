@@ -175,7 +175,7 @@
                             case "webhook":
                                 document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'none';
                                 document.getElementById("newpipelineScheduleCronjob").style.display = 'none';
-                                document.getElementById('newwebhookMessage').innerHTML = 'If Webhook option is enabled, then you have to configure your Github repository so after a push is done in the repository, the pipeline endpoint will be fired. After you create the pipeline, you will know the endpoint to put in the Webhook settings from Github repository.';
+                                document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/" + pipelineId + "/execute";
                                 break;
                         }
 
@@ -255,6 +255,20 @@
                     }
                     $(e.currentTarget).find('input[id="newpipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
                     $(e.currentTarget).find('input[id="newpipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
+                    var scheduleSelect = document.getElementById("newpipelineScheduleType");
+                    switch (scheduleSelect.options[scheduleSelect.selectedIndex].value) {
+                        case "cronjob":
+                            document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'block';
+                            document.getElementById("newpipelineScheduleCronjob").style.display = 'block';
+                            document.getElementById('newwebhookMessage').innerHTML = '';
+                            break;
+                        case "webhook":
+                            document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'none';
+                            document.getElementById("newpipelineScheduleCronjob").style.display = 'none';
+                            document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/" + pipelineId + "/execute";
+                            break;
+                    }
+
                 }
 
                 pipelineId = $(e.relatedTarget).data('pipeline-id');
