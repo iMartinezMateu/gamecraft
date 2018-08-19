@@ -28,6 +28,7 @@
         setDefaultLanguage();
         var projectId = findGetParameter('project_id');
         var project = getProject(projectId);
+        var pipelineId;
         fillPipelinesTable(projectId);
         $(document).ready(function() {
             if (!isAdmin(getUsername())) {
@@ -146,10 +147,135 @@
             });
 
             $('#updatePipelineModal').on('show.bs.modal', function(e) {
-                projectId = $(e.relatedTarget).data('project-id');
-                $(e.currentTarget).find('input[id="newprojectName"]').val(getProject(projectId).projectName);
-                $(e.currentTarget).find('input[id="newprojectDescription"]').val(getProject(projectId).projectDescription);
-                $(e.currentTarget).find('input[id="newprojectWebpage"]').val(getProject(projectId).projectWebsite);
+                var engineSelect = document.getElementById("newpipelineEngineName");
+                var engines = getEngines();
+                $("#newpipelineEngineName").empty();
+                if (getEngines().length == 0) {
+                    alert("You cannot make new pipelines if there are no engines created.");
+                    e.stop();
+                }
+                else {
+                    for(index in engines) {
+                        engineSelect.options[engineSelect.options.length] = new Option(engines[index].engineName, engines[index].id);
+                    }
+                    $(document).on('change','#newpipelineEngineName',function(){
+                        var engineSelect = document.getElementById("newpipelineEngineName");
+                        $(e.currentTarget).find('input[id="newpipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
+                        $(e.currentTarget).find('input[id="newpipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
+
+                    });
+                    $(document).on('change','#newpipelineScheduleType',function(){
+                        var scheduleSelect = document.getElementById("newpipelineScheduleType");
+                        switch (scheduleSelect.options[scheduleSelect.selectedIndex].value) {
+                            case "cronjob":
+                                document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'block';
+                                document.getElementById("newpipelineScheduleCronjob").style.display = 'block';
+                                document.getElementById('newwebhookMessage').innerHTML = '';
+                                break;
+                            case "webhook":
+                                document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'none';
+                                document.getElementById("newpipelineScheduleCronjob").style.display = 'none';
+                                document.getElementById('newwebhookMessage').innerHTML = 'If Webhook option is enabled, then you have to configure your Github repository so after a push is done in the repository, the pipeline endpoint will be fired. After you create the pipeline, you will know the endpoint to put in the Webhook settings from Github repository.';
+                                break;
+                        }
+
+                    });
+                    $(document).on('change','#newpipelineNotificatorType',function(){
+                        var notificatorTypeSelect = document.getElementById("newpipelineNotificatorType");
+                        var pipelineNotificatorName = document.getElementById("newpipelineNotificatorName");
+                        $("#newpipelineNotificatorName").empty();
+                        switch (notificatorTypeSelect.options[notificatorTypeSelect.selectedIndex].value) {
+                            case "email":
+                                var notificators = getEmailAccounts();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].emailAccountName, notificators[index].id);
+                                }
+                                break;
+                            case "twitter":
+                                var notificators = getTwitterBots();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].twitterBotName, notificators[index].id);
+                                }
+                                break;
+                            case "telegram":
+                                var notificators = getTelegramBots();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].telegramBotName, notificators[index].id);
+                                }
+                                break;
+                            case "slack":
+                                var notificators = getSlackAccounts();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].slackAccountName, notificators[index].id);
+                                }
+                                break;
+                            case "irc":
+                                var notificators = getIRCBots();
+                                for(index in notificators) {
+                                    pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].ircBotName, notificators[index].id);
+                                }
+                                break;
+                        }
+
+                    });
+                    var notificatorTypeSelect = document.getElementById("newpipelineNotificatorType");
+                    var pipelineNotificatorName = document.getElementById("newpipelineNotificatorName");
+                    $("#pipelineNotificatorName").empty();
+                    switch (notificatorTypeSelect.options[notificatorTypeSelect.selectedIndex].value) {
+                        case "email":
+                            var notificators = getEmailAccounts();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].emailAccountName, notificators[index].id);
+                            }
+                            break;
+                        case "twitter":
+                            var notificators = getTwitterBots();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].twitterBotName, notificators[index].id);
+                            }
+                            break;
+                        case "telegram":
+                            var notificators = getTelegramBots();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].telegramBotName, notificators[index].id);
+                            }
+                            break;
+                        case "slack":
+                            var notificators = getSlackAccounts();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].slackAccountName, notificators[index].id);
+                            }
+                            break;
+                        case "irc":
+                            var notificators = getIRCBots();
+                            for(index in notificators) {
+                                pipelineNotificatorName.options[pipelineNotificatorName.options.length] = new Option(notificators[index].ircBotName, notificators[index].id);
+                            }
+                            break;
+                    }
+                    $(e.currentTarget).find('input[id="newpipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
+                    $(e.currentTarget).find('input[id="newpipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
+                }
+
+                pipelineId = $(e.relatedTarget).data('pipeline-id');
+                $(e.currentTarget).find('input[id="newpipelineName"]').val(getPipeline(pipelineId).pipelineName);
+                $(e.currentTarget).find('input[id="newpipelineDescription"]').val(getPipeline(pipelineId).pipelineDescription);
+                $(e.currentTarget).find('input[id="newpipelineRepositoryUsername"]').val(getPipeline(pipelineId).pipelineRepositoryUsername);
+                $(e.currentTarget).find('input[id="newpipelineRepositoryPassword"]').val(getPipeline(pipelineId).pipelineRepositoryPassword);
+                $(e.currentTarget).find('input[id="newpipelineRepositoryAddress"]').val(getPipeline(pipelineId).pipelineRepositoryAddress);
+                $(e.currentTarget).find('input[id="newpipelineRepositoryBranch"]').val(getPipeline(pipelineId).pipelineRepositoryBranch);
+                $(e.currentTarget).find('input[id="newpipelineEngineCompilerPath"]').val(getPipeline(pipelineId).pipelineEngineCompilerPath);
+                $(e.currentTarget).find('input[id="newpipelineEngineCompilerArguments"]').val(getPipeline(pipelineId).pipelineEngineCompilerArguments);
+                $(e.currentTarget).find('input[id="newpipelineFtpAddress"]').val(getPipeline(pipelineId).pipelineFtpAddress);
+                $(e.currentTarget).find('input[id="newpipelineFtpPort"]').val(getPipeline(pipelineId).pipelineFtpPort);
+                $(e.currentTarget).find('input[id="newpipelineFtpUsername"]').val(getPipeline(pipelineId).pipelineFtpUsername);
+                $(e.currentTarget).find('input[id="newpipelineFtpPassword"]').val(getPipeline(pipelineId).pipelineFtpPassword);
+                $(e.currentTarget).find('input[id="newpipelineDropboxAppKey"]').val(getPipeline(pipelineId).pipelineDropboxAppKey);
+                $(e.currentTarget).find('input[id="newpipelineDropboxToken"]').val(getPipeline(pipelineId).pipelineDropboxToken);
+                $(e.currentTarget).find('select[id="newpipelineNotificatorType"]').val(getPipeline(pipelineId).pipelineNotificatorType.toLowerCase());
+                $(e.currentTarget).find('select[id="newpipelineScheduleType"]').val(getPipeline(pipelineId).pipelineScheduleType.toLowerCase());
+                $(e.currentTarget).find('input[id="newpipelineScheduleCronjob"]').val(getPipeline(pipelineId).pipelineScheduleCronJob);
+
             });
         });
     </script>
@@ -363,30 +489,30 @@
                 switch (pipelineNotificatorType.value) {
                     case 'email':
                         if (pipelineScheduleType.value == 'cronjob')
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,pipelineScheduleCronjob.value,'CRONJOB');
                         else
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,null,'WEBHOOK');
                     break;
                     case 'twitter':
                     if (pipelineScheduleType.value == 'cronjob')
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,pipelineScheduleCronjob.value,'CRONJOB');
                         else
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,null,'WEBHOOK');                    break;
                     case 'telegram':
                     if (pipelineScheduleType.value == 'cronjob')
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,pipelineScheduleCronjob.value,'CRONJOB');
                         else
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,null,'WEBHOOK');                    break;
                     case 'slack':
                     if (pipelineScheduleType.value == 'cronjob')
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,pipelineScheduleCronjob.value,'CRONJOB');
                         else
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,null,'WEBHOOK');                    break;
                     case 'irc':
                         if (pipelineScheduleType.value == 'cronjob')
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineScheduleCronjob.value,'CRONJOB');
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,pipelineScheduleCronjob.value,'CRONJOB');
                         else
-                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,null,'WEBHOOK');                    break;
+                            addPipeline(pipelineName.value,pipelineDescription.value,projectId,project.projectName,pipelineDropboxAppKey.value,pipelineDropboxToken.value,pipelineEngineCompilerPath.value,pipelineEngineCompilerArguments.value,pipelineFtpAddress.value,pipelineFtpUsername.value,pipelineFtpPassword.value,pipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(pipelineNotificatorName.value)),null,pipelineRepositoryAddress.value,pipelineRepositoryPassword.value,'GITHUB',pipelineRepositoryUsername.value,pipelineRepositoryBranch.value,null,'WEBHOOK');                    break;
                 }
 
                  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
@@ -396,43 +522,225 @@
     </div>
 </div>
 
-<div class="modal fade" id="updateProjectModal" tabindex="-1" role="dialog" aria-labelledby="updateProjectModal" aria-hidden="true">
+<div class="modal fade" id="updatePipelineModal" tabindex="-1" role="dialog" aria-labelledby="updatePipelineModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Update project</h4>
+                <h4 class="modal-title">Update pipeline</h4>
             </div>
             <div class="modal-body">
-                <form role="form" data-toggle="validator" name="form" id="updateform" class="form-horizontal"
+                <form role="form" data-toggle="validator" name="form" id="form" class="form-horizontal"
                       enctype="multipart/form-data">
-                    <div class="form-group has-feedback form-group-lg">
-                        <div class="input-group">
-                            <label for="newprojectName">Project name:</label>
-                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newprojectName" required="true"/>
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Pipeline Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineName">Pipeline name:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineName" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineDescription">Pipeline description:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineDescription" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                         </div>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
-                    <div class="form-group has-feedback form-group-lg">
-                        <div class="input-group">
-                            <label for="newprojectDescription">Project description:</label>
-                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newprojectDescription" required="true"/>
+
+                        <div class="panel-heading">Repository Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineRepositoryUsername">Github Repository Username:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineRepositoryUsername" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineRepositoryPassword">Github Repository Password:</label>
+                                    <input type="password" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineRepositoryPassword" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineRepositoryAddress">Github Repository Address:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineRepositoryAddress" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineRepositoryBranch">Github Repository Branch:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineRepositoryBranch" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                         </div>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                    </div>
-                    <div class="form-group has-feedback form-group-lg">
-                        <div class="input-group">
-                            <label for="newprojectWebpage">Project webpage:</label>
-                            <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newprojectWebpage" required="true"/>
+
+                        <div class="panel-heading">Compilation Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineEngineName">Engine name:</label>
+                                    <select class="form-control" id="newpipelineEngineName" required="true"></select>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineEngineCompilerPath">Engine Compiler Path:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineEngineCompilerPath" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineEngineCompilerArguments">Engine Compiler Arguments:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineEngineCompilerArguments" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
                         </div>
-                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+
+                        <div class="panel-heading">FTP Publication Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineFtpAddress">FTP Address:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineFtpAddress" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineFtpPort">FTP Port:</label>
+                                    <input type="number" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineFtpPort" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineFtpUsername">FTP Username:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineFtpUsername" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineFtpPassword">FTP Password:</label>
+                                    <input type="password" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineFtpPassword" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">Dropbox Publication Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineDropboxAppKey">Dropbox App Key:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineDropboxAppKey" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineDropboxToken">Dropbox Token:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineDropboxToken" required="true"/>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">Notification Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineNotificatorType">Notificator Type:</label>
+                                    <select class="form-control" id="newpipelineNotificatorType" required="true">
+                                        <option value="email">E-mail</option>
+                                        <option value="twitter">Twitter</option>
+                                        <option value="telegram">Telegram</option>
+                                        <option value="slack">Slack</option>
+                                        <option value="irc">IRC</option>
+                                    </select>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineNotificatorName">Notificator name:</label>
+                                    <select class="form-control" id="newpipelineNotificatorName" required="true"></select>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
+
+                        <div class="panel-heading">Scheduling Settings</div>
+                        <div class="panel-body">
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="newpipelineScheduleType">Schedule Type:</label>
+                                    <select class="form-control" id="newpipelineScheduleType" required="true">
+                                        <option value="cronjob">Cron Job</option>
+                                        <option value="webhook">WebHook</option>
+                                    </select>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                            <div class="form-group has-feedback form-group-lg">
+                                <div class="input-group">
+                                    <label for="pipelineScheduleCronjob" id="newpipelineScheduleCronjobLabel">Schedule Cronjob:</label>
+                                    <input type="text" pattern="^[_A-z0-9]{1,}$" class="form-control" id="newpipelineScheduleCronjob" required="true"/>
+                                    <p id="newwebhookMessage"></p>
+                                </div>
+                                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="updateProject(projectId,newprojectName.value,newprojectDescription.value,newprojectWebpage.value,false);  location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
+                <button type="button" onclick="
+                switch (newpipelineNotificatorType.value) {
+                    case 'email':
+                        if (newpipelineScheduleType.value == 'cronjob')
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,newpipelineScheduleCronjob.value,'CRONJOB','IDLE');
+                        else
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'EMAIL',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,null,'WEBHOOK','IDLE');
+                    break;
+                    case 'twitter':
+                    if (newpipelineScheduleType.value == 'cronjob')
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,newpipelineScheduleCronjob.value,'CRONJOB','IDLE');
+                        else
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'TWITTER',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,null,'WEBHOOK','IDLE');                    break;
+                    case 'telegram':
+                    if (newpipelineScheduleType.value == 'cronjob')
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,newpipelineScheduleCronjob.value,'CRONJOB','IDLE');
+                        else
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'TELEGRAM',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,null,'WEBHOOK','IDLE');                    break;
+                    case 'slack':
+                    if (newpipelineScheduleType.value == 'cronjob')
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,newpipelineScheduleCronjob.value,'CRONJOB','IDLE');
+                        else
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'SLACK',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,null,'WEBHOOK','IDLE');                    break;
+                    case 'irc':
+                        if (newpipelineScheduleType.value == 'cronjob')
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,newpipelineScheduleCronjob.value,'CRONJOB','IDLE');
+                        else
+                            updatePipeline(pipelineId,newpipelineName.value,newpipelineDescription.value,projectId,project.projectName,newpipelineDropboxAppKey.value,newpipelineDropboxToken.value,newpipelineEngineCompilerPath.value,newpipelineEngineCompilerArguments.value,newpipelineFtpAddress.value,newpipelineFtpUsername.value,newpipelineFtpPassword.value,newpipelineFtpPort.value,'IRC',JSON.stringify(getEmailAccount(newpipelineNotificatorName.value)),null,newpipelineRepositoryAddress.value,newpipelineRepositoryPassword.value,'GITHUB',newpipelineRepositoryUsername.value,newpipelineRepositoryBranch.value,null,'WEBHOOK','IDLE');                    break;
+                }
+
+                 location.reload();" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
