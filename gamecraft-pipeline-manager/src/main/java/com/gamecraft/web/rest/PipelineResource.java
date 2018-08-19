@@ -124,7 +124,7 @@ public class PipelineResource {
      * @param id the id of the pipeline to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the pipeline, or with status 404 (Not Found)
      */
-    @GetMapping("/pipelines/{id}")
+    @GetMapping("/pipelines/{id}/execute")
     @Timed
     public ResponseEntity<Void> executePipeline(@PathVariable Long id) {
         log.debug("REST request to execute Pipeline : {}", id);
