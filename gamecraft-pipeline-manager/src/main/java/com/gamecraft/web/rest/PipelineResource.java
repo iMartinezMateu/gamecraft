@@ -25,9 +25,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Pipeline.
@@ -120,6 +117,21 @@ public class PipelineResource {
         Pipeline pipeline = pipelineService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(pipeline));
     }
+
+    /**
+     * GET  /pipelines/:id/execute : execute the "id" pipeline.
+     *
+     * @param id the id of the pipeline to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the pipeline, or with status 404 (Not Found)
+     */
+    @GetMapping("/pipelines/{id}")
+    @Timed
+    public ResponseEntity<Void> executePipeline(@PathVariable Long id) {
+        log.debug("REST request to execute Pipeline : {}", id);
+        pipelineService.execute(id);
+        return ResponseEntity.ok().build();
+    }
+
 
     /**
      * DELETE  /pipelines/:id : delete the "id" pipeline.
