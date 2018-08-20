@@ -113,7 +113,7 @@ function fillProjectsTable() {
                     $('<td>').text(item.projectName),
                     $('<td>').text(item.projectDescription),
                     $('<td>').html("<a href=" + item.projectWebsite + ">" + item.projectWebsite + "</a>"),
-                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteProject('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-project-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateProjectModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>   <a href='/pipelines?project_id=" + item.id + "'><button type=\"button\" class=\"btn btn-secondary btn-xs\"><span class=\"glyphicon glyphicon-tasks\"></span> </button></a>")
+                    $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipelinesAssociatedToProject('" + item.id + "'); deleteProject('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-project-id=\"" + item.id +"\" data-toggle=\"modal\" data-target=\"#updateProjectModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>   <a href='/pipelines?project_id=" + item.id + "'><button type=\"button\" class=\"btn btn-secondary btn-xs\"><span class=\"glyphicon glyphicon-tasks\"></span> </button></a>")
                 );
                 $(".table").append(tr.html());
             }
@@ -145,7 +145,7 @@ function fillPipelinesTable(projectId) {
                         $('<td>').text(item.id),
                         $('<td>').text(item.pipelineName),
                         $('<td>').text(item.pipelineDescription),
-                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipeline('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#updatePipelineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>  ")
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipeline('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#updatePipelineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>   ")
                     );
                     $(".table").append(tr.html());
                 }

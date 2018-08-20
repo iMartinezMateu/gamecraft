@@ -165,3 +165,38 @@ function deletePipeline(pipelineId) {
     });
 }
 
+function deletePipelinesAssociatedToProject(projectId) {
+
+    var pipelines = getPipelines();
+
+    jQuery.each(pipelines, function(i, pipeline) {
+        if (pipeline.pipelineProjectId == projectId) {
+            var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/" + pipeline.id;
+
+            $.ajax
+            ({
+                type: "DELETE",
+                url: queryUrl,
+                async: false,
+                contentType: "application/json",
+                beforeSend: function (xhr) {
+                    // set header if JWT is set
+                    if (sessionStorage.getItem("token")) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + sessionStorage.getItem("token"));
+                    }
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                success: function (data) {
+                },
+                error: function (data) {
+                    alert(JSON.stringify(data));
+                }
+            });
+        }
+    });
+
+
+}
+
