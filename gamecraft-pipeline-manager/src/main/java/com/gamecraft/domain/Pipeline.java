@@ -78,7 +78,7 @@ public class Pipeline implements Serializable {
     private PipelineRepositoryType pipelineRepositoryType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pipeline_notificator_type")
+    @Column(name = "pipeline_notificator_type",columnDefinition = "text")
     private PipelineNotificatorType pipelineNotificatorType;
 
     @Column(name = "pipeline_dropbox_app_key")
