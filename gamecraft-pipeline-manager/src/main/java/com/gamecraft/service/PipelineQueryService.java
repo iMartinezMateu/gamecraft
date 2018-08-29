@@ -29,7 +29,7 @@ import com.gamecraft.domain.enumeration.PipelineScheduleType;
  * Service for executing complex queries for Pipeline entities in the database.
  * The main input is a {@link PipelineCriteria} which get's converted to {@link Specifications},
  * in a way that all the filters must apply.
- * It returns a {@link List} of {%link Pipeline} or a {@link Page} of {%link Pipeline} which fulfills the criterias
+ * It returns a {@link List} of {@link Pipeline} or a {@link Page} of {@link Pipeline} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -48,7 +48,7 @@ public class PipelineQueryService extends QueryService<Pipeline> {
     }
 
     /**
-     * Return a {@link List} of {%link Pipeline} which matches the criteria from the database
+     * Return a {@link List} of {@link Pipeline} which matches the criteria from the database
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching entities.
      */
@@ -60,7 +60,7 @@ public class PipelineQueryService extends QueryService<Pipeline> {
     }
 
     /**
-     * Return a {@link Page} of {%link Pipeline} which matches the criteria from the database
+     * Return a {@link Page} of {@link Pipeline} which matches the criteria from the database
      * @param criteria The object which holds all the filters, which the entities should match.
      * @param page The page, which should be returned.
      * @return the matching entities.
@@ -149,6 +149,9 @@ public class PipelineQueryService extends QueryService<Pipeline> {
             }
             if (criteria.getPipelineRepositoryBranch() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPipelineRepositoryBranch(), Pipeline_.pipelineRepositoryBranch));
+            }
+            if (criteria.getPipelineNotificatorRecipient() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPipelineNotificatorRecipient(), Pipeline_.pipelineNotificatorRecipient));
             }
         }
         return specification;

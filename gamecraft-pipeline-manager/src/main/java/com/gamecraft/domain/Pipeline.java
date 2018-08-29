@@ -2,10 +2,11 @@ package com.gamecraft.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+
+import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -78,7 +79,7 @@ public class Pipeline implements Serializable {
     private PipelineRepositoryType pipelineRepositoryType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "pipeline_notificator_type",columnDefinition = "text")
+    @Column(name = "pipeline_notificator_type")
     private PipelineNotificatorType pipelineNotificatorType;
 
     @Column(name = "pipeline_dropbox_app_key")
@@ -110,6 +111,9 @@ public class Pipeline implements Serializable {
 
     @Column(name = "pipeline_repository_branch")
     private String pipelineRepositoryBranch;
+
+    @Column(name = "pipeline_notificator_recipient")
+    private String pipelineNotificatorRecipient;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -418,6 +422,19 @@ public class Pipeline implements Serializable {
     public void setPipelineRepositoryBranch(String pipelineRepositoryBranch) {
         this.pipelineRepositoryBranch = pipelineRepositoryBranch;
     }
+
+    public String getPipelineNotificatorRecipient() {
+        return pipelineNotificatorRecipient;
+    }
+
+    public Pipeline pipelineNotificatorRecipient(String pipelineNotificatorRecipient) {
+        this.pipelineNotificatorRecipient = pipelineNotificatorRecipient;
+        return this;
+    }
+
+    public void setPipelineNotificatorRecipient(String pipelineNotificatorRecipient) {
+        this.pipelineNotificatorRecipient = pipelineNotificatorRecipient;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -446,7 +463,7 @@ public class Pipeline implements Serializable {
             "id=" + getId() +
             ", pipelineName='" + getPipelineName() + "'" +
             ", pipelineDescription='" + getPipelineDescription() + "'" +
-            ", pipelineProjectId='" + getPipelineProjectId() + "'" +
+            ", pipelineProjectId=" + getPipelineProjectId() +
             ", pipelineRepositoryAddress='" + getPipelineRepositoryAddress() + "'" +
             ", pipelineRepositoryUsername='" + getPipelineRepositoryUsername() + "'" +
             ", pipelineRepositoryPassword='" + getPipelineRepositoryPassword() + "'" +
@@ -461,12 +478,13 @@ public class Pipeline implements Serializable {
             ", pipelineDropboxAppKey='" + getPipelineDropboxAppKey() + "'" +
             ", pipelineDropboxToken='" + getPipelineDropboxToken() + "'" +
             ", pipelinePublicationService='" + getPipelinePublicationService() + "'" +
-            ", pipelineFtpPort='" + getPipelineFtpPort() + "'" +
+            ", pipelineFtpPort=" + getPipelineFtpPort() +
             ", pipelineStatus='" + getPipelineStatus() + "'" +
             ", pipelineProjectName='" + getPipelineProjectName() + "'" +
             ", pipelineScheduleType='" + getPipelineScheduleType() + "'" +
             ", pipelineScheduleCronJob='" + getPipelineScheduleCronJob() + "'" +
             ", pipelineRepositoryBranch='" + getPipelineRepositoryBranch() + "'" +
+            ", pipelineNotificatorRecipient='" + getPipelineNotificatorRecipient() + "'" +
             "}";
     }
 }

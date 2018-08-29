@@ -109,6 +109,8 @@ public class PipelineCriteria implements Serializable {
 
     private StringFilter pipelineRepositoryBranch;
 
+    private StringFilter pipelineNotificatorRecipient;
+
     public PipelineCriteria() {
     }
 
@@ -304,6 +306,14 @@ public class PipelineCriteria implements Serializable {
         this.pipelineRepositoryBranch = pipelineRepositoryBranch;
     }
 
+    public StringFilter getPipelineNotificatorRecipient() {
+        return pipelineNotificatorRecipient;
+    }
+
+    public void setPipelineNotificatorRecipient(StringFilter pipelineNotificatorRecipient) {
+        this.pipelineNotificatorRecipient = pipelineNotificatorRecipient;
+    }
+
     @Override
     public String toString() {
         return "PipelineCriteria{" +
@@ -331,6 +341,7 @@ public class PipelineCriteria implements Serializable {
                 (pipelineScheduleType != null ? "pipelineScheduleType=" + pipelineScheduleType + ", " : "") +
                 (pipelineScheduleCronJob != null ? "pipelineScheduleCronJob=" + pipelineScheduleCronJob + ", " : "") +
                 (pipelineRepositoryBranch != null ? "pipelineRepositoryBranch=" + pipelineRepositoryBranch + ", " : "") +
+                (pipelineNotificatorRecipient != null ? "pipelineNotificatorRecipient=" + pipelineNotificatorRecipient + ", " : "") +
             "}";
     }
 

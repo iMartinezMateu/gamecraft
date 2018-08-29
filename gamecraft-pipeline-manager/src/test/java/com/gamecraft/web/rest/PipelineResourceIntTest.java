@@ -116,6 +116,9 @@ public class PipelineResourceIntTest {
     private static final String DEFAULT_PIPELINE_REPOSITORY_BRANCH = "AAAAAAAAAA";
     private static final String UPDATED_PIPELINE_REPOSITORY_BRANCH = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT = "AAAAAAAAAA";
+    private static final String UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT = "BBBBBBBBBB";
+
     @Autowired
     private PipelineRepository pipelineRepository;
 
@@ -185,7 +188,8 @@ public class PipelineResourceIntTest {
             .pipelineProjectName(DEFAULT_PIPELINE_PROJECT_NAME)
             .pipelineScheduleType(DEFAULT_PIPELINE_SCHEDULE_TYPE)
             .pipelineScheduleCronJob(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB)
-            .pipelineRepositoryBranch(DEFAULT_PIPELINE_REPOSITORY_BRANCH);
+            .pipelineRepositoryBranch(DEFAULT_PIPELINE_REPOSITORY_BRANCH)
+            .pipelineNotificatorRecipient(DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT);
         return pipeline;
     }
 
@@ -233,10 +237,11 @@ public class PipelineResourceIntTest {
         assertThat(testPipeline.getPipelineScheduleType()).isEqualTo(DEFAULT_PIPELINE_SCHEDULE_TYPE);
         assertThat(testPipeline.getPipelineScheduleCronJob()).isEqualTo(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB);
         assertThat(testPipeline.getPipelineRepositoryBranch()).isEqualTo(DEFAULT_PIPELINE_REPOSITORY_BRANCH);
+        assertThat(testPipeline.getPipelineNotificatorRecipient()).isEqualTo(DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT);
 
         // Validate the Pipeline in Elasticsearch
         Pipeline pipelineEs = pipelineSearchRepository.findOne(testPipeline.getId());
-        assertThat(pipelineEs).isEqualToComparingFieldByField(testPipeline);
+        assertThat(pipelineEs).isEqualToIgnoringGivenFields(testPipeline);
     }
 
     @Test
@@ -327,7 +332,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())))
-            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())));
+            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())))
+            .andExpect(jsonPath("$.[*].pipelineNotificatorRecipient").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT.toString())));
     }
 
     @Test
@@ -363,7 +369,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.pipelineProjectName").value(DEFAULT_PIPELINE_PROJECT_NAME.toString()))
             .andExpect(jsonPath("$.pipelineScheduleType").value(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString()))
             .andExpect(jsonPath("$.pipelineScheduleCronJob").value(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString()))
-            .andExpect(jsonPath("$.pipelineRepositoryBranch").value(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString()));
+            .andExpect(jsonPath("$.pipelineRepositoryBranch").value(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString()))
+            .andExpect(jsonPath("$.pipelineNotificatorRecipient").value(DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT.toString()));
     }
 
     @Test
@@ -1316,6 +1323,45 @@ public class PipelineResourceIntTest {
         // Get all the pipelineList where pipelineRepositoryBranch is null
         defaultPipelineShouldNotBeFound("pipelineRepositoryBranch.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineNotificatorRecipientIsEqualToSomething() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineNotificatorRecipient equals to DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT
+        defaultPipelineShouldBeFound("pipelineNotificatorRecipient.equals=" + DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT);
+
+        // Get all the pipelineList where pipelineNotificatorRecipient equals to UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT
+        defaultPipelineShouldNotBeFound("pipelineNotificatorRecipient.equals=" + UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineNotificatorRecipientIsInShouldWork() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineNotificatorRecipient in DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT or UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT
+        defaultPipelineShouldBeFound("pipelineNotificatorRecipient.in=" + DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT + "," + UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT);
+
+        // Get all the pipelineList where pipelineNotificatorRecipient equals to UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT
+        defaultPipelineShouldNotBeFound("pipelineNotificatorRecipient.in=" + UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPipelinesByPipelineNotificatorRecipientIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        pipelineRepository.saveAndFlush(pipeline);
+
+        // Get all the pipelineList where pipelineNotificatorRecipient is not null
+        defaultPipelineShouldBeFound("pipelineNotificatorRecipient.specified=true");
+
+        // Get all the pipelineList where pipelineNotificatorRecipient is null
+        defaultPipelineShouldNotBeFound("pipelineNotificatorRecipient.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -1346,7 +1392,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())))
-            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())));
+            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())))
+            .andExpect(jsonPath("$.[*].pipelineNotificatorRecipient").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT.toString())));
     }
 
     /**
@@ -1379,6 +1426,8 @@ public class PipelineResourceIntTest {
 
         // Update the pipeline
         Pipeline updatedPipeline = pipelineRepository.findOne(pipeline.getId());
+        // Disconnect from session so that the updates on updatedPipeline are not directly saved in db
+        em.detach(updatedPipeline);
         updatedPipeline
             .pipelineName(UPDATED_PIPELINE_NAME)
             .pipelineDescription(UPDATED_PIPELINE_DESCRIPTION)
@@ -1402,7 +1451,8 @@ public class PipelineResourceIntTest {
             .pipelineProjectName(UPDATED_PIPELINE_PROJECT_NAME)
             .pipelineScheduleType(UPDATED_PIPELINE_SCHEDULE_TYPE)
             .pipelineScheduleCronJob(UPDATED_PIPELINE_SCHEDULE_CRON_JOB)
-            .pipelineRepositoryBranch(UPDATED_PIPELINE_REPOSITORY_BRANCH);
+            .pipelineRepositoryBranch(UPDATED_PIPELINE_REPOSITORY_BRANCH)
+            .pipelineNotificatorRecipient(UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT);
 
         restPipelineMockMvc.perform(put("/api/pipelines")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -1436,10 +1486,11 @@ public class PipelineResourceIntTest {
         assertThat(testPipeline.getPipelineScheduleType()).isEqualTo(UPDATED_PIPELINE_SCHEDULE_TYPE);
         assertThat(testPipeline.getPipelineScheduleCronJob()).isEqualTo(UPDATED_PIPELINE_SCHEDULE_CRON_JOB);
         assertThat(testPipeline.getPipelineRepositoryBranch()).isEqualTo(UPDATED_PIPELINE_REPOSITORY_BRANCH);
+        assertThat(testPipeline.getPipelineNotificatorRecipient()).isEqualTo(UPDATED_PIPELINE_NOTIFICATOR_RECIPIENT);
 
         // Validate the Pipeline in Elasticsearch
         Pipeline pipelineEs = pipelineSearchRepository.findOne(testPipeline.getId());
-        assertThat(pipelineEs).isEqualToComparingFieldByField(testPipeline);
+        assertThat(pipelineEs).isEqualToIgnoringGivenFields(testPipeline);
     }
 
     @Test
@@ -1515,7 +1566,8 @@ public class PipelineResourceIntTest {
             .andExpect(jsonPath("$.[*].pipelineProjectName").value(hasItem(DEFAULT_PIPELINE_PROJECT_NAME.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleType").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].pipelineScheduleCronJob").value(hasItem(DEFAULT_PIPELINE_SCHEDULE_CRON_JOB.toString())))
-            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())));
+            .andExpect(jsonPath("$.[*].pipelineRepositoryBranch").value(hasItem(DEFAULT_PIPELINE_REPOSITORY_BRANCH.toString())))
+            .andExpect(jsonPath("$.[*].pipelineNotificatorRecipient").value(hasItem(DEFAULT_PIPELINE_NOTIFICATOR_RECIPIENT.toString())));
     }
 
     @Test

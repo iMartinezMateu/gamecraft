@@ -19,6 +19,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.eclipse.jgit.api.Git;
@@ -206,46 +207,57 @@ public class PipelineServiceImpl implements PipelineService {
             String notificatorId = pipeline.getPipelineNotificatorDetails();
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost post;
-            List<NameValuePair> urlParameters;
+            String json;
+            StringEntity entity;
             switch (pipeline.getPipelineNotificatorType()) {
                 case TELEGRAM:
                     post = new HttpPost("http://0.0.0.0:8080/gamecrafttelegramnotificationmanager/api/telegram-bots/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    urlParameters = new ArrayList<>();
-                    urlParameters.add(new BasicNameValuePair("telegramMessage", message));
-                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    json = "{\"chatId\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"webPagePreviewDisabled\":\"false\",\"notificationDisabled\":\"false\" ,\"message\":\""+message+"\"}";
+                    entity = new StringEntity(json);
+                    post.setEntity(entity);
+                    post.setHeader("Accept", "application/json");
+                    post.setHeader("Content-type", "application/json");
                     client.execute(post);
                     break;
                 case TWITTER:
                     post = new HttpPost("http://0.0.0.0:8080/gamecrafttwitternotificationmanager/api/twitter-bots/" + notificatorId + "/sendTweet");
                     post.setHeader("Authorization", "Bearer " + token);
-                    urlParameters = new ArrayList<>();
-                    urlParameters.add(new BasicNameValuePair("tweet", message));
-                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    json = "{\"message\":\""+message+"\"}";
+                    entity = new StringEntity(json);
+                    post.setEntity(entity);
+                    post.setHeader("Accept", "application/json");
+                    post.setHeader("Content-type", "application/json");
                     client.execute(post);
                     break;
                 case SLACK:
                     post = new HttpPost("http://0.0.0.0:8080/gamecraftslacknotificationmanager/api/slack-accounts/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    urlParameters = new ArrayList<>();
-                    urlParameters.add(new BasicNameValuePair("slackMessage", message));
-                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    json = "{\"channels\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"users\":\""+pipeline.getPipelineNotificatorRecipient()+"\" ,\"message\":\""+message+"\"}";
+                    entity = new StringEntity(json);
+                    post.setEntity(entity);
+                    post.setHeader("Accept", "application/json");
+                    post.setHeader("Content-type", "application/json");
                     client.execute(post);
                     break;
                 case IRC:
                     post = new HttpPost("http://0.0.0.0:8080/gamecraftircnotificationmanager/api/irc-bots/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    urlParameters = new ArrayList<>();
-                    urlParameters.add(new BasicNameValuePair("ircMessage", message));
-                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    json = "{\"ircChannel\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"message\":\""+message+"\"}";
+                    entity = new StringEntity(json);
+                    post.setEntity(entity);
+                    post.setHeader("Accept", "application/json");
+                    post.setHeader("Content-type", "application/json");
                     client.execute(post);
                     break;
                 case EMAIL:
                     post = new HttpPost("http://0.0.0.0:8080/gamecraftemailnotificationmanager/api/email-accounts/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    urlParameters = new ArrayList<>();
-                    urlParameters.add(new BasicNameValuePair("email", message));
-                    post.setEntity(new UrlEncodedFormEntity(urlParameters));
+                    json = "{\"toEmailAddress\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"subject\": \"GameCraft Notification\",\"body\":\""+message+"\"}";
+                    entity = new StringEntity(json);
+                    post.setEntity(entity);
+                    post.setHeader("Accept", "application/json");
+                    post.setHeader("Content-type", "application/json");
                     client.execute(post);
                     break;
             }
