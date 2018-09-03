@@ -1,0 +1,230 @@
+version: '2'
+services:
+    gamecraftemailnotificationmanager-app:
+        image: gamecraftemailnotificationmanager
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftemailnotificationmanager-mysql:3306/gamecraftemailnotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftemailnotificationmanager-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecraftemailnotificationmanager-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecraftemailnotificationmanager
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecraftemailnotificationmanager-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    gamecraftenginemanager-app:
+        image: gamecraftenginemanager
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftenginemanager-mysql:3306/gamecraftenginemanager?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftenginemanager-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecraftenginemanager-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecraftenginemanager
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecraftenginemanager-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    gamecraftgateway-app:
+        image: gamecraftgateway
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftgateway-mysql:3306/gamecraftgateway?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftgateway-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+        ports:
+            - 8080:8080
+    gamecraftgateway-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecraftgateway
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecraftgateway-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    gamecraftircnotificationmanager-app:
+        image: gamecraftircnotificationmanager
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftircnotificationmanager-mysql:3306/gamecraftircnotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftircnotificationmanager-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecraftircnotificationmanager-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecraftircnotificationmanager
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecraftircnotificationmanager-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    gamecraftpipelinemanager-app:
+        image: gamecraftpipelinemanager
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftpipelinemanager-mysql:3306/gamecraftpipelinemanager?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftpipelinemanager-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecraftpipelinemanager-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecraftpipelinemanager
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecraftpipelinemanager-elasticsearch:
+        image: elasticsearch:2.4.6
+    
+    gamecraftproject-app:
+        image: gamecraftproject
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftproject-mysql:3306/gamecraftproject?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftproject-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecraftproject-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecraftproject
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecraftproject-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    gamecraftslacknotificationmanager-app:
+        image: gamecraftslacknotificationmanager
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftslacknotificationmanager-mysql:3306/gamecraftslacknotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftslacknotificationmanager-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecraftslacknotificationmanager-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecraftslacknotificationmanager
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecraftslacknotificationmanager-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    gamecrafttelegramnotificationmanager-app:
+        image: gamecrafttelegramnotificationmanager
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecrafttelegramnotificationmanager-mysql:3306/gamecrafttelegramnotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecrafttelegramnotificationmanager-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecrafttelegramnotificationmanager-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecrafttelegramnotificationmanager
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecrafttelegramnotificationmanager-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    gamecrafttwitternotificationmanager-app:
+        image: gamecrafttwitternotificationmanager
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
+            - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gamecrafttwitternotificationmanager-mysql:3306/gamecrafttwitternotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=30
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecrafttwitternotificationmanager-elasticsearch:9300
+            - JHIPSTER_REGISTRY_PASSWORD=admin
+    gamecrafttwitternotificationmanager-mysql:
+        image: mysql:5.7.20
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+            - MYSQL_DATABASE=gamecrafttwitternotificationmanager
+        command:             mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8
+            --explicit_defaults_for_timestamp
+    gamecrafttwitternotificationmanager-elasticsearch:
+        image: elasticsearch:2.4.1
+    
+    jhipster-registry:
+        extends:
+            file: jhipster-registry.yml
+            service: jhipster-registry
+
+    jhipster-elasticsearch:
+        extends:
+            file: jhipster-console.yml
+            service: jhipster-elasticsearch
+    jhipster-logstash:
+        extends:
+            file: jhipster-console.yml
+            service: jhipster-logstash
+        depends_on:
+            - jhipster-elasticsearch
+    jhipster-console:
+        extends:
+            file: jhipster-console.yml
+            service: jhipster-console
+        depends_on:
+            - jhipster-elasticsearch
+    jhipster-import-dashboards:
+        extends:
+            file: jhipster-console.yml
+            service: jhipster-import-dashboards
+        depends_on:
+            - jhipster-elasticsearch
+    jhipster-curator:
+        extends:
+            file: jhipster-console.yml
+            service: jhipster-curator
+        depends_on:
+            - jhipster-elasticsearch
+    gamecraft-ui:
+        image: gamecraftui
+        ports:
+            - 8000:8000

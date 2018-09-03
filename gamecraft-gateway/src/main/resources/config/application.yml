@@ -115,13 +115,13 @@ jhipster:
         max-pool-size: 50
         queue-capacity: 10000
     # By default CORS is disabled. Uncomment to enable.
-    #cors:
-        #allowed-origins: "*"
-        #allowed-methods: GET, PUT, POST, DELETE, OPTIONS
-        #allowed-headers: "*"
-        #exposed-headers:
-        #allow-credentials: true
-        #max-age: 1800
+    cors:
+        allowed-origins: "*"
+        allowed-methods: GET, PUT, POST, DELETE, OPTIONS
+        allowed-headers: "*"
+        exposed-headers:
+        allow-credentials: true
+        max-age: 1800
     mail:
         from: gamecraftgateway@localhost
     swagger:

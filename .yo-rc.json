@@ -1,0 +1,25 @@
+{
+  "generator-jhipster": {
+    "appsFolders": [
+      "gamecraft-email-notification-manager",
+      "gamecraft-engine-manager",
+      "gamecraft-gateway",
+      "gamecraft-irc-notification-manager",
+      "gamecraft-pipeline-manager",
+      "gamecraft-project",
+      "gamecraft-slack-notification-manager",
+      "gamecraft-team",
+      "gamecraft-telegram-notification-manager",
+      "gamecraft-twitter-notification-manager"
+    ],
+    "directoryPath": "./",
+    "gatewayType": "zuul",
+    "monitoring": "elk",
+    "consoleOptions": [
+      "curator"
+    ],
+    "serviceDiscoveryType": "eureka",
+    "adminPassword": "admin",
+    "jwtSecretKey": "da61d346380cf1acd23c957c42dd1923a3ab83ce"
+  }
+}
