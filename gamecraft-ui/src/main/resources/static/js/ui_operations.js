@@ -46,7 +46,7 @@ function fillUsersTable() {
                         $('<td>').text(item.email),
                         $('<td>').html(role),
                         $('<td>').text(item.createdDate),
-                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"\"><span class=\"glyphicon glyphicon-remove\"></span> </button> <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-user-id=\"" + item.id +"\" data-target=\"#updateUserModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deleteUser('" + item.id + "'); location.reload(); \" ><span class=\"glyphicon glyphicon-remove\"></span> </button> <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-toggle=\"modal\" data-user-id=\"" + item.id +"\" data-target=\"#updateUserModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>")
                     );
                     $(".table").append(tr.html());
 
