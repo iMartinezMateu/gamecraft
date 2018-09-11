@@ -7,9 +7,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftemailnotificationmanager-mysql:3306/gamecraftemailnotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=340
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftemailnotificationmanager-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecraftemailnotificationmanager-mysql:
         image: mysql:5.7.20
         environment:
@@ -20,7 +21,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecraftemailnotificationmanager-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
     gamecraftenginemanager-app:
         image: gamecraftenginemanager
         environment:
@@ -28,9 +29,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftenginemanager-mysql:3306/gamecraftenginemanager?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=300
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftenginemanager-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecraftenginemanager-mysql:
         image: mysql:5.7.20
         environment:
@@ -41,7 +43,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecraftenginemanager-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
     gamecraftgateway-app:
         image: gamecraftgateway
         environment:
@@ -49,9 +51,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftgateway-mysql:3306/gamecraftgateway?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=80
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftgateway-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
         ports:
             - 8080:8080
     gamecraftgateway-mysql:
@@ -64,7 +67,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecraftgateway-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
     gamecraftircnotificationmanager-app:
         image: gamecraftircnotificationmanager
         environment:
@@ -72,9 +75,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftircnotificationmanager-mysql:3306/gamecraftircnotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=260
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftircnotificationmanager-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecraftircnotificationmanager-mysql:
         image: mysql:5.7.20
         environment:
@@ -85,7 +89,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecraftircnotificationmanager-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
     gamecraftpipelinemanager-app:
         image: gamecraftpipelinemanager
         environment:
@@ -93,9 +97,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftpipelinemanager-mysql:3306/gamecraftpipelinemanager?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=120
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftpipelinemanager-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecraftpipelinemanager-mysql:
         image: mysql:5.7.20
         environment:
@@ -106,7 +111,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecraftpipelinemanager-elasticsearch:
         image: elasticsearch:2.4.6
-    
+
     gamecraftproject-app:
         image: gamecraftproject
         environment:
@@ -114,9 +119,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftproject-mysql:3306/gamecraftproject?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=100
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftproject-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecraftproject-mysql:
         image: mysql:5.7.20
         environment:
@@ -127,7 +133,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecraftproject-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
     gamecraftslacknotificationmanager-app:
         image: gamecraftslacknotificationmanager
         environment:
@@ -135,9 +141,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecraftslacknotificationmanager-mysql:3306/gamecraftslacknotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=380
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecraftslacknotificationmanager-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecraftslacknotificationmanager-mysql:
         image: mysql:5.7.20
         environment:
@@ -148,7 +155,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecraftslacknotificationmanager-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
     gamecrafttelegramnotificationmanager-app:
         image: gamecrafttelegramnotificationmanager
         environment:
@@ -156,9 +163,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecrafttelegramnotificationmanager-mysql:3306/gamecrafttelegramnotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=400
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecrafttelegramnotificationmanager-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecrafttelegramnotificationmanager-mysql:
         image: mysql:5.7.20
         environment:
@@ -169,7 +177,7 @@ services:
             --explicit_defaults_for_timestamp
     gamecrafttelegramnotificationmanager-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
     gamecrafttwitternotificationmanager-app:
         image: gamecrafttwitternotificationmanager
         environment:
@@ -177,9 +185,10 @@ services:
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:mysql://gamecrafttwitternotificationmanager-mysql:3306/gamecrafttwitternotificationmanager?useUnicode=true&characterEncoding=utf8&useSSL=false
-            - JHIPSTER_SLEEP=30
+            - JHIPSTER_SLEEP=440
             - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gamecrafttwitternotificationmanager-elasticsearch:9300
             - JHIPSTER_REGISTRY_PASSWORD=admin
+            - JAVA_OPTS=-Xmx512m -Xms256m
     gamecrafttwitternotificationmanager-mysql:
         image: mysql:5.7.20
         environment:
@@ -190,41 +199,42 @@ services:
             --explicit_defaults_for_timestamp
     gamecrafttwitternotificationmanager-elasticsearch:
         image: elasticsearch:2.4.1
-    
+
+    gamecraft-ui:
+        image: gamecraftui
+        ports:
+          - 8000:8000
+
     jhipster-registry:
         extends:
             file: jhipster-registry.yml
             service: jhipster-registry
 
-    jhipster-elasticsearch:
-        extends:
-            file: jhipster-console.yml
-            service: jhipster-elasticsearch
-    jhipster-logstash:
-        extends:
-            file: jhipster-console.yml
-            service: jhipster-logstash
-        depends_on:
-            - jhipster-elasticsearch
-    jhipster-console:
-        extends:
-            file: jhipster-console.yml
-            service: jhipster-console
-        depends_on:
-            - jhipster-elasticsearch
-    jhipster-import-dashboards:
-        extends:
-            file: jhipster-console.yml
-            service: jhipster-import-dashboards
-        depends_on:
-            - jhipster-elasticsearch
-    jhipster-curator:
-        extends:
-            file: jhipster-console.yml
-            service: jhipster-curator
-        depends_on:
-            - jhipster-elasticsearch
-    gamecraft-ui:
-        image: gamecraftui
-        ports:
-            - 8000:8000
+#    jhipster-elasticsearch:
+#        extends:
+#            file: jhipster-console.yml
+#            service: jhipster-elasticsearch
+#    jhipster-logstash:
+#        extends:
+#            file: jhipster-console.yml
+#            service: jhipster-logstash
+#        depends_on:
+#            - jhipster-elasticsearch
+#    jhipster-console:
+#        extends:
+#            file: jhipster-console.yml
+#            service: jhipster-console
+#        depends_on:
+#            - jhipster-elasticsearch
+#    jhipster-import-dashboards:
+#        extends:
+#            file: jhipster-console.yml
+#            service: jhipster-import-dashboards
+#        depends_on:
+#            - jhipster-elasticsearch
+#    jhipster-curator:
+#        extends:
+#            file: jhipster-console.yml
+#            service: jhipster-curator
+#        depends_on:
+#            - jhipster-elasticsearch
