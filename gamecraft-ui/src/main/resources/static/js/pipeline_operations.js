@@ -30,7 +30,7 @@ function getPipeline(id) {
 }
 
 function addPipeline(pipelineName,pipelineDescription,pipelineProjectId,pipelineProjectName,pipelineDropboxAppKey,pipelineDropboxToken,pipelineEngineCompilerPath,pipelineEngineCompilerArguments,pipelineFtpAddress,pipelineFtpUsername,pipelineFtpPassword,pipelineFtpPort,pipelineNotificatorType,pipelineNotificatorDetails,
-                     pipelinePublicationService,pipelineRepositoryAddress,pipelineRepositoryPassword,pipelineRepositoryType,pipelineRepositoryUsername,pipelineRepositoryBranch,pipelineScheduleCronJob,pipelineScheduleType) {
+                     pipelinePublicationService,pipelineRepositoryAddress,pipelineRepositoryPassword,pipelineRepositoryType,pipelineRepositoryUsername,pipelineRepositoryBranch,pipelineScheduleCronJob,pipelineScheduleType,pipelineNotificatorRecipient) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/";
 
     var data = {
@@ -56,7 +56,8 @@ function addPipeline(pipelineName,pipelineDescription,pipelineProjectId,pipeline
         pipelineRepositoryBranch: pipelineRepositoryBranch,
         pipelineScheduleCronJob: pipelineScheduleCronJob,
         pipelineScheduleType: pipelineScheduleType,
-        pipelineStatus: "IDLE"
+        pipelineStatus: "IDLE",
+        pipelineNotificatorRecipient: pipelineNotificatorRecipient
     };
     $.ajax
     ({
@@ -84,7 +85,7 @@ function addPipeline(pipelineName,pipelineDescription,pipelineProjectId,pipeline
 }
 
 function updatePipeline(pipelineId, pipelineName,pipelineDescription,pipelineProjectId,pipelineProjectName,pipelineDropboxAppKey,pipelineDropboxToken,pipelineEngineCompilerPath,pipelineEngineCompilerArguments,pipelineFtpAddress,pipelineFtpUsername,pipelineFtpPassword,pipelineFtpPort,pipelineNotificatorType,pipelineNotificatorDetails,
-                        pipelinePublicationService,pipelineRepositoryAddress,pipelineRepositoryPassword,pipelineRepositoryType,pipelineRepositoryUsername,pipelineRepositoryBranch,pipelineScheduleCronJob,pipelineScheduleType,pipelineStatus) {
+                        pipelinePublicationService,pipelineRepositoryAddress,pipelineRepositoryPassword,pipelineRepositoryType,pipelineRepositoryUsername,pipelineRepositoryBranch,pipelineScheduleCronJob,pipelineScheduleType,pipelineStatus,pipelineNotificatorRecipient) {
     var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/";
 
     var data = {
@@ -111,7 +112,8 @@ function updatePipeline(pipelineId, pipelineName,pipelineDescription,pipelinePro
         pipelineRepositoryBranch: pipelineRepositoryBranch,
         pipelineScheduleCronJob: pipelineScheduleCronJob,
         pipelineScheduleType: pipelineScheduleType,
-        pipelineStatus: pipelineStatus
+        pipelineStatus: pipelineStatus,
+        pipelineNotificatorRecipient: pipelineNotificatorRecipient
     };
     $.ajax
     ({
