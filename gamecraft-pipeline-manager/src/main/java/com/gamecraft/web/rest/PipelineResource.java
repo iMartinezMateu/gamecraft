@@ -132,6 +132,20 @@ public class PipelineResource {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * GET  /pipelines/:id/stop : stop the "id" pipeline.
+     *
+     * @param id the id of the pipeline to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the pipeline, or with status 404 (Not Found)
+     */
+    @GetMapping("/pipelines/{id}/stop")
+    @Timed
+    public ResponseEntity<Void> stopPipeline(@PathVariable Long id) {
+        log.debug("REST request to execute Pipeline : {}", id);
+        pipelineService.stop(id);
+        return ResponseEntity.ok().build();
+    }
+
 
     /**
      * DELETE  /pipelines/:id : delete the "id" pipeline.

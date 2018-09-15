@@ -41,6 +41,13 @@ public interface PipelineService {
     void delete(Long id);
 
     /**
+     * Stop the "id" pipeline.
+     *
+     * @param id the id of the entity
+     */
+    void stop(Long id);
+
+    /**
      * Execute the "id" pipeline.
      *
      * @param id the id of the entity

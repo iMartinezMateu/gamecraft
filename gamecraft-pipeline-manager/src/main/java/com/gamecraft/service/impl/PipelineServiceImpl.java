@@ -27,6 +27,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobKey.jobKey;
 
 /**
  * Service Implementation for managing Pipeline.
@@ -115,6 +119,26 @@ public class PipelineServiceImpl implements PipelineService {
     }
 
     /**
+     * Stop the pipeline by id.
+     *
+     * @param id the id of the entity
+     */
+    @Override
+    public void stop(Long id) {
+        log.debug("Request to stop Pipeline : {}", id);
+        Pipeline pipeline = pipelineRepository.findOne(id);
+        try {
+            SchedulerFactory schedulerFactory=new StdSchedulerFactory();
+            Scheduler scheduler= schedulerFactory.getScheduler();
+            scheduler.deleteJob(jobKey(pipeline.getId().toString(), "group"));
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+        pipeline.setPipelineStatus(PipelineStatus.IDLE);
+            save(pipeline);
+    }
+
+    /**
      * Execute the pipeline by id.
      *
      * @param id the id of the entity
@@ -124,84 +148,62 @@ public class PipelineServiceImpl implements PipelineService {
         log.debug("Request to execute Pipeline : {}", id);
         File workDirectory = Files.createTempDir();
         Pipeline pipeline = pipelineRepository.findOne(id);
-        pipeline.setPipelineStatus(PipelineStatus.RUNNING);
-        save(pipeline);
-        processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " is running at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        try {
-            Git git = Git.cloneRepository()
-                .setURI(pipeline.getPipelineRepositoryAddress())
-                .setCredentialsProvider(new UsernamePasswordCredentialsProvider(pipeline.getPipelineRepositoryUsername(),pipeline.getPipelineRepositoryPassword()))
-                .setDirectory(workDirectory)
-                .call();
+        if (pipeline.getPipelineStatus() == PipelineStatus.IDLE) {
+            pipeline.setPipelineStatus(PipelineStatus.RUNNING);
+            save(pipeline);
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " is running at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            switch (pipeline.getPipelineScheduleType()) {
+                case CRONJOB:
+                    try {
+                        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+                        Scheduler scheduler = schedulerFactory.getScheduler();
+                        JobDetail job = JobBuilder.newJob(PipelineTask.class).withIdentity(pipeline.getId().toString(), "group").build();
+                        Trigger trigger = TriggerBuilder.newTrigger().withIdentity(pipeline.getId().toString(), "group")
+                            .withSchedule(
+                                CronScheduleBuilder.cronSchedule(pipeline.getPipelineScheduleCronJob()))
+                            .build();
+                        scheduler.getContext().put("pipeline", pipeline);
+                        scheduler.getContext().put("workDirectory", workDirectory);
+                        scheduler.scheduleJob(job, trigger);
+                        if (!scheduler.isStarted())
+                            scheduler.start();
+                    } catch (SchedulerException e) {
+                        e.printStackTrace();
+                    }
+                    break;
 
-
-            ProcessBuilder pb = new ProcessBuilder(pipeline.getPipelineEngineCompilerPath() + " " + pipeline.getPipelineEngineCompilerArguments());
-
-            pb.directory(workDirectory);
-            Process p = pb.start();
-            p.waitFor();
-
-            BufferedReader reader =
-                new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            StringBuffer output = new StringBuffer();
-
-            String line = "";
-            while ((line = reader.readLine())!= null) {
-                output.append(line + "\n");
+                case WEBHOOK:
+                        try {
+                            SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+                            Scheduler scheduler = schedulerFactory.getScheduler();
+                            JobDetail job = JobBuilder.newJob(PipelineTask.class).withIdentity(pipeline.getId().toString(), "group").build();
+                            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(pipeline.getId().toString(), "group")
+                                .withSchedule(
+                                    CronScheduleBuilder.cronSchedule("* * * * * ?"))
+                                .build();
+                            scheduler.getContext().put("pipeline", pipeline);
+                            scheduler.getContext().put("workDirectory", workDirectory);
+                            scheduler.scheduleJob(job, trigger);
+                            if (!scheduler.isStarted())
+                                scheduler.start();
+                        } catch (SchedulerException e) {
+                            e.printStackTrace();
+                        }
+                    break;
             }
 
-            log.debug(output.toString());
-
-            switch (pipeline.getPipelinePublicationService()) {
-                case FTP:
-                    FtpClient ftpClient = new FtpClient(pipeline.getPipelineFtpAddress(),pipeline.getPipelineFtpPort(),pipeline.getPipelineFtpUsername(),pipeline.getPipelineFtpPassword());
-                    ftpClient.open();
-                    ftpClient.putFileToPath(workDirectory,"/gamecraft/" + LocalDateTime.now());
-                    ftpClient.close();
-                    break;
-                case DROPBOX:
-                    DbxRequestConfig config = DbxRequestConfig.newBuilder(pipeline.getPipelineDropboxAppKey()).build();
-                    DbxClientV2 client = new DbxClientV2(config, pipeline.getPipelineDropboxToken());
-                    InputStream in = new FileInputStream(workDirectory);
-                    FileMetadata metadata = client.files().uploadBuilder("/gamecraft/" + LocalDateTime.now() + "/" + workDirectory.getName())
-                            .uploadAndFinish(in);
-                    break;
-            }
-
-        } catch (GitAPIException e) {
-            pipeline.setPipelineStatus(PipelineStatus.FAILED);
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " worked succesfully at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            pipeline.setPipelineStatus(PipelineStatus.IDLE);
             save(pipeline);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of a repository problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            save(pipeline);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of an engine execution problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            e.printStackTrace();
-        } catch (IOException e) {
-            pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            save(pipeline);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of data read or storage problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            e.printStackTrace();
-        } catch (UploadErrorException e) {
-            pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            save(pipeline);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            e.printStackTrace();
-        } catch (DbxException e) {
-            pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            save(pipeline);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-            e.printStackTrace();
         }
-        processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " worked succesfully at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        pipeline.setPipelineStatus(PipelineStatus.IDLE);
-        save(pipeline);
+        else {
+            log.error("Pipeline is already running!");
+        }
 
     }
 
     private void processNotificator(Pipeline pipeline, String message) {
+
         try {
             String token = String.valueOf(SecurityUtils.getCurrentUserJWT());
             String notificatorId = pipeline.getPipelineNotificatorDetails();
