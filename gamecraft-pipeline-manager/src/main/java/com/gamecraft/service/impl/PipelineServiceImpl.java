@@ -164,6 +164,7 @@ public class PipelineServiceImpl implements PipelineService {
                             .build();
                         job.getJobDataMap().put("pipeline", pipeline);
                         job.getJobDataMap().put("workDirectory", workDirectory);
+                        job.getJobDataMap().put("jwt", String.valueOf(SecurityUtils.getCurrentUserJWT().orElse("")));
                         scheduler.scheduleJob(job, trigger);
                         if (!scheduler.isStarted())
                             scheduler.start();
@@ -181,6 +182,7 @@ public class PipelineServiceImpl implements PipelineService {
                                 .build();
                             job.getJobDataMap().put("pipeline", pipeline);
                             job.getJobDataMap().put("workDirectory", workDirectory);
+                            job.getJobDataMap().put("jwt", String.valueOf(SecurityUtils.getCurrentUserJWT().orElse("")));
                             scheduler.scheduleJob(job, trigger);
                             if (!scheduler.isStarted())
                                 scheduler.start();
@@ -203,13 +205,12 @@ public class PipelineServiceImpl implements PipelineService {
     private void processNotificator(Pipeline pipeline, String message) {
 
         try {
-            String token = String.valueOf(SecurityUtils.getCurrentUserJWT());
+            String token =    String.valueOf(SecurityUtils.getCurrentUserJWT().orElse(""));
             String notificatorId = pipeline.getPipelineNotificatorDetails();
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost post;
             String json;
             StringEntity entity;
-            log.info("TOKEN IS " + token);
             switch (pipeline.getPipelineNotificatorType()) {
                 case TELEGRAM:
                     post = new HttpPost("http://0.0.0.0:8080/gamecrafttelegramnotificationmanager/api/telegram-bots/" + notificatorId + "/send");

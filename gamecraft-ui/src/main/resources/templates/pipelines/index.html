@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="/css/dashboard.css"/>
     <link rel="stylesheet" href="/css/pipelines.css"/>
     <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/webjars/jspdf/1.4.1/dist/jspdf.min.js"></script>
+    <script  src="/webjars/jspdf/1.4.1/plugins/split_text_to_size.js"></script>
     <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
     <script src="/js/account_operations.js"></script>
     <script src="/js/projects_operations.js"></script>
+    <script src="/js/report_operations.js"></script>
     <script src="/js/pipeline_operations.js"></script>
     <script src="/js/engines_operations.js"></script>
     <script src="/js/email_notifications_operations.js"></script>
@@ -34,6 +37,23 @@
             if (!isAdmin(getUsername())) {
                 document.getElementById('createPipelineButton').style.visibility = 'hidden';
             }
+            $('#reportsModal').on('show.bs.modal', function(e) {
+                pipelineId = $(e.relatedTarget).data('pipeline-id');
+                var reportSelect = document.getElementById("reportInstance");
+                var reports = getReports();
+                $("#reportInstance").empty();
+                for(index in reports) {
+                    reportSelect.options[reportSelect.options.length] = new Option('#' +  reports[index].id + ' ' + reports[index].reportDate + ' [' + reports[index].reportStatus +']', reports[index].id);
+                }
+                $("#reportBody").empty();
+                document.getElementById("reportBody").value = getReport(reportSelect.options[reportSelect.selectedIndex].value).reportContent;
+                $(document).on('change','#reportInstance',function(){
+                    $("#reportBody").empty();
+                    document.getElementById("reportBody").value = getReport(reportSelect.options[reportSelect.selectedIndex].value).reportContent;
+                });
+
+            });
+
             $('#createPipelineModal').on('show.bs.modal', function(e) {
                 var engineSelect = document.getElementById("pipelineEngineName");
                 var engines = getEngines();
@@ -68,6 +88,7 @@
                         }
 
                     });
+
                     $(document).on('change','#pipelineNotificatorType',function(){
                         var notificatorTypeSelect = document.getElementById("pipelineNotificatorType");
                         var pipelineNotificatorName = document.getElementById("pipelineNotificatorName");
@@ -255,19 +276,7 @@
                     }
                     $(e.currentTarget).find('input[id="newpipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
                     $(e.currentTarget).find('input[id="newpipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
-                    var scheduleSelect = document.getElementById("newpipelineScheduleType");
-                    switch (scheduleSelect.options[scheduleSelect.selectedIndex].value) {
-                        case "cronjob":
-                            document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'block';
-                            document.getElementById("newpipelineScheduleCronjob").style.display = 'block';
-                            document.getElementById('newwebhookMessage').innerHTML = '';
-                            break;
-                        case "webhook":
-                            document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'none';
-                            document.getElementById("newpipelineScheduleCronjob").style.display = 'none';
-                            document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/" + pipelineId + "/execute";
-                            break;
-                    }
+
 
                 }
 
@@ -290,6 +299,19 @@
                 $(e.currentTarget).find('select[id="newpipelineNotificatorType"]').val(getPipeline(pipelineId).pipelineNotificatorType.toLowerCase());
                 $(e.currentTarget).find('select[id="newpipelineScheduleType"]').val(getPipeline(pipelineId).pipelineScheduleType.toLowerCase());
                 $(e.currentTarget).find('input[id="newpipelineScheduleCronjob"]').val(getPipeline(pipelineId).pipelineScheduleCronJob);
+                var scheduleSelect = document.getElementById("newpipelineScheduleType");
+                switch (scheduleSelect.options[scheduleSelect.selectedIndex].value) {
+                    case "cronjob":
+                        document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'block';
+                        document.getElementById("newpipelineScheduleCronjob").style.display = 'block';
+                        document.getElementById('newwebhookMessage').innerHTML = '';
+                        break;
+                    case "webhook":
+                        document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'none';
+                        document.getElementById("newpipelineScheduleCronjob").style.display = 'none';
+                        document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/" + pipelineId + "/execute";
+                        break;
+                }
 
             });
         });
@@ -775,5 +797,45 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="reportsModal" tabindex="-1" role="dialog" aria-labelledby="reportsModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Reports</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" data-toggle="validator" name="form" id="reportsform" class="form-horizontal"
+                      enctype="multipart/form-data">
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="reportInstance">Report Instance:</label>
+                            <select class="form-control" id="reportInstance" required="true"></select>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                    <div class="form-group has-feedback form-group-lg">
+                        <div class="input-group">
+                            <label for="reportBody">Report Body:</label>
+                            <textarea class="span6" id="reportBody" rows="8" cols="76" readonly="true"></textarea>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="var doc = new jsPDF();
+                var lines =doc.splitTextToSize(document.getElementById('reportBody').value, (210-15-15));
+                doc.text( 15,20,lines  );
+                doc.save('report.pdf');" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Download as PDF</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

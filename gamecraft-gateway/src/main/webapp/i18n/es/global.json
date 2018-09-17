@@ -22,6 +22,7 @@
                 "groups": "Groups",
                 "groupsUser": "Groups User",
                 "pipeline": "Pipeline",
+                "report": "Report",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

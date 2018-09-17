@@ -36,6 +36,14 @@
 
 		<dependency>
 			<groupId>org.webjars</groupId>
+			<artifactId>jspdf</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.7-1</version>
 		</dependency>

@@ -145,7 +145,7 @@ function fillPipelinesTable(projectId) {
                         $('<td>').text(item.id),
                         $('<td>').text(item.pipelineName),
                         $('<td>').text(item.pipelineDescription),
-                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipeline('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#updatePipelineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>  <button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\" \"><span class=\"glyphicon glyphicon-play\" onclick=\"executePipeline('" + item.id + "'); location.reload(); \"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" onclick=\"\"><span class=\"glyphicon glyphicon-list-alt\"></span> </button>   ")
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-danger btn-xs\" onclick=\"deletePipeline('" + item.id + "'); location.reload(); \"><span class=\"glyphicon glyphicon-remove\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#updatePipelineModal\" onclick=\"\"><span class=\"glyphicon glyphicon-pencil\"></span> </button>  <button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\" \"><span class=\"glyphicon glyphicon-play\" onclick=\"executePipeline('" + item.id + "'); location.reload(); \"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#reportsModal\" onclick=\"\"><span class=\"glyphicon glyphicon-list-alt\"></span> </button>   ")
                     );
                     $(".table").append(tr.html());
                 }
@@ -155,7 +155,7 @@ function fillPipelinesTable(projectId) {
                         $('<td>').text(item.id),
                         $('<td>').text(item.pipelineName),
                         $('<td>').text(item.pipelineDescription),
-                        $('<td>').html("<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\" \"><span class=\"glyphicon glyphicon-play\" onclick=\"executePipeline('" + item.id + "'); location.reload();\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" onclick=\"\"><span class=\"glyphicon glyphicon-list-alt\"></span> ")
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\" \"><span class=\"glyphicon glyphicon-play\" onclick=\"executePipeline('" + item.id + "'); location.reload();\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" data-pipeline-id=\"" + item.id + "\" data-toggle=\"modal\" data-target=\"#reportsModal\" onclick=\"\"><span class=\"glyphicon glyphicon-list-alt\"></span> ")
                     );
                     $(".table").append(tr.html());
                 }
