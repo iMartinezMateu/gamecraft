@@ -155,7 +155,7 @@ function fillPipelinesTable(projectId) {
                         $('<td>').text(item.id),
                         $('<td>').text(item.pipelineName),
                         $('<td>').text(item.pipelineDescription),
-                        $('<td>').html("<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\" \"><span class=\"glyphicon glyphicon-play\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" onclick=\"\"><span class=\"glyphicon glyphicon-list-alt\"></span> ")
+                        $('<td>').html("<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\" \"><span class=\"glyphicon glyphicon-play\" onclick=\"executePipeline('" + item.id + "'); location.reload();\"></span> </button>  <button type=\"button\" class=\"btn btn-secondary btn-xs\" onclick=\"\"><span class=\"glyphicon glyphicon-list-alt\"></span> ")
                     );
                     $(".table").append(tr.html());
                 }

@@ -162,8 +162,8 @@ public class PipelineServiceImpl implements PipelineService {
                             .withSchedule(
                                 CronScheduleBuilder.cronSchedule(pipeline.getPipelineScheduleCronJob()))
                             .build();
-                        scheduler.getContext().put("pipeline", pipeline);
-                        scheduler.getContext().put("workDirectory", workDirectory);
+                        job.getJobDataMap().put("pipeline", pipeline);
+                        job.getJobDataMap().put("workDirectory", workDirectory);
                         scheduler.scheduleJob(job, trigger);
                         if (!scheduler.isStarted())
                             scheduler.start();
@@ -177,12 +177,10 @@ public class PipelineServiceImpl implements PipelineService {
                             SchedulerFactory schedulerFactory = new StdSchedulerFactory();
                             Scheduler scheduler = schedulerFactory.getScheduler();
                             JobDetail job = JobBuilder.newJob(PipelineTask.class).withIdentity(pipeline.getId().toString(), "group").build();
-                            Trigger trigger = TriggerBuilder.newTrigger().withIdentity(pipeline.getId().toString(), "group")
-                                .withSchedule(
-                                    CronScheduleBuilder.cronSchedule("* * * * * ?"))
+                            Trigger trigger = TriggerBuilder.newTrigger().startNow()
                                 .build();
-                            scheduler.getContext().put("pipeline", pipeline);
-                            scheduler.getContext().put("workDirectory", workDirectory);
+                            job.getJobDataMap().put("pipeline", pipeline);
+                            job.getJobDataMap().put("workDirectory", workDirectory);
                             scheduler.scheduleJob(job, trigger);
                             if (!scheduler.isStarted())
                                 scheduler.start();
@@ -211,6 +209,7 @@ public class PipelineServiceImpl implements PipelineService {
             HttpPost post;
             String json;
             StringEntity entity;
+            log.info("TOKEN IS " + token);
             switch (pipeline.getPipelineNotificatorType()) {
                 case TELEGRAM:
                     post = new HttpPost("http://0.0.0.0:8080/gamecrafttelegramnotificationmanager/api/telegram-bots/" + notificatorId + "/send");

@@ -32,8 +32,11 @@ public class PipelineTask implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        Pipeline pipeline = (Pipeline) jobExecutionContext.get("pipeline");
-        File workDirectory = (File) jobExecutionContext.get("workDirectory");
+        Pipeline pipeline = (Pipeline) jobExecutionContext.getJobDetail().getJobDataMap().get("pipeline");
+        File workDirectory = (File) jobExecutionContext.getJobDetail().getJobDataMap().get("workDirectory");
+
+        log.info("Work directory is " + workDirectory.getAbsolutePath());
+
         try {
             Git git = Git.cloneRepository()
                 .setURI(pipeline.getPipelineRepositoryAddress())
@@ -76,26 +79,33 @@ public class PipelineTask implements Job {
                     break;
             }
 
+            workDirectory.delete();
+
         } catch (GitAPIException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
             processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of a repository problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
+            workDirectory.delete();
         } catch (InterruptedException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
             processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of an engine execution problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
+            workDirectory.delete();
         } catch (IOException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
             processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of data read or storage problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
+            workDirectory.delete();
         } catch (UploadErrorException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
             processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
+            workDirectory.delete();
         } catch (DbxException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
             processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             e.printStackTrace();
+            workDirectory.delete();
         }
     }
     private void processNotificator(Pipeline pipeline, String message) {
