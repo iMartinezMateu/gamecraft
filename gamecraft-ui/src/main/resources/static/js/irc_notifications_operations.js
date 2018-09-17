@@ -1,5 +1,5 @@
 function getIRCBots() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftircnotificationmanager/api/irc-bots";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftircnotificationmanager/api/irc-bots?size=65536";
     var botList = "";
     $.ajax
     ({

@@ -1,5 +1,5 @@
 function getPipelines() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines?size=65536";
     var pipelinesList = "";
     $.ajax
     ({

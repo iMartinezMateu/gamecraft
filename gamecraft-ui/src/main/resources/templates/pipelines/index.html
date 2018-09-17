@@ -33,6 +33,24 @@
         var project = getProject(projectId);
         var pipelineId;
         fillPipelinesTable(projectId);
+        function downloadPDF(){
+            var text = document.getElementById('reportBody').value;
+            var doc = new jsPDF();
+            var splitText = doc.splitTextToSize(text, 250);
+            var pageHeight = doc.internal.pageSize.height;
+            doc.setFontSize(11);
+            var y = 20;
+            for (var i=0; i != splitText.length-1; i++){
+                if (y > 275){
+                    y = 20;
+                    doc.addPage();
+                }
+                doc.text(20, y, splitText[i]);
+                y = y + 5;
+            }
+            doc.save('report.pdf');
+
+        }
         $(document).ready(function() {
             if (!isAdmin(getUsername())) {
                 document.getElementById('createPipelineButton').style.visibility = 'hidden';
@@ -299,6 +317,9 @@
                 $(e.currentTarget).find('select[id="newpipelineNotificatorType"]').val(getPipeline(pipelineId).pipelineNotificatorType.toLowerCase());
                 $(e.currentTarget).find('select[id="newpipelineScheduleType"]').val(getPipeline(pipelineId).pipelineScheduleType.toLowerCase());
                 $(e.currentTarget).find('input[id="newpipelineScheduleCronjob"]').val(getPipeline(pipelineId).pipelineScheduleCronJob);
+                var engineSelect = document.getElementById("newpipelineEngineName");
+                $(e.currentTarget).find('input[id="newpipelineEngineCompilerPath"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerPath);
+                $(e.currentTarget).find('input[id="newpipelineEngineCompilerArguments"]').val(getEngine(engineSelect.options[engineSelect.selectedIndex].value).engineCompilerArguments);
                 var scheduleSelect = document.getElementById("newpipelineScheduleType");
                 switch (scheduleSelect.options[scheduleSelect.selectedIndex].value) {
                     case "cronjob":
@@ -827,10 +848,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" onclick="var doc = new jsPDF();
-                var lines =doc.splitTextToSize(document.getElementById('reportBody').value, (210-15-15));
-                doc.text( 15,20,lines  );
-                doc.save('report.pdf');" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Download as PDF</button>
+                <button type="button" onclick="downloadPDF()" class="btn btn-primary"><i class="glyphicon glyphicon glyphicon-floppy-disk"></i>Download as PDF</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

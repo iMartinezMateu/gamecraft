@@ -1,5 +1,5 @@
 function getTelegramBots() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttelegramnotificationmanager/api/telegram-bots";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttelegramnotificationmanager/api/telegram-bots?size=65536";
     var botList = "";
     $.ajax
     ({

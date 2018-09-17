@@ -1,6 +1,6 @@
 function getReports() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/reports/";
-    var pipelinesList = "";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/reports?size=65536";
+    var reportList = "";
     $.ajax
     ({
         type: "GET",
@@ -17,10 +17,10 @@ function getReports() {
             'Content-Type': 'application/json'
         },
         success: function (data) {
-            pipelinesList = data;
+            reportList = data;
         }
     });
-    return pipelinesList;
+    return reportList;
 }
 
 function getReport(id) {

@@ -1,5 +1,5 @@
 function getEmailAccounts() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftemailnotificationmanager/api/email-accounts";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftemailnotificationmanager/api/email-accounts?size=65536";
     var accountList = "";
     $.ajax
     ({

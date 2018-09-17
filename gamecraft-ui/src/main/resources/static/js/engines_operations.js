@@ -1,5 +1,5 @@
 function getEngines() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftenginemanager/api/engines/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftenginemanager/api/engines?size=65536";
     var enginesList = "";
     $.ajax
     ({

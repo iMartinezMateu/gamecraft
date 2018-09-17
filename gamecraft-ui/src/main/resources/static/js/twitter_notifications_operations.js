@@ -1,5 +1,5 @@
 function getTwitterBots() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttwitternotificationmanager/api/twitter-bots";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecrafttwitternotificationmanager/api/twitter-bots?size=65536";
     var botList = "";
     $.ajax
     ({

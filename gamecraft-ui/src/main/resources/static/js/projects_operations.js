@@ -1,5 +1,5 @@
 function getProjects() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftproject/api/projects/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftproject/api/projects?size=65536";
     var projectsList = "";
     $.ajax
     ({

@@ -1,5 +1,5 @@
 function getSlackAccounts() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftslacknotificationmanager/api/slack-accounts";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/gamecraftslacknotificationmanager/api/slack-accounts?size=65536";
     var botList = "";
     $.ajax
     ({

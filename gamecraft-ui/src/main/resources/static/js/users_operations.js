@@ -1,5 +1,5 @@
 function getUsers() {
-    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/users/";
+    var queryUrl = location.protocol + '//' + document.domain + ":8080/api/users?size=65536";
     var usersList = "";
     $.ajax
     ({

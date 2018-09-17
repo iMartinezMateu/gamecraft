@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PipelineTask implements Job {
     private final Logger log = LoggerFactory.getLogger(PipelineTask.class);
@@ -59,11 +61,17 @@ public class PipelineTask implements Job {
 
             reportBody += "Executing engine at path : " + pipeline.getPipelineEngineCompilerPath() + " " + pipeline.getPipelineEngineCompilerArguments() + " \n";
 
-            ProcessBuilder pb = new ProcessBuilder(pipeline.getPipelineEngineCompilerPath() + " " + pipeline.getPipelineEngineCompilerArguments());
+            List<String> list = new ArrayList<String>();
 
-            pb.directory(workDirectory);
+            list.add(pipeline.getPipelineEngineCompilerPath());
+            String args = pipeline.getPipelineEngineCompilerArguments().replace("%path%",workDirectory.getAbsolutePath());
+            for (String arg : args.split("\\s+")) {
+                list.add(arg);
+            }
+
+            ProcessBuilder pb = new ProcessBuilder(list);
+
             Process p = pb.start();
-            p.waitFor();
 
             BufferedReader reader =
                 new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -76,6 +84,7 @@ public class PipelineTask implements Job {
             }
 
             reportBody +=  output.toString() + " \n";
+
 
 
             switch (pipeline.getPipelinePublicationService()) {
@@ -97,20 +106,11 @@ public class PipelineTask implements Job {
             }
 
             workDirectory.delete();
-            long stopTime = System.currentTimeMillis();
-            reportBody +=  "Pipeline executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
+
 
         } catch (GitAPIException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
             processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of a repository problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
-            e.printStackTrace();
-            workDirectory.delete();
-            long stopTime = System.currentTimeMillis();
-            reportBody += ExceptionUtils.getStackTrace(e) + "\n";
-            reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
-        } catch (InterruptedException e) {
-            pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of an engine execution problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
             e.printStackTrace();
             workDirectory.delete();
             long stopTime = System.currentTimeMillis();
@@ -148,6 +148,13 @@ public class PipelineTask implements Job {
             StringEntity entity;
             post = new HttpPost("http://0.0.0.0:8080/gamecraftpipelinemanager/api/reports/");
             post.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + token);
+            long stopTime = System.currentTimeMillis();
+            if (reportBody.contains("Failed") ) {
+                reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
+            }
+            else {
+                reportBody +=  "Pipeline executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
+            }
             if (reportBody.contains("[ERROR]")) {
                 json = "{\"pipelineId\":\"" + pipeline.getId() + "\",\"reportContent\":\"" + JSONObject.escape(reportBody) + "\",\"reportDate\":\"" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "\", \"reportStatus\": \""+ ReportStatus.FAIL +"\"}";
             }
