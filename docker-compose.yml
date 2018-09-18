@@ -205,6 +205,11 @@ services:
         ports:
           - 8000:8000
 
+    hookrouter:
+                  image: gamecrafthookrouter
+                  ports:
+                    - 9999:9999
+
     jhipster-registry:
         extends:
             file: jhipster-registry.yml

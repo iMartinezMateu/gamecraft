@@ -27,6 +27,7 @@
         <module>gamecraft-group</module>
         <module>gamecraft-ui</module>
         <module>gamecraft-pipeline-manager</module>
+        <module>gamecraft-hook-router</module>
     </modules>
 
 </project>

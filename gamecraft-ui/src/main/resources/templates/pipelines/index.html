@@ -214,7 +214,7 @@
                             case "webhook":
                                 document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'none';
                                 document.getElementById("newpipelineScheduleCronjob").style.display = 'none';
-                                document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/" + pipelineId + "/execute";
+                                document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":9999/execute/" + pipelineId ;
                                 break;
                         }
 
@@ -330,7 +330,7 @@
                     case "webhook":
                         document.getElementById("newpipelineScheduleCronjobLabel").style.display = 'none';
                         document.getElementById("newpipelineScheduleCronjob").style.display = 'none';
-                        document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":8080/gamecraftpipelinemanager/api/pipelines/" + pipelineId + "/execute";
+                        document.getElementById('newwebhookMessage').innerHTML = 'Webhook pipeline enabled at '+ location.protocol + '//' + document.domain + ":9999/execute/" + pipelineId;
                         break;
                 }
 
