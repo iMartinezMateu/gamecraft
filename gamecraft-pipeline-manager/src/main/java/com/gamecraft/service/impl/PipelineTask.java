@@ -2,6 +2,8 @@ package com.gamecraft.service.impl;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v1.DbxEntry;
+import com.dropbox.core.v1.DbxWriteMode;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.UploadErrorException;
@@ -30,11 +32,16 @@ import org.slf4j.LoggerFactory;
 
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class PipelineTask implements Job {
     private final Logger log = LoggerFactory.getLogger(PipelineTask.class);
@@ -108,11 +115,15 @@ public class PipelineTask implements Job {
 
            if (!pipeline.getPipelineDropboxToken().isEmpty()) {
                     reportBody +=  "Publicate pipeline results to Dropbox with token:"+ pipeline.getPipelineDropboxToken() + " \n";
-                    DbxRequestConfig config = DbxRequestConfig.newBuilder(pipeline.getPipelineDropboxAppKey()).build();
+               String name =  Long.toString(Calendar.getInstance().getTimeInMillis());
+               DbxRequestConfig config = DbxRequestConfig.newBuilder(pipeline.getPipelineDropboxAppKey()).build();
                     DbxClientV2 client = new DbxClientV2(config, pipeline.getPipelineDropboxToken());
-                    InputStream in = new FileInputStream(workDirectory);
-                    FileMetadata metadata = client.files().uploadBuilder("/gamecraft/" + LocalDateTime.now() + "/" + workDirectory.getName())
-                        .uploadAndFinish(in);
+                    pack(workDirectory.getAbsolutePath(),workDirectory.getAbsolutePath() +"/"+ name + ".zip");
+               try (InputStream in = new FileInputStream(workDirectory.getAbsolutePath() +"/"+ name + ".zip")) {
+                   log.info("File exists?" + new File(workDirectory.getAbsolutePath() +"/"+ name + ".zip").exists());
+                   FileMetadata metadata = client.files().uploadBuilder("/" + name + ".zip")
+                       .uploadAndFinish(in);
+               }
             }
 
             if (workDirectory.exists()) {
@@ -191,6 +202,25 @@ public class PipelineTask implements Job {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private  void pack(String sourceDirPath, String zipFilePath) throws IOException {
+        Path p = Files.createFile(Paths.get(zipFilePath));
+        try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(p))) {
+            Path pp = Paths.get(sourceDirPath);
+            Files.walk(pp)
+                .filter(path -> !Files.isDirectory(path))
+                .forEach(path -> {
+                    ZipEntry zipEntry = new ZipEntry(pp.relativize(path).toString());
+                    try {
+                        zs.putNextEntry(zipEntry);
+                        Files.copy(path, zs);
+                        zs.closeEntry();
+                    } catch (IOException e) {
+                        System.err.println(e);
+                    }
+                });
         }
     }
     private void processNotificator(Pipeline pipeline, String message,String token) {
