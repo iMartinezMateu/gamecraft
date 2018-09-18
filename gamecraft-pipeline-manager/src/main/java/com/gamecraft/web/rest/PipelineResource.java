@@ -133,6 +133,20 @@ public class PipelineResource {
     }
 
     /**
+     * POST  /pipelines/:id/execute : execute the "id" pipeline.
+     *
+     * @param id the id of the pipeline to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the pipeline, or with status 404 (Not Found)
+     */
+    @PostMapping("/pipelines/{id}/execute")
+    @Timed
+    public ResponseEntity<Void> executePostPipeline(@PathVariable Long id) {
+        log.debug("REST request to execute Pipeline : {}", id);
+        pipelineService.execute(id);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * GET  /pipelines/:id/stop : stop the "id" pipeline.
      *
      * @param id the id of the pipeline to retrieve
