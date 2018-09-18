@@ -10,6 +10,7 @@ import com.gamecraft.domain.enumeration.PipelineStatus;
 import com.gamecraft.domain.enumeration.ReportStatus;
 import com.gamecraft.security.jwt.JWTConfigurer;
 import com.gamecraft.util.FtpClient;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -41,6 +42,13 @@ public class PipelineTask implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         Pipeline pipeline = (Pipeline) jobExecutionContext.getJobDetail().getJobDataMap().get("pipeline");
         File workDirectory = (File) jobExecutionContext.getJobDetail().getJobDataMap().get("workDirectory");
+        if (workDirectory.exists()) {
+            try {
+                FileUtils.deleteDirectory(workDirectory);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         String token = (String) jobExecutionContext.getJobDetail().getJobDataMap().get("jwt");
         String reportBody = "Starting new report for pipeline:" + pipeline.getPipelineName() + " and project:" + pipeline.getPipelineProjectName() + " at " + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + " \n";
         reportBody += "Work directory is " + workDirectory.getAbsolutePath() + " \n";
