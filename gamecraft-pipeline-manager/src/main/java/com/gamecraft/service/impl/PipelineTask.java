@@ -33,6 +33,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class PipelineTask implements Job {
@@ -95,26 +96,32 @@ public class PipelineTask implements Job {
 
 
 
-            switch (pipeline.getPipelinePublicationService()) {
-                case FTP:
-                    reportBody +=  "Publicate pipeline results to FTP with address:"+ pipeline.getPipelineFtpAddress() + ":" + pipeline.getPipelineFtpPort() + " and using account called " + pipeline.getPipelineFtpUsername() + " \n";
-                    FtpClient ftpClient = new FtpClient(pipeline.getPipelineFtpAddress(),pipeline.getPipelineFtpPort(),pipeline.getPipelineFtpUsername(),pipeline.getPipelineFtpPassword());
-                    ftpClient.open();
-                    ftpClient.putFileToPath(workDirectory,"/gamecraft/" + LocalDateTime.now());
-                    ftpClient.close();
-                    break;
-                case DROPBOX:
+           if (!pipeline.getPipelineFtpAddress().isEmpty()) {
+               reportBody += "Publicate pipeline results to FTP with address:" + pipeline.getPipelineFtpAddress() + ":" + pipeline.getPipelineFtpPort() + " and using account called " + pipeline.getPipelineFtpUsername() + " \n";
+               FtpClient ftpClient = new FtpClient(pipeline.getPipelineFtpAddress(), pipeline.getPipelineFtpPort(), pipeline.getPipelineFtpUsername(), pipeline.getPipelineFtpPassword());
+               ftpClient.open();
+               String name =  Long.toString(Calendar.getInstance().getTimeInMillis());
+               ftpClient.pack(workDirectory.getAbsolutePath(),workDirectory.getAbsolutePath() + "/" + name + ".zip");
+               ftpClient.putFileToPath(new File(workDirectory.getAbsolutePath() + "/" + name + ".zip"),name + ".zip");
+               ftpClient.close();
+           }
+
+           if (!pipeline.getPipelineDropboxToken().isEmpty()) {
                     reportBody +=  "Publicate pipeline results to Dropbox with token:"+ pipeline.getPipelineDropboxToken() + " \n";
                     DbxRequestConfig config = DbxRequestConfig.newBuilder(pipeline.getPipelineDropboxAppKey()).build();
                     DbxClientV2 client = new DbxClientV2(config, pipeline.getPipelineDropboxToken());
                     InputStream in = new FileInputStream(workDirectory);
                     FileMetadata metadata = client.files().uploadBuilder("/gamecraft/" + LocalDateTime.now() + "/" + workDirectory.getName())
                         .uploadAndFinish(in);
-                    break;
             }
 
-            workDirectory.delete();
-
+            if (workDirectory.exists()) {
+                try {
+                    FileUtils.deleteDirectory(workDirectory);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
         } catch (GitAPIException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
@@ -159,9 +166,11 @@ public class PipelineTask implements Job {
             long stopTime = System.currentTimeMillis();
             if (reportBody.contains("Failed") ) {
                 reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
+                processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
             }
             else {
                 reportBody +=  "Pipeline executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
+                processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " executed successfully at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
             }
             if (reportBody.contains("[ERROR]")) {
                 json = "{\"pipelineId\":\"" + pipeline.getId() + "\",\"reportContent\":\"" + JSONObject.escape(reportBody) + "\",\"reportDate\":\"" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "\", \"reportStatus\": \""+ ReportStatus.FAIL +"\"}";

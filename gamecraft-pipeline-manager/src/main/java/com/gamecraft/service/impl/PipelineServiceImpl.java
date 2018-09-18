@@ -192,7 +192,6 @@ public class PipelineServiceImpl implements PipelineService {
                     break;
             }
 
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " worked succesfully at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             pipeline.setPipelineStatus(PipelineStatus.IDLE);
             save(pipeline);
         }
