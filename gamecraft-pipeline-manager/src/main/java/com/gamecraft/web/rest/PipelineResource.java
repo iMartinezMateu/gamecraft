@@ -141,7 +141,7 @@ public class PipelineResource {
     @GetMapping("/pipelines/{id}/stop")
     @Timed
     public ResponseEntity<Void> stopPipeline(@PathVariable Long id) {
-        log.debug("REST request to execute Pipeline : {}", id);
+        log.debug("REST request to stop Pipeline : {}", id);
         pipelineService.stop(id);
         return ResponseEntity.ok().build();
     }

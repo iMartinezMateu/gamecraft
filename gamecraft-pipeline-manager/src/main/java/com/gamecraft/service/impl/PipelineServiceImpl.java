@@ -186,14 +186,15 @@ public class PipelineServiceImpl implements PipelineService {
                             scheduler.scheduleJob(job, trigger);
                             if (!scheduler.isStarted())
                                 scheduler.start();
+
+
                         } catch (SchedulerException e) {
                             e.printStackTrace();
                         }
                     break;
             }
 
-            pipeline.setPipelineStatus(PipelineStatus.IDLE);
-            save(pipeline);
+
         }
         else {
             log.error("Pipeline is already running!");

@@ -8,6 +8,7 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.UploadErrorException;
 import com.gamecraft.domain.Pipeline;
+import com.gamecraft.domain.enumeration.PipelinePublicationService;
 import com.gamecraft.domain.enumeration.PipelineStatus;
 import com.gamecraft.domain.enumeration.ReportStatus;
 import com.gamecraft.security.jwt.JWTConfigurer;
@@ -17,6 +18,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.jgit.api.Git;
@@ -136,52 +138,101 @@ public class PipelineTask implements Job {
 
         } catch (GitAPIException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of a repository problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
             e.printStackTrace();
             workDirectory.delete();
             long stopTime = System.currentTimeMillis();
-            reportBody += ExceptionUtils.getStackTrace(e) + "\n";
+            reportBody += "Failed " + ExceptionUtils.getStackTrace(e) + "\n";
             reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
+            processNotificator(pipeline, "[ERROR] Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of a repository problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token,reportBody);
+
         } catch (IOException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of data read or storage problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
             e.printStackTrace();
             workDirectory.delete();
             long stopTime = System.currentTimeMillis();
-            reportBody += ExceptionUtils.getStackTrace(e) + "\n";
+            reportBody += "Failed " + ExceptionUtils.getStackTrace(e) + "\n";
             reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed because of data read or storage problem at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token,reportBody);
+
         } catch (UploadErrorException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
             e.printStackTrace();
             workDirectory.delete();
-            reportBody += ExceptionUtils.getStackTrace(e) + "\n";
+            reportBody += "Failed " + ExceptionUtils.getStackTrace(e) + "\n";
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token,reportBody);
+
             long stopTime = System.currentTimeMillis();
             reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
         } catch (DbxException e) {
             pipeline.setPipelineStatus(PipelineStatus.FAILED);
-            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
             e.printStackTrace();
             workDirectory.delete();
-            reportBody += ExceptionUtils.getStackTrace(e) + "\n";
+            reportBody += "Failed " + ExceptionUtils.getStackTrace(e) + "\n";
             long stopTime = System.currentTimeMillis();
             reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + " ms.\n" ;
+            processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed while publishing to Dropbox at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token,reportBody);
+
         }
         finally {
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost post;
+            HttpPut put;
             String json;
-            StringEntity entity;
+            StringEntity entity = null;
+
+            put = new HttpPut("http://0.0.0.0:8080/gamecraftpipelinemanager/api/pipelines/");
+            put.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + token);
+            json = "{" +
+                "        \"id\": "+ pipeline.getId() + "," +
+                "        \"pipelineName\": \""+pipeline.getPipelineName() + "\"," +
+                "        \"pipelineDescription\": \""+pipeline.getPipelineDescription() +"\"," +
+                "        \"pipelineProjectId\": " + pipeline.getPipelineProjectId() + "," +
+                "        \"pipelineProjectName\": \""+pipeline.getPipelineProjectName() +"\"," +
+                "        \"pipelineDropboxAppKey\": \""+pipeline.getPipelineDropboxAppKey() +"\"," +
+                "        \"pipelineDropboxToken\": \""+pipeline.getPipelineDropboxToken() +"\"," +
+                "        \"pipelineEngineCompilerArguments\": \""+pipeline.getPipelineEngineCompilerArguments() +"\"," +
+                "        \"pipelineEngineCompilerPath\": \""+pipeline.getPipelineEngineCompilerPath() +"\"," +
+                "        \"pipelineFtpAddress\": \""+pipeline.getPipelineFtpAddress() +"\"," +
+                "        \"pipelineFtpPassword\": \""+pipeline.getPipelineFtpPassword() +"\"," +
+                "        \"pipelineFtpPort\": "+ pipeline.getPipelineFtpPort()+"," +
+                "        \"pipelineFtpUsername\": \""+pipeline.getPipelineFtpUsername() +"\"," +
+                "        \"pipelineNotificatorDetails\": \""+pipeline.getPipelineNotificatorDetails() +"\"," +
+                "        \"pipelineNotificatorType\": \""+pipeline.getPipelineNotificatorType() +"\"," +
+                "        \"pipelinePublicationService\": \""+ PipelinePublicationService.FTP +"\"," +
+                "        \"pipelineRepositoryAddress\": \""+pipeline.getPipelineRepositoryAddress() +"\"," +
+                "        \"pipelineRepositoryPassword\": \""+pipeline.getPipelineRepositoryPassword() +"\"," +
+                "        \"pipelineRepositoryType\": \""+pipeline.getPipelineRepositoryType() +"\"," +
+                "        \"pipelineRepositoryUsername\": \""+pipeline.getPipelineRepositoryUsername() +"\"," +
+                "        \"pipelineRepositoryBranch\": \""+pipeline.getPipelineRepositoryBranch() +"\"," +
+                "        \"pipelineScheduleCronJob\": \""+pipeline.getPipelineScheduleCronJob() +"\"," +
+                "        \"pipelineScheduleType\": \""+pipeline.getPipelineScheduleType() +"\"," +
+                "        \"pipelineStatus\": \""+PipelineStatus.IDLE +"\"," +
+                "        \"pipelineNotificatorRecipient\": \""+pipeline.getPipelineNotificatorRecipient() +"\"}";
+            try {
+                log.info(json);
+                entity = new StringEntity(json);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            put.setEntity(entity);
+            put.setHeader("Accept", "application/json");
+            put.setHeader("Content-type", "application/json");
+            try {
+                client.execute(put);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             post = new HttpPost("http://0.0.0.0:8080/gamecraftpipelinemanager/api/reports/");
             post.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + token);
             long stopTime = System.currentTimeMillis();
             if (reportBody.contains("Failed") ) {
                 reportBody +=  "[ERROR] Pipeline not executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
-                processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
+                processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " failed at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token,reportBody);
             }
             else {
                 reportBody +=  "Pipeline executed successfully. Time spent: " + Long.toString((stopTime - startTime)) + "ms.\n" ;
-                processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " executed successfully at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token);
+                processNotificator(pipeline, "Pipeline " + pipeline.getPipelineName() + ", executed in project " + pipeline.getPipelineProjectName() + " executed successfully at " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),token,reportBody);
             }
             if (reportBody.contains("[ERROR]")) {
                 json = "{\"pipelineId\":\"" + pipeline.getId() + "\",\"reportContent\":\"" + JSONObject.escape(reportBody) + "\",\"reportDate\":\"" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + "\", \"reportStatus\": \""+ ReportStatus.FAIL +"\"}";
@@ -195,6 +246,8 @@ public class PipelineTask implements Job {
                 post.setHeader("Accept", "application/json");
                 post.setHeader("Content-type", "application/json");
                 client.execute(post);
+
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             } catch (ClientProtocolException e) {
@@ -223,7 +276,7 @@ public class PipelineTask implements Job {
                 });
         }
     }
-    private void processNotificator(Pipeline pipeline, String message,String token) {
+    private void processNotificator(Pipeline pipeline, String message,String token, String reportBody) {
 
         try {
             String notificatorId = pipeline.getPipelineNotificatorDetails();
@@ -235,7 +288,7 @@ public class PipelineTask implements Job {
                 case TELEGRAM:
                     post = new HttpPost("http://0.0.0.0:8080/gamecrafttelegramnotificationmanager/api/telegram-bots/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    json = "{\"chatId\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"webPagePreviewDisabled\":\"false\",\"notificationDisabled\":\"false\" ,\"message\":\""+message+"\"}";
+                    json = "{\"chatId\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"webPagePreviewDisabled\":\"false\",\"notificationDisabled\":\"false\" ,\"message\":\""+message + JSONObject.escape(reportBody)+"\"}";
                     entity = new StringEntity(json);
                     post.setEntity(entity);
                     post.setHeader("Accept", "application/json");
@@ -255,7 +308,7 @@ public class PipelineTask implements Job {
                 case SLACK:
                     post = new HttpPost("http://0.0.0.0:8080/gamecraftslacknotificationmanager/api/slack-accounts/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    json = "{\"channels\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"users\":\""+pipeline.getPipelineNotificatorRecipient()+"\" ,\"message\":\""+message+"\"}";
+                    json = "{\"channels\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"users\":\""+pipeline.getPipelineNotificatorRecipient()+"\" ,\"message\":\""+message + JSONObject.escape(reportBody)+"\"}";
                     entity = new StringEntity(json);
                     post.setEntity(entity);
                     post.setHeader("Accept", "application/json");
@@ -265,7 +318,7 @@ public class PipelineTask implements Job {
                 case IRC:
                     post = new HttpPost("http://0.0.0.0:8080/gamecraftircnotificationmanager/api/irc-bots/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    json = "{\"ircChannel\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"message\":\""+message+"\"}";
+                    json = "{\"ircChannel\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"message\":\""+message + JSONObject.escape(reportBody)+"\"}";
                     entity = new StringEntity(json);
                     post.setEntity(entity);
                     post.setHeader("Accept", "application/json");
@@ -275,7 +328,7 @@ public class PipelineTask implements Job {
                 case EMAIL:
                     post = new HttpPost("http://0.0.0.0:8080/gamecraftemailnotificationmanager/api/email-accounts/" + notificatorId + "/send");
                     post.setHeader("Authorization", "Bearer " + token);
-                    json = "{\"toEmailAddress\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"subject\": \"GameCraft Notification\",\"body\":\""+message+"\"}";
+                    json = "{\"toEmailAddress\":\""+pipeline.getPipelineNotificatorRecipient()+"\",\"subject\": \""+message+"\",\"body\":\""+JSONObject.escape(reportBody) +"\"}";
                     entity = new StringEntity(json);
                     post.setEntity(entity);
                     post.setHeader("Accept", "application/json");
